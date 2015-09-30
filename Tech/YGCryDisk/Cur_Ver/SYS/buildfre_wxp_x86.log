@@ -1,0 +1,4 @@
+BUILD: Computing Include file dependencies:
+before AssemblyIdentity_AfterReadAllSources
+after AssemblyIdentity_AfterReadAllSources
+skipping post pass 0 command

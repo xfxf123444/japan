@@ -1,0 +1,34 @@
+BUILD: Computing Include file dependencies:
+BUILD: Examining d:\tech\crypto\cur_ver\lib\wdm directory for files to compile.
+Compiling d:\tech\crypto\cur_ver\lib\wdm directory ********************
+'nmake.exe /c BUILDMSG=Stop. -i NTTEST= UMTEST= NOLINK=1 NOPASS0=1 386=1'
+cl -nologo -Ii386\ -I. -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0400    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -DFPO=1    -DNDEBUG -D_IDWBUILD    /c /Zel /Zp8 /Gy -cbstring /W3 /Gz  /QIfdiv- /QIf  /Gi- /Gm- /GX- /GR- /GF   /GX /Oy   -FIX:\98DDK\inc\win98\warning.h  ..\crypto.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+crypto.cpp
+cl -nologo -Ii386\ -I. -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0400    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -DFPO=1    -DNDEBUG -D_IDWBUILD    /c /Zel /Zp8 /Gy -cbstring /W3 /Gz  /QIfdiv- /QIf  /Gi- /Gm- /GX- /GR- /GF   /GX /Oy   -FIX:\98DDK\inc\win98\warning.h  ..\des.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+des.cpp
+cl -nologo -Ii386\ -I. -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0400    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -DFPO=1    -DNDEBUG -D_IDWBUILD    /c /Zel /Zp8 /Gy -cbstring /W3 /Gz  /QIfdiv- /QIf  /Gi- /Gm- /GX- /GR- /GF   /GX /Oy   -FIX:\98DDK\inc\win98\warning.h  ..\misc.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+misc.cpp
+cl -nologo -Ii386\ -I. -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0400    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -DFPO=1    -DNDEBUG -D_IDWBUILD    /c /Zel /Zp8 /Gy -cbstring /W3 /Gz  /QIfdiv- /QIf  /Gi- /Gm- /GX- /GR- /GF   /GX /Oy   -FIX:\98DDK\inc\win98\warning.h  ..\nn.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+nn.cpp
+cl -nologo -Ii386\ -I. -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0400    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -DFPO=1    -DNDEBUG -D_IDWBUILD    /c /Zel /Zp8 /Gy -cbstring /W3 /Gz  /QIfdiv- /QIf  /Gi- /Gm- /GX- /GR- /GF   /GX /Oy   -FIX:\98DDK\inc\win98\warning.h  ..\rsa.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+rsa.cpp
+cl -nologo -Ii386\ -I. -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -IX:\98DDK\inc\win98 -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0400    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -DFPO=1    -DNDEBUG -D_IDWBUILD    /c /Zel /Zp8 /Gy -cbstring /W3 /Gz  /QIfdiv- /QIf  /Gi- /Gm- /GX- /GR- /GF   /GX /Oy   -FIX:\98DDK\inc\win98\warning.h  ..\md5c.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+md5c.cpp
+	lib -out:obj\i386\free\Crypto.lib -debugtype:cv  -IGNORE:4001,4037,4039,4065,4070,4078,4087,4089,4096 -nodefaultlib -machine:i386 @C:\DOCUME~1\lhb\LOCALS~1\Temp\nma00800.
+Microsoft (R) Library Manager Version 6.00.8447
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+obj\i386\crypto.obj 
+obj\i386\des.obj 
+obj\i386\misc.obj 
+obj\i386\nn.obj 
+obj\i386\rsa.obj 
+obj\i386\md5c.obj 
+
+Stop. 

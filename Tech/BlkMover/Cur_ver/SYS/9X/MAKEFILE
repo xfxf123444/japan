@@ -1,0 +1,123 @@
+#-----------------------------------------------------
+# Standard Make File ( makefile.std )
+# 
+# Wei Qi
+# 2002-4-26 14:37
+#-----------------------------------------------------
+
+!INCLUDE module.mak
+
+##### Tool Macros ########
+ASMC	    = $(MASM)\BIN\ML
+#CC		    = $(MSVC152)\BIN\CL
+#LINK	    = $(MSVC152)\BIN\LINK
+#LIB		= $(MSVC152)\BIN\LIB
+
+LIB			= $(MSVC42)\BIN\LIB
+CC		    = $(MSVC42)\BIN\CL
+MSVC	    = $(MSVC42)\BIN\CL
+ASM         = $(MASM)\bin\ml
+LINK		= $(MSVC42)\BIN\LINK.EXE
+MAPSYM	    = $(MSVC42)\BIN\mapsym.exe
+RC	    	= $(MSVC42)\BIN\rc
+
+######## C7 Macro ########
+C7	    = 1
+
+###### Memory Model ######
+MOD		= -AC
+
+##### General Macros #####
+
+DEF=-DSTRICT -DOS_PLATFORM=$(OS_PLATFORM)
+
+####### DEBUG Macro ######
+!if "$(DDKBUILDENV)"=="free"
+DEBUG = 0
+!else
+DEBUG = 1
+!endif
+
+!if	$(DEBUG)
+DDEBUG	=-DDEBUG
+!else
+DDEBUG	=
+!endif
+
+####### includes ##########
+DDK_INC16   = $(DDK)\inc16
+DDK_INC32   = $(DDK)\inc32
+DDK_LIB     = $(DDK)\lib
+SDK_INC32   = $(SDK)\include
+VC_INC32    = $(MSVC42)\include
+
+##### Build Option Macros #####
+
+CFLAGS	    = -DWIN32 -DCON -Di386 -D_X86_ -D_NTWIN -W3 -Gs -D_DEBUG -Zi -Zp1
+CVXDFLAGS   = -I$(DDK_INC32) -I$(SDK_INC32) -I$(VC_INC32) -Zdp -Gs -c -DIS_32 -Zl -Zp1\
+			  -DOS_PLATFORM=WIN9X -DMODULE_TYPE=DRIVER -DWIN_9X -DSEGNUM=1 $(DDEBUG)
+
+!if	$(DEBUG)
+LFLAGS	    = -machine:i386 -vxd -debug -pdb:$(SPE_OUTDIR)\$(TARGET_NAME).PDB
+!ELSE
+LFLAGS	    = -machine:i386 -vxd
+!ENDIF
+
+AFLAGS	    = -I$(DDK_INC32) -DBLD_COFF -DIS_32 -W2 -Zd -c -Cx -DMASM6 $(DDEBUG)
+
+
+####### Debug #########
+!ifdef DEBUGBUILD
+ASMCOPT		= -c -Zm -Cx
+CCOPT		= -nologo -c -Zl -Zp1 -Gs -Asw -Od -W3 $(MOD) $(DEF)
+LOPT		= -DEBUG
+LIBOPT		= /NOLOGO /NOI /NOE
+####### Release #######
+!ELSE            
+ASMCOPT		= -c -Zm -Cx
+CCOPT		= -nologo -c -Zl -Zp1 -Gs -Asw -Ot -W3 $(MOD) $(DEF)
+LOPT		= 
+LIBOPT		= /NOLOGO /NOI /NOE
+!ENDIF
+
+########## goal ##########
+
+goal:$(SPE_OUTDIR)\$(TARGET_NAME).$(TARGET_TYPE)
+
+######### build ##########
+
+$(SPE_OUTDIR)\$(TARGET_NAME).$(TARGET_TYPE):$(COM_OBJS) $(SPE_OBJS)
+    $(LINK) @<<$(TARGET_NAME).crf
+	-$(LFLAGS)
+	-DEF:$(TARGET_NAME).def
+	-OUT:$(SPE_OUTDIR)\$(TARGET_NAME).$(TARGET_TYPE)
+	-MAP:$(SPE_OUTDIR)\$(TARGET_NAME).MAP
+	$(DDK_LIB)\vxdwraps.clb	$(COM_OBJS) $(SPE_OBJS) $(LIBS)
+<<KEEP
+	$(MAPSYM) -o $(SPE_OUTDIR)\$(TARGET_NAME).SYM $(SPE_OUTDIR)\$(TARGET_NAME).MAP
+
+
+######### Inference Rules ##########
+
+{..\}.c{$(COM_OUTDIR)}.obj:
+#	$(CC) $(CCOPT) -Fo$@ $<
+	$(MSVC) $(CVXDFLAGS) -Fo$@ $<
+
+{.\}.c{$(SPE_OUTDIR)}.obj:
+#	$(CC) $(CCOPT) -Fo$@ $<
+	$(MSVC) $(CVXDFLAGS) -Fo$@ $<
+
+{..\}.asm{$(COM_OUTDIR)}.obj:
+#	$(ASMC) $(ASMCOPT) -Fo$@ $<
+	$(ASM) $(AFLAGS) -Fo$@ $<
+	
+{.\}.asm{$(SPE_OUTDIR)}.obj:
+#	$(ASMC) $(ASMCOPT) -Fo$@ $<
+	$(ASM) $(AFLAGS) -Fo$@ $<
+	
+######### Clean Directory ###########
+clean:
+    -del $(COM_OUTDIR)\*.* /q
+    -del $(SPE_OUTDIR)\*.* /q
+
+

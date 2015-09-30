@@ -1,0 +1,8 @@
+TARGETNAME=YGCryDisk
+TARGETTYPE=DRIVER
+TARGETPATH=OBJ
+TARGETLIBS=\tech\lib\crypto\cur_ver\export\2000\crypto.lib \
+	$(DDK_LIB_PATH)\wdmsec.lib
+INCLUDES=..\inc
+SOURCES=YGCryDisk.C
+

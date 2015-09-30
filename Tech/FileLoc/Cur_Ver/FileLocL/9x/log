@@ -1,0 +1,22 @@
+	C:\Progra~1\Micros~2\vc98\BIN\CL -IX:\DDK\inc32 -IX:\MSTOOLS\include -IC:\Progra~1\Micros~2\vc98\include -Zdp -Gs -c -DIS_32 -Zl -Zp1 -DDEBLEVEL=0 -Fo.\c\LowLoc.OBJ .\c\LowLoc.c
+LowLoc.c
+.\c\LowLoc.c(395) : warning C4761: integral size mismatch in argument; conversion supplied
+	X:\MASM611\bin\ml -IX:\DDK\inc32 -coff -DBLD_COFF -DIS_32 -W2 -Zd -c -Cx -DMASM6 -DDEBLEVEL=0 -Fo.\asm\FileLocL.OBJ .\asm\FileLocL.asm
+ Assembling: .\asm\FileLocL.asm
+	echo >NUL @.\result\FileLocL.crf
+	C:\Progra~1\Micros~2\vc98\BIN\LINK.EXE @.\result\FileLocL.crf
+Microsoft (R) Incremental Linker Version 6.00.8168
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+-MACHINE:i386 -DEBUG:NONE -PDB:NONE 
+-DEF:.\result\FileLocL.def -OUT:.\result\FileLocL.vxd -MAP:.\result\FileLocL.map 
+-VXD X:\DDK\lib\vxdwraps.clb .\c\LowLoc.OBJ .\asm\FileLocL.OBJ 
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (40000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+	C:\Progra~1\Micros~2\vc98\BIN\mapsym.exe -o .\result\FileLocL.SYM .\result\FileLocL.MAP
+Microsoft (R) Symbol File Generator  Version 6.00
+Copyright (C) Microsoft Corp 1984 - 1995.  All rights reserved.
+Line number support enabled
+Program entry point at 0000:0000

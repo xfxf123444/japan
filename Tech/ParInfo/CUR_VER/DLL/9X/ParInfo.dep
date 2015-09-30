@@ -1,0 +1,29 @@
+# Microsoft Developer Studio Generated Dependency File, included by ParInfo.mak
+
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp : \
+	"..\..\..\..\fileloc\cur_ver\include\fileloc.h"\
+	"..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.h"\
+	"..\..\..\..\shark\Cur_Ver\dll\9x\CVxD.h"\
+	"..\..\..\..\virparti\cur_ver\include\virparti.h"\
+	"..\..\include\ParInfo.h"\
+	".\Private.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+..\..\..\..\shark\Cur_Ver\dll\9x\CVxD.cpp : \
+	"..\..\..\..\shark\Cur_Ver\dll\9x\CVxD.h"\
+	"..\..\include\ParInfo.h"\
+	".\Private.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\ParInfo.cpp : \
+	"..\..\..\..\fileloc\cur_ver\include\fileloc.h"\
+	"..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.h"\
+	"..\..\..\..\shark\Cur_Ver\dll\9x\CVxD.h"\
+	"..\..\..\..\virparti\cur_ver\include\virparti.h"\
+	"..\..\include\ParInfo.h"\
+	".\head.h"\
+	".\Private.h"\
+	"c:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	

@@ -1,0 +1,22 @@
+!IF 0
+
+Copyright (C) Microsoft Corporation, 1997 - 1999
+
+Module Name:
+
+    sources.
+
+!ENDIF
+
+TARGETNAME=BlkMover
+TARGETPATH=obj
+TARGETTYPE=DRIVER
+TARGETLIBS=..\..\..\..\Lib\HashSrch\Cur_ver\Export\2000\HashSrc.lib
+C_DEFINES=-DOS_PLATFORM=WIN2000 -DMODULE_TYPE=DRIVER
+LINKER_FLAGS = $(LINKER_FLAGS) -map
+
+SOURCES=iomon.c   \
+	DevCotl.c\
+	..\BlkMover.c\
+	..\object.c\
+        BlkMover.rc

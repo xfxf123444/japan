@@ -1,0 +1,11 @@
+; xqc.def : Declares the module parameters for the DLL.
+
+LIBRARY      "format.dll"
+DESCRIPTION  'Format Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+DoFormat         @1
+DoFormatEx       @2
+LogicAbsWrite    @3
+LogicAbsRead     @4

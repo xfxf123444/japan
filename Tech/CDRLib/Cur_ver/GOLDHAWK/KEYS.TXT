@@ -1,0 +1,35 @@
+
+INSTALLATION AND UNLOCKING PROCEDURE
+------------------------------------
+
+1) Install the software...
+
+   DOS     - Unpack the 'ZIP' file into a directory on your harddrive
+             (such as C:\CDRDOS).
+
+   WINDOWS - Run the CDR39K-E.EXE installation program (or whatever
+             version that you currently have).
+
+2) Start the unlocking procedure...
+
+   DOS     - Type 'DAO/UNLOCK' from the DOS command prompt.
+
+   WINDOWS - Start the CDRWIN program and select the 'Unlock'
+             icon from the main toolbar.
+
+3) Enter the following information *exactly* as written including
+   all spaces and upper/lowercase letters.
+
+   Username             : Software Development Kit
+   Company/Email        : Golden Hawk Technology
+
+   Unlock Key (Windows) : C86C7832-A2524897-8E703334-37DA35D3
+   Check Key (Windows)  : FFB64DE1-6A3E30A5-2C227BA3-B9AA06E7
+
+   Unlock Key (MSDOS)   : 36237788-A099E271-B01130DF-343124E9
+   Check Key (MSDOS)    : 02125361-96BA95F9-1088D2AE-84201436
+
+Do not delete the files 'CDRDOS.DAT' or 'CDRWIN.DAT'. They are used
+to store your authorization information and the software will not
+run without them.
+

@@ -1,0 +1,82 @@
+ FileLocH
+
+ Timestamp is 3c0c82f5 (Tue Dec 04 16:01:57 2001)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00020204H .bss                    CODE
+ 0001:00020210 00000138H .text                   CODE
+ 0001:00020348 000000a0H _LDATA                  CODE
+ 0001:000203f0 00000bf7H _LTEXT                  CODE
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0001:00000000       _LocInfo                   00401000     <common>
+ 0001:00020000       _SignSector                00421000     <common>
+ 0001:00020200       _handle_list               00421200     <common>
+ 0001:00020348       _SignString                00421348     HighLoc.OBJ
+ 0001:0002035c       _HighLoc_W32_PROC          0042135c     HighLoc.OBJ
+ 0001:00020388       __GetVersion               00421388     FileLocH.OBJ
+ 0001:0002038c       __OpenHandle               0042138c     FileLocH.OBJ
+ 0001:00020390       __CloseHandle              00421390     FileLocH.OBJ
+ 0001:00020394       __LogicSector2PhysSector   00421394     FileLocH.OBJ
+ 0001:00020398       FileLocH_DDB               00421398     FileLocH.OBJ
+ 0001:000203f0       _HighLoc_W32_DeviceIoControl@16 004213f0 f   HighLoc.OBJ
+ 0001:00020444       _HighLoc_Cleanup           00421444 f   HighLoc.OBJ
+ 0001:0002044e       _HighLoc_GetVersion@12     0042144e f   HighLoc.OBJ
+ 0001:0002046e       _GetVersion                0042146e f   HighLoc.OBJ
+ 0001:00020478       _HighLoc_OpenBuffer@12     00421478 f   HighLoc.OBJ
+ 0001:000204d9       _HighLoc_CloseBuffer@12    004214d9 f   HighLoc.OBJ
+ 0001:0002050d       _HighLoc_CopyData@12       0042150d f   HighLoc.OBJ
+ 0001:00020580       _HighLoc_OpenHandle@12     00421580 f   HighLoc.OBJ
+ 0001:000205aa       _HighLoc_CloseHandle@12    004215aa f   HighLoc.OBJ
+ 0001:000205d4       _HighLoc_LogicSector2PhysSector@12 004215d4 f   HighLoc.OBJ
+ 0001:00020632       _HighLoc_LogicSector2PhysSectorFast@12 00421632 f   HighLoc.OBJ
+ 0001:0002069d       _HighLoc_Flush@12          0042169d f   HighLoc.OBJ
+ 0001:000206dc       _HighLoc_EnableDisable@12  004216dc f   HighLoc.OBJ
+ 0001:0002070c       _HighLoc_SetPhysSectors@12 0042170c f   HighLoc.OBJ
+ 0001:00020782       _OnSysDynamicDeviceInit    00421782 f   HighLoc.OBJ
+ 0001:00020813       _OnSysDynamicDeviceExit    00421813 f   HighLoc.OBJ
+ 0001:0002083e       _OpenHandle                0042183e f   HighLoc.OBJ
+ 0001:00020a8d       _CloseHandle               00421a8d f   HighLoc.OBJ
+ 0001:00020b5e       _LogicSector2PhysSector    00421b5e f   HighLoc.OBJ
+ 0001:00020b79       _LogicSector2PhysSectorEx  00421b79 f   HighLoc.OBJ
+ 0001:00020d06       _LogicSector2PhysSectorFast 00421d06 f   HighLoc.OBJ
+ 0001:00020e3e       _IsEmptyList               00421e3e f   HighLoc.OBJ
+ 0001:00020e61       _SearchNode                00421e61 f   HighLoc.OBJ
+ 0001:00020ea0       _FreeCacheList             00421ea0 f   HighLoc.OBJ
+ 0001:00020eec       FileLocH_Control           00421eec f   FileLocH.OBJ
+ 0001:00020f1c       _CanWeWork                 00421f1c f   FileLocH.OBJ
+ 0001:00020f2c       _WorkingOrResting          00421f2c f   FileLocH.OBJ
+ 0001:00020f3a       _GetCurTime                00421f3a f   FileLocH.OBJ
+ 0001:00020f4c       _LCODE__HeapAllocate       00421f4c f   vxdwraps:vmm021.obj
+ 0001:00020f54       _LCODE__HeapFree           00421f54 f   vxdwraps:vmm031.obj
+ 0001:00020f5c       _LCODE_List_Create@8       00421f5c f   vxdwraps:vmm211.obj
+ 0001:00020f70       _LCODE_List_Destroy@4      00421f70 f   vxdwraps:vmm231.obj
+ 0001:00020f80       _LCODE_List_Deallocate@8   00421f80 f   vxdwraps:vmm221.obj
+ 0001:00020f90       _LCODE_List_Remove@8       00421f90 f   vxdwraps:vmm271.obj
+ 0001:00020fa4       _LCODE_List_Attach_Tail@8  00421fa4 f   vxdwraps:vmm201.obj
+ 0001:00020fb4       _LCODE_List_Allocate@4     00421fb4 f   vxdwraps:vmm1e1.obj
+ 0001:00020fc8       _LCODE_List_Get_First@4    00421fc8 f   vxdwraps:vmm241.obj
+ 0001:00020fd8       _LCODE_List_Get_Next@8     00421fd8 f   vxdwraps:vmm251.obj
+
+ entry point at        0000:00000000
+
+ Static symbols
+
+ 0001:00020388       $$$00001                   00421388 f   FileLocH.OBJ
+ 0001:000203e8       $$$00002                   004213e8 f   FileLocH.OBJ
+ 0001:000203e8       $$$00003                   004213e8 f   FileLocH.OBJ
+ 0001:00020eec       $$$00004                   00421eec f   FileLocH.OBJ
+ 0001:00020f1c       $$$00006                   00421f1c f   FileLocH.OBJ
+ 0001:00020f2c       $$$00008                   00421f2c f   FileLocH.OBJ
+ 0001:00020f3a       $$$00010                   00421f3a f   FileLocH.OBJ
+ 0001:00020f4a       $$$00012                   00421f4a f   FileLocH.OBJ
+ 0001:00020210       __VolFlush                 00421210 f   HighLoc.OBJ
+ 0001:00020216       _R0_OpenCreateFile         00421216 f   HighLoc.OBJ
+ 0001:0002026b       _R0_WriteFile              0042126b f   HighLoc.OBJ
+ 0001:000202b7       _R0_CloseFile              004212b7 f   HighLoc.OBJ
+ 0001:000202d7       _R0_GetFileSize            004212d7 f   HighLoc.OBJ
+ 0001:000202fc       _R0_GetFileAttributes      004212fc f   HighLoc.OBJ
+ 0001:00020322       _R0_SetFileAttributes      00421322 f   HighLoc.OBJ

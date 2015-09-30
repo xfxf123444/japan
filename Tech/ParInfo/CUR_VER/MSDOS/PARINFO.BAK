@@ -1,0 +1,72 @@
+# Microsoft Visual C++ generated build script - Do not modify
+
+PROJ = PARINFO
+DEBUG = 0
+PROGTYPE = 4
+CALLER = 
+ARGS = 
+DLLS = 
+D_RCDEFINES = -d_DEBUG
+R_RCDEFINES = -dNDEBUG
+ORIGIN = MSVC
+ORIGIN_VER = 1.00
+PROJPATH = E:\TECH\PARINFO\CUR_VER\MSDOS\
+USEMFC = 0
+CC = cl
+CPP = cl
+CXX = cl
+CCREATEPCHFLAG = 
+CPPCREATEPCHFLAG = 
+CUSEPCHFLAG = 
+CPPUSEPCHFLAG = 
+FIRSTC =             
+FIRSTCPP = PARINFO.CPP 
+RC = rc
+CFLAGS_D_LIB = /nologo /G2 /Zp1 /W3 /Z7 /AL /Od /D "_DEBUG" /FR /GA 
+CFLAGS_R_LIB = /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /FR /GA 
+RCFLAGS = /nologo
+RESFLAGS = /nologo
+RUNFLAGS = 
+OBJS_EXT = 
+LIBS_EXT = 
+!if "$(DEBUG)" == "1"
+CFLAGS = $(CFLAGS_D_LIB)
+LFLAGS = 
+LIBS = 
+MAPFILE = nul
+RCDEFINES = $(D_RCDEFINES)
+!else
+CFLAGS = $(CFLAGS_R_LIB)
+LFLAGS = 
+LIBS = 
+MAPFILE = nul
+RCDEFINES = $(R_RCDEFINES)
+!endif
+!if [if exist MSVC.BND del MSVC.BND]
+!endif
+SBRS = PARINFO.SBR
+
+
+PARINFO_DEP = e:\tech\parinfo\cur_ver\msdos\private.h \
+	e:\tech\parinfo\cur_ver\msdos\parinfo.h
+
+
+all:	$(PROJ).LIB $(PROJ).BSC
+
+PARINFO.OBJ:	PARINFO.CPP $(PARINFO_DEP)
+	$(CPP) $(CFLAGS) $(CPPCREATEPCHFLAG) /c PARINFO.CPP
+
+$(PROJ).LIB::	PARINFO.OBJ $(OBJS_EXT)
+	echo >NUL @<<$(PROJ).CRF
+$@ /PAGESIZE:64
+y
++PARINFO.OBJ &
+;
+<<
+	if exist $@ del $@
+	lib @$(PROJ).CRF
+
+$(PROJ).BSC: $(SBRS)
+	bscmake @<<
+/o$@ $(SBRS)
+<<

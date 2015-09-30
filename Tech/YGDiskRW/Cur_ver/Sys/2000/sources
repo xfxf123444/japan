@@ -1,0 +1,6 @@
+TARGETNAME=YGDiskRW
+TARGETTYPE=DRIVER
+
+SOURCES=YGDiskRW.c   \
+        YGDiskRW.rc
+

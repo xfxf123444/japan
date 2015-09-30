@@ -1,0 +1,17 @@
+Setting environment for using Microsoft Visual C++ tools.
+Warning: cannot find "ParInfo.dep"
+	cl.exe /nologo /Zp1 /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PARINFO_EXPORTS" /Fp".\Release\ParInfo.pch" /YX /Fo".\Release\\" /Fd".\Release\\" /FD /c ..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp
+CVirPar.cpp
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.H(25) : error C2061: syntax error : identifier 'PRESIZE_INFO'
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(13) : error C2065: 'PRESIZE_INFO' : undeclared identifier
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(13) : error C2146: syntax error : missing ')' before identifier 'pResizeInfo'
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(13) : error C2350: 'CVirParti::SetDriveParameter' is not a static member
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(13) : error C2059: syntax error : ')'
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(14) : error C2143: syntax error : missing ';' before '{'
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(14) : error C2447: missing function header (old-style formal list?)
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(37) : error C2065: 'VIRPARTI_Real2MirrorDriveLttr' : undeclared identifier
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(62) : error C2065: 'VIRPARTI_Real2SharkDriveLttr' : undeclared identifier
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(91) : error C2065: 'VIRPARTI_GetDriveLttrOfMover' : undeclared identifier
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(116) : error C2065: 'VIRPARTI_RetrieveDriveLttr' : undeclared identifier
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(141) : error C2065: 'VIRPARTI_DriveMapInfo' : undeclared identifier
+..\..\..\..\shark\Cur_Ver\dll\9x\CVirPar.cpp(157) : error C2065: 'VIRPARTI_EnableOrDisable' : undeclared identifier

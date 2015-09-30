@@ -1,0 +1,20 @@
+	cl /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /D "BIOS_LIB" /FR /Gw  /c ..\CRYPTO.CPP
+CRYPTO.CPP
+	cl /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /D "BIOS_LIB" /FR /Gw  /c ..\DES.CPP
+DES.CPP
+	cl /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /D "BIOS_LIB" /FR /Gw  /c ..\MD5C.CPP
+MD5C.CPP
+	cl /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /D "BIOS_LIB" /FR /Gw  /c ..\MISC.CPP
+MISC.CPP
+	cl /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /D "BIOS_LIB" /FR /Gw  /c ..\NN.CPP
+NN.CPP
+	cl /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /D "BIOS_LIB" /FR /Gw  /c ..\RSA.CPP
+RSA.CPP
+	echo >NUL @CRYPTO.CRF
+	if exist CRYPTO.LIB del CRYPTO.LIB
+	lib @CRYPTO.CRF
+Microsoft (R) Library Manager Version 6.00.8168
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+CRYPTO.LIB 
+LIB : fatal error LNK1181: cannot open input file "CRYPTO.LIB"

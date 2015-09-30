@@ -1,0 +1,1578 @@
+// format.cpp : Defines the entry point for the DLL application.
+//
+#include "stdafx.h"
+#include <malloc.h>
+#include <stdlib.h>
+#include "..\Export\DoFormat.h"
+
+static   DWORD  g_dwTotalFormatSectors = 0;
+static   DWORD  g_dwHaveFormatSectors  = 0;
+
+//Index>Macro 
+#define  SECTORSIZE                 512
+#define  ZERO_DATA_BUFFER_SECS      64       
+#define  ZERO_DATA_BUFFER_SIZE      (ZERO_DATA_BUFFER_SECS*SECTORSIZE)    
+#define  END_OF_FAT16_CLAIN         0xffff  
+#define  END_OF_FAT32_CLAIN         0x0fffffff
+#define  YG_DISK_W32_INT13          1
+#define  MAX_READ_SECS              8
+#define  MAX_EXT13_READ_SECS        7
+#define  DONT_NEED_PROGRESS         NULL
+
+#define  VWIN32_DIOC_DOS_IOCTL      1 
+#define VWIN32_DIOC_DOS_INT25       2
+#define  VWIN32_DIOC_DOS_INT26      3 
+
+// Default sectors per cluster by drive size  (FAT32)
+#define  SEC1_PER_CLUSTER_32_MIN  (32*2048)    // 32Mb
+#define  SEC1_PER_CLUSTER_32_MAX  (128*2048-1) // 128Mb
+#define  SEC4_PER_CLUSTER_32_MIN  (128*2048)    // 128Mb
+#define  SEC4_PER_CLUSTER_32_MAX  (512*2048-1)  // ~512Mb
+#define  SEC8_PER_CLUSTER_32_MIN  (512*2048)    // 512Mb
+#define  SEC8_PER_CLUSTER_32_MAX  (8192*2048-1) // ~8192Mb
+#define  SEC16_PER_CLUSTER_32_MIN (8192*2048)   // 8192Mb
+#define  SEC16_PER_CLUSTER_32_MAX (16384*2048-1)// ~16383Mb
+#define  SEC32_PER_CLUSTER_32_MIN (16384*2048)  // 16384Mb
+#define  SEC32_PER_CLUSTER_32_MAX (32768*2048-1)// ~32767Mb
+#define  SEC64_PER_CLUSTER_32_MIN (32768*2048)  // Larger than 32767Mb
+
+// FAT16
+#define  SEC1_PER_CLUSTER_16_MIN  0            // 0Mb
+#define  SEC1_PER_CLUSTER_16_MAX  (32*2048-2)  // ~32Mb
+#define  SEC2_PER_CLUSTER_16_MIN  (32*2048-1)  // 33Mb
+#define  SEC2_PER_CLUSTER_16_MAX  (64*2048-4)  // ~64Mb
+#define  SEC4_PER_CLUSTER_16_MIN  (65*2048-3)  // 65Mb    
+#define  SEC4_PER_CLUSTER_16_MAX  (128*2048-8) // ~128Mb
+#define  SEC8_PER_CLUSTER_16_MIN  (129*2048-7) // 129Mb
+#define  SEC8_PER_CLUSTER_16_MAX  (255*2048-16) // ~255Mb
+#define  SEC16_PER_CLUSTER_16_MIN (256*2048-15) // 256Mb
+#define  SEC16_PER_CLUSTER_16_MAX (511*2048-32) // ~511Mb
+#define  SEC32_PER_CLUSTER_16_MIN (512*2048-31) // 512Mb
+#define  SEC32_PER_CLUSTER_16_MAX (1023*2048-64)// ~1023Mb
+#define  SEC64_PER_CLUSTER_16_MIN (1024*2048-63)// 1024Mb
+#define  SEC64_PER_CLUSTER_16_MAX (2047*2048-128)// ~20470Mb
+/*  
+#define  SEC128_PER_CLUSTER_16_MIN (2048*2048-127)// 2048Mb
+#define  SEC128_PER_CLUSTER_16_MAX (4095*2048-256)// ~4095Mb
+*/
+
+// FAT12
+#define  FAT_12_MIN_SIZE     0           // 0Mb
+#define  FAT_12_MAX_SIZE     (32*2048)   //~32Mb
+
+//Index>Struct
+/*============================================================
+ * cpu  registers : used by DriveIoCtrl();
+ *==========================================================*/
+typedef struct {
+    DWORD reg_EBX;
+    DWORD reg_EDX;
+    int   reg_ECX;
+    DWORD reg_EAX;
+    DWORD reg_EDI; 
+    DWORD reg_ESI;
+    DWORD reg_Flags;
+} DIOC_REGISTERS, *PDIOC_REGISTERS;
+
+/*============================================================
+ * logic read write params
+ *==========================================================*/
+
+typedef struct 
+{
+	DWORD  dwStartSector ;
+	WORD   wNumOfSectors ;
+	DWORD  dwBufferAddress;
+} LOGIC_ABS_PARAM ,*PLOGIC_ABS_PARAM ;
+
+/*============================================================
+ * hard disk params
+ *==========================================================*/
+typedef struct 
+ {
+    WORD        info_size;
+    WORD        flags ;      
+    DWORD       dwCylinders;
+    DWORD       dwHeads    ;
+	DWORD       dwSectorsPerTrack ;
+	DWORD64     sectors;       
+    WORD	    sector_size ;  
+} DISK_PARAM ,  *PDISK_PARAM ; 
+
+/*============================================================
+ * disk params when ext 13h call
+ *==========================================================*/
+typedef   struct {
+	BYTE    PacketSize     ;  
+    BYTE    Reserved       ;  
+    WORD    SectorNums     ;  
+    DWORD   pBuffer        ;  
+    DWORD   dwStaSec_Lo    ;  
+    DWORD   dwStaSec_Hi    ;
+}  DISK_ADDRESS_PARKET ,*PDISK_ADDRESS_PARKET ;
+
+/*============================================================
+ *  Boot Sector (FAT16)
+ *============================================================*/
+typedef   struct 
+{
+    BYTE   Jump[3];
+    char   OEMName[8];
+
+	// Name:BIOS block ,Start: 0Bh,Size:25bytes
+	WORD   BytesPerSector    ;
+	BYTE   SectorsPerCluster ;
+	WORD   ReserveSectors    ;
+	BYTE   NumOfFATs         ;
+	WORD   RootEntries       ; // one of which is valume label 
+    WORD   SectorsSmall      ; 
+	BYTE   MediaType         ; // F8h mean Hard Disk 
+	WORD   SectorsPerFAT     ;
+	WORD   SectorsPerTrack   ;
+    WORD   NumOfHeads        ;
+	DWORD  HiddenSectors     ; // = Relative FAT position 
+	DWORD  SectorsLarger     ;
+	
+	// Name:Extend BIOS block ,Start:24h,Size:26bytes
+    BYTE   PhysicalDiskNums  ; // always be 80h ???
+    BYTE   CurrentHead       ; // Only used by NT 
+	BYTE   NTSignate         ; // 28h or 29h used by NT 
+    DWORD  SerialNumber      ; 
+    BYTE   VolumeLabel[11]   ;
+	char   SystemType[8]     ; // "FAT16","FAT32","FAT12"
+    
+	// Name:Bootstrap code,Start:3Eh,Size 448bytes
+    BYTE   BootStrap[448]   ;
+    
+	// Name:Signate ,Start 1FEh,Size 2bytes ;
+    BYTE   Signate[2]       ; // 55AAh
+}BOOT16_SEC ,*PBOOT16_SEC ;
+
+/*============================================================
+ *  Boot Sector (FAT32) 
+ *============================================================*/
+
+typedef struct
+{
+    BYTE   Jump[3];
+	char   OEMName[8];
+
+	WORD   BytesPerSector ;
+	BYTE   SectorsPerCluster ;
+	WORD   ReserveSectors    ;
+	BYTE   NumOfFATs         ;
+	WORD   RootEntries       ; // Ignored 
+	WORD   SectorsSmall      ;  
+	BYTE   MediaType         ;
+	WORD   SectorsPerFAT_16  ; //Always be Zero  
+	WORD   SectorsPerTrack   ;
+	WORD   NumOfHeads        ;
+	DWORD  HiddenSectors     ;
+	DWORD  SectorsLarger     ;
+    // 28 bytes 
+	DWORD  SectorsPerFAT_32  ;
+	WORD   ExtFlags          ; //  default value 0 ???
+	WORD   Fs_Version        ;
+	DWORD  RootStartCluster  ;
+	WORD   FSInfoSectors     ; //  default value 1 ???
+	WORD   BackupSectors     ; //  default value 6 ???
+	WORD   Reserved[6]       ; 
+	BYTE	Int13Unit_32;
+	BYTE	Reserved1;
+	BYTE	ExtBootSig;
+	DWORD	VolumeID;
+	BYTE	VolumeLabel[0x0B];
+	char	FS_Type[0x08];
+	BYTE	StartCode[SECTORSIZE*2+0x400-0x005A];
+}   BOOT32_SEC,*PBOOT32_SEC ;
+
+
+// Standed boot sectors of  FAT32
+BYTE StdBootSec32[1536] = { 0xeb,0x58,0x90,0x4d,0x53,0x57,0x49,0x4e,
+                            0x34,0x2e,0x31,0x0 ,0x2 ,0x4 ,0x20,0x0 ,
+							0x2 ,0x0 ,0x0 ,0x0 ,0x0 ,0xf8,0x0 ,0x0 ,
+							0x3f,0x0 ,0xff,0x0 ,0xc7,0x17,0x21,0x0 ,
+							0x92,0x69,0x4 ,0x0 ,0x33,0x2 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x2 ,0x0 ,0x0 ,0x0 ,
+							0x1 ,0x0 ,0x6 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x80,0x0 ,0x29,0xfb,0x17,0x27,0x9 ,0x4e,
+							0x4f,0x20,0x4e,0x41,0x4d,0x45,0x20,0x20,
+							0x20,0x20,0x46,0x41,0x54,0x33,0x32,0x20,
+							0x20,0x20,0xfa,0x33,0xc9,0x8e,0xd1,0xbc,
+							0xf8,0x7b,0x8e,0xc1,0xbd,0x78,0x0 ,0xc5,
+							0x76,0x0 ,0x1e,0x56,0x16,0x55,0xbf,0x22,
+							0x5 ,0x89,0x7e,0x0 ,0x89,0x4e,0x2 ,0xb1,
+							0xb ,0xfc,0xf3,0xa4,0x8e,0xd9,0xbd,0x0 ,
+							0x7c,0xc6,0x45,0xfe,0xf ,0x8b,0x46,0x18,
+							0x88,0x45,0xf9,0x38,0x4e,0x40,0x7d,0x25,
+							0x8b,0xc1,0x99,0xbb,0x0 ,0x7 ,0xe8,0x97,
+							0x0 ,0x72,0x1a,0x83,0xeb,0x3a,0x66,0xa1,
+							0x1c,0x7c,0x66,0x3b,0x7 ,0x8a,0x57,0xfc,
+							0x75,0x6 ,0x80,0xca,0x2 ,0x88,0x56,0x2 ,
+							0x80,0xc3,0x10,0x73,0xed,0xbf,0x2 ,0x0 ,
+							0x83,0x7e,0x16,0x0 ,0x75,0x45,0x8b,0x46,
+							0x1c,0x8b,0x56,0x1e,0xb9,0x3 ,0x0 ,0x49,
+							0x40,0x75,0x1 ,0x42,0xbb,0x0 ,0x7e,0xe8,
+							0x5f,0x0 ,0x73,0x26,0xb0,0xf8,0x4f,0x74,
+							0x1d,0x8b,0x46,0x32,0x33,0xd2,0xb9,0x3 ,
+							0x0 ,0x3b,0xc8,0x77,0x1e,0x8b,0x76,0xe ,
+							0x3b,0xce,0x73,0x17,0x2b,0xf1,0x3 ,0x46,
+							0x1c,0x13,0x56,0x1e,0xeb,0xd1,0x73,0xb ,
+							0xeb,0x27,0x83,0x7e,0x2a,0x0 ,0x77,0x3 ,
+							0xe9,0xfd,0x2 ,0xbe,0x7e,0x7d,0xac,0x98,
+							0x3 ,0xf0,0xac,0x84,0xc0,0x74,0x17,0x3c,
+							0xff,0x74,0x9 ,0xb4,0xe ,0xbb,0x7 ,0x0 ,
+							0xcd,0x10,0xeb,0xee,0xbe,0x81,0x7d,0xeb,
+							0xe5,0xbe,0x7f,0x7d,0xeb,0xe0,0x98,0xcd,
+							0x16,0x5e,0x1f,0x66,0x8f,0x4 ,0xcd,0x19,
+							0x41,0x56,0x66,0x6a,0x0 ,0x52,0x50,0x6 ,
+							0x53,0x6a,0x1 ,0x6a,0x10,0x8b,0xf4,0x60,
+							0x80,0x7e,0x2 ,0xe ,0x75,0x4 ,0xb4,0x42,
+							0xeb,0x1d,0x91,0x92,0x33,0xd2,0xf7,0x76,
+							0x18,0x91,0xf7,0x76,0x18,0x42,0x87,0xca,
+							0xf7,0x76,0x1a,0x8a,0xf2,0x8a,0xe8,0xc0,
+							0xcc,0x2 ,0xa ,0xcc,0xb8,0x1 ,0x2 ,0x8a,
+							0x56,0x40,0xcd,0x13,0x61,0x8d,0x64,0x10,
+							0x5e,0x72,0xa ,0x40,0x75,0x1 ,0x42,0x3 ,
+							0x5e,0xb ,0x49,0x75,0xb4,0xc3,0x3 ,0x18,
+							0x1 ,0x27,0xd ,0xa ,0x49,0x6e,0x76,0x61,
+							0x6c,0x69,0x64,0x20,0x73,0x79,0x73,0x74,
+							0x65,0x6d,0x20,0x64,0x69,0x73,0x6b,0xff,
+							0xd ,0xa ,0x44,0x69,0x73,0x6b,0x20,0x49,
+							0x2f,0x4f,0x20,0x65,0x72,0x72,0x6f,0x72,
+							0xff,0xd ,0xa ,0x52,0x65,0x70,0x6c,0x61,
+							0x63,0x65,0x20,0x74,0x68,0x65,0x20,0x64,
+							0x69,0x73,0x6b,0x2c,0x20,0x61,0x6e,0x64,
+							0x20,0x74,0x68,0x65,0x6e,0x20,0x70,0x72,
+							0x65,0x73,0x73,0x20,0x61,0x6e,0x79,0x20,
+							0x6b,0x65,0x79,0xd ,0xa ,0x0 ,0x0 ,0x0 ,
+							0x49,0x4f,0x20,0x20,0x20,0x20,0x20,0x20,
+							0x53,0x59,0x53,0x4d,0x53,0x44,0x4f,0x53,
+							0x20,0x20,0x20,0x53,0x59,0x53,0x7e,0x1 ,
+							0x0 ,0x57,0x49,0x4e,0x42,0x4f,0x4f,0x54,
+							0x20,0x53,0x59,0x53,0x0 ,0x0 ,0x55,0xaa,
+							0x52,0x52,0x61,0x41,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x72,0x72,0x41,0x61,
+							0x82,0x18,0x1 ,0x0 ,0x2 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x55,0xaa,
+							0xfa,0x66,0xf ,0xb6,0x46,0x10,0x66,0x8b,
+							0x4e,0x24,0x66,0xf7,0xe1,0x66,0x3 ,0x46,
+							0x1c,0x66,0xf ,0xb7,0x56,0xe ,0x66,0x3 ,
+							0xc2,0x33,0xc9,0x66,0x89,0x46,0xfc,0x66,
+							0xc7,0x46,0xf8,0xff,0xff,0xff,0xff,0xfa,
+							0x66,0x8b,0x46,0x2c,0x66,0x83,0xf8,0x2 ,
+							0xf ,0x82,0xcf,0xfc,0x66,0x3d,0xf8,0xff,
+							0xff,0xf ,0xf ,0x83,0xc5,0xfc,0x66,0xf ,
+							0xa4,0xc2,0x10,0xfb,0x52,0x50,0xfa,0x66,
+							0xc1,0xe0,0x10,0x66,0xf ,0xac,0xd0,0x10,
+							0x66,0x83,0xe8,0x2 ,0x66,0xf ,0xb6,0x5e,
+							0xd ,0x8b,0xf3,0x66,0xf7,0xe3,0x66,0x3 ,
+							0x46,0xfc,0x66,0xf ,0xa4,0xc2,0x10,0xfb,
+							0xbb,0x0 ,0x7 ,0x8b,0xfb,0xb9,0x1 ,0x0 ,
+							0xe8,0xbe,0xfc,0xf ,0x82,0xaa,0xfc,0x38,
+							0x2d,0x74,0x1e,0xb1,0xb ,0x56,0xbe,0xd8,
+							0x7d,0xf3,0xa6,0x5e,0x74,0x19,0x3 ,0xf9,
+							0x83,0xc7,0x15,0x3b,0xfb,0x72,0xe8,0x4e,
+							0x75,0xd6,0x58,0x5a,0xe8,0x66,0x0 ,0x72,
+							0xab,0x83,0xc4,0x4 ,0xe9,0x64,0xfc,0x83,
+							0xc4,0x4 ,0x8b,0x75,0x9 ,0x8b,0x7d,0xf ,
+							0x8b,0xc6,0xfa,0x66,0xc1,0xe0,0x10,0x8b,
+							0xc7,0x66,0x83,0xf8,0x2 ,0x72,0x3b,0x66,
+							0x3d,0xf8,0xff,0xff,0xf ,0x73,0x33,0x66,
+							0x48,0x66,0x48,0x66,0xf ,0xb6,0x4e,0xd ,
+							0x66,0xf7,0xe1,0x66,0x3 ,0x46,0xfc,0x66,
+							0xf ,0xa4,0xc2,0x10,0xfb,0xbb,0x0 ,0x7 ,
+							0x53,0xb9,0x4 ,0x0 ,0xe8,0x52,0xfc,0x5b,
+							0xf ,0x82,0x3d,0xfc,0x81,0x3f,0x4d,0x5a,
+							0x75,0x8 ,0x81,0xbf,0x0 ,0x2 ,0x42,0x4a,
+							0x74,0x6 ,0xbe,0x80,0x7d,0xe9,0xe ,0xfc,
+							0xea,0x0 ,0x2 ,0x70,0x0 ,0x3 ,0xc0,0x13,
+							0xd2,0x3 ,0xc0,0x13,0xd2,0xe8,0x18,0x0 ,
+							0xfa,0x26,0x66,0x8b,0x1 ,0x66,0x25,0xff,
+							0xff,0xff,0xf ,0x66,0xf ,0xa4,0xc2,0x10,
+							0x66,0x3d,0xf8,0xff,0xff,0xf ,0xfb,0xc3,
+							0xbf,0x0 ,0x7e,0xfa,0x66,0xc1,0xe0,0x10,
+							0x66,0xf ,0xac,0xd0,0x10,0x66,0xf ,0xb7,
+							0x4e,0xb ,0x66,0x33,0xd2,0x66,0xf7,0xf1,
+							0x66,0x3b,0x46,0xf8,0x74,0x44,0x66,0x89,
+							0x46,0xf8,0x66,0x3 ,0x46,0x1c,0x66,0xf ,
+							0xb7,0x4e,0xe ,0x66,0x3 ,0xc1,0x66,0xf ,
+							0xb7,0x5e,0x28,0x83,0xe3,0xf ,0x74,0x16,
+							0x3a,0x5e,0x10,0xf ,0x83,0xa4,0xfb,0x52,
+							0x66,0x8b,0xc8,0x66,0x8b,0x46,0x24,0x66,
+							0xf7,0xe3,0x66,0x3 ,0xc1,0x5a,0x52,0x66,
+							0xf ,0xa4,0xc2,0x10,0xfb,0x8b,0xdf,0xb9,
+							0x1 ,0x0 ,0xe8,0xb4,0xfb,0x5a,0xf ,0x82,
+							0x9f,0xfb,0xfb,0x8b,0xda,0xc3,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,
+							0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x0 ,0x55,0xaa };
+
+							// Standed  boot sector of FAT16
+      BYTE StdBootSec16[512]= {0xeb,0x3e,0x90,0x4d,0x53,0x57,0x49,0x4e,
+                               0x34,0x2e,0x31,0x0 ,0x2 ,0x4 ,0x1 ,0x0 ,
+							   0x2 ,0x0 ,0x2 ,0x0 ,0x0 ,0xf8,0xcc,0x0 ,
+							   0x3f,0x0 ,0xff,0x0 ,0x80,0x60,0x1f,0x0 ,
+							   0xcd,0x2f,0x3 ,0x0 ,0x80,0x0 ,0x29,0x32,
+							   0x11,0xe5,0x12,0x4e,0x4f,0x20,0x4e,0x41,
+							   0x4d,0x45,0x20,0x20,0x20,0x20,0x46,0x41,
+							   0x54,0x31,0x36,0x20,0x20,0x20,0xf1,0x7d,
+							   0xfa,0x33,0xc9,0x8e,0xd1,0xbc,0xfc,0x7b,
+							   0x16,0x7 ,0xbd,0x78,0x0 ,0xc5,0x76,0x0 ,
+							   0x1e,0x56,0x16,0x55,0xbf,0x22,0x5 ,0x89,
+							   0x7e,0x0 ,0x89,0x4e,0x2 ,0xb1,0xb ,0xfc,
+							   0xf3,0xa4,0x6 ,0x1f,0xbd,0x0 ,0x7c,0xc6,
+							   0x45,0xfe,0xf ,0x8b,0x46,0x18,0x88,0x45,
+							   0xf9,0xfb,0x38,0x66,0x24,0x7c,0x4 ,0xcd,
+							   0x13,0x72,0x3c,0x8a,0x46,0x10,0x98,0xf7,
+							   0x66,0x16,0x3 ,0x46,0x1c,0x13,0x56,0x1e,
+							   0x3 ,0x46,0xe ,0x13,0xd1,0x50,0x52,0x89,
+							   0x46,0xfc,0x89,0x56,0xfe,0xb8,0x20,0x0 ,
+							   0x8b,0x76,0x11,0xf7,0xe6,0x8b,0x5e,0xb ,
+							   0x3 ,0xc3,0x48,0xf7,0xf3,0x1 ,0x46,0xfc,
+							   0x11,0x4e,0xfe,0x5a,0x58,0xbb,0x0 ,0x7 ,
+							   0x8b,0xfb,0xb1,0x1 ,0xe8,0x94,0x0 ,0x72,
+							   0x47,0x38,0x2d,0x74,0x19,0xb1,0xb ,0x56,
+							   0x8b,0x76,0x3e,0xf3,0xa6,0x5e,0x74,0x4a,
+							   0x4e,0x74,0xb ,0x3 ,0xf9,0x83,0xc7,0x15,
+							   0x3b,0xfb,0x72,0xe5,0xeb,0xd7,0x2b,0xc9,
+							   0xb8,0xd8,0x7d,0x87,0x46,0x3e,0x3c,0xd8,
+							   0x75,0x99,0xbe,0x80,0x7d,0xac,0x98,0x3 ,
+							   0xf0,0xac,0x84,0xc0,0x74,0x17,0x3c,0xff,
+							   0x74,0x9 ,0xb4,0xe ,0xbb,0x7 ,0x0 ,0xcd,
+							   0x10,0xeb,0xee,0xbe,0x83,0x7d,0xeb,0xe5,
+							   0xbe,0x81,0x7d,0xeb,0xe0,0x33,0xc0,0xcd,
+							   0x16,0x5e,0x1f,0x8f,0x4 ,0x8f,0x44,0x2 ,
+							   0xcd,0x19,0xbe,0x82,0x7d,0x8b,0x7d,0xf ,
+							   0x83,0xff,0x2 ,0x72,0xc8,0x8b,0xc7,0x48,
+							   0x48,0x8a,0x4e,0xd ,0xf7,0xe1,0x3 ,0x46,
+							   0xfc,0x13,0x56,0xfe,0xbb,0x0 ,0x7 ,0x53,
+							   0xb1,0x4 ,0xe8,0x16,0x0 ,0x5b,0x72,0xc8,
+							   0x81,0x3f,0x4d,0x5a,0x75,0xa7,0x81,0xbf,
+							   0x0 ,0x2 ,0x42,0x4a,0x75,0x9f,0xea,0x0 ,
+							   0x2 ,0x70,0x0 ,0x50,0x52,0x51,0x91,0x92,
+							   0x33,0xd2,0xf7,0x76,0x18,0x91,0xf7,0x76,
+							   0x18,0x42,0x87,0xca,0xf7,0x76,0x1a,0x8a,
+							   0xf2,0x8a,0x56,0x24,0x8a,0xe8,0xd0,0xcc,
+							   0xd0,0xcc,0xa ,0xcc,0xb8,0x1 ,0x2 ,0xcd,
+							   0x13,0x59,0x5a,0x58,0x72,0x9 ,0x40,0x75,
+							   0x1 ,0x42,0x3 ,0x5e,0xb ,0xe2,0xcc,0xc3,
+							   0x3 ,0x18,0x1 ,0x27,0xd ,0xa ,0x49,0x6e,
+							   0x76,0x61,0x6c,0x69,0x64,0x20,0x73,0x79,
+							   0x73,0x74,0x65,0x6d,0x20,0x64,0x69,0x73,
+							   0x6b,0xff,0xd ,0xa ,0x44,0x69,0x73,0x6b,
+							   0x20,0x49,0x2f,0x4f,0x20,0x65,0x72,0x72,
+							   0x6f,0x72,0xff,0xd ,0xa ,0x52,0x65,0x70,
+							   0x6c,0x61,0x63,0x65,0x20,0x74,0x68,0x65,
+							   0x20,0x64,0x69,0x73,0x6b,0x2c,0x20,0x61,
+							   0x6e,0x64,0x20,0x74,0x68,0x65,0x6e,0x20,
+							   0x70,0x72,0x65,0x73,0x73,0x20,0x61,0x6e,
+							   0x79,0x20,0x6b,0x65,0x79,0xd ,0xa ,0x0 ,
+							   0x49,0x4f,0x20,0x20,0x20,0x20,0x20,0x20,
+							   0x53,0x59,0x53,0x4d,0x53,0x44,0x4f,0x53,
+							   0x20,0x20,0x20,0x53,0x59,0x53,0x80,0x1 ,
+							   0x0 ,0x57,0x49,0x4e,0x42,0x4f,0x4f,0x54,
+							   0x20,0x53,0x59,0x53,0x0 ,0x0 ,0x55,0xaa } ;
+
+// Standed boot sector of FAT12
+BYTE StdBootSec12[512] = { 0xeb,0x3c,0x90,0x4d,0x53,0x57,0x49,0x4e,
+                           0x34,0x2e,0x30,0x0 ,0x2 ,0x8 ,0x1 ,0x0 ,
+						   0x2 ,0x0 ,0x2 ,0x82,0x3e,0xf8,0x6 ,0x0 ,
+						   0x3f,0x0 ,0xff,0x0 ,0x3f,0x0 ,0x0 ,0x0 ,
+						   0x82,0x3e,0x0 ,0x0 ,0x80,0x0 ,0x29,0x7 ,
+						   0x48,0xd7,0x3a,0x20,0x20,0x20,0x20,0x20,
+						   0x20,0x20,0x20,0x20,0x20,0x20,0x46,0x41,
+						   0x54,0x31,0x32,0x20,0x20,0x20,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,
+						   0xf6,0xf6,0xf6,0xf6,0xf6,0xf6,0x55,0xaa} ;
+
+
+
+                                
+/*============================================================
+ * Function Name: VirtualInt13()
+ * 
+ * Purpose      : Support int13h(DOS) call 
+ *
+ * Parameters   : [in][out] Reg ....... Cpu  registers 
+ *
+ *============================================================*/
+BOOL VirtualInt13(DIOC_REGISTERS  &Reg)
+{
+	HANDLE   hDevice  ;       
+	BOOLEAN  bIoResult;      
+    DWORD    dwCounter;     
+
+    hDevice = CreateFile("\\\\.\\yg_disk",0,0,NULL,0,0,NULL); // Open our disk driver
+    if (INVALID_HANDLE_VALUE == hDevice) 
+	{
+		return FALSE ;
+	}
+	bIoResult = DeviceIoControl( hDevice,YG_DISK_W32_INT13,   
+								 &Reg,sizeof(DIOC_REGISTERS),
+								 &Reg,sizeof(DIOC_REGISTERS),
+								 &dwCounter,NULL);
+	CloseHandle(hDevice);
+	return   bIoResult ;
+}
+
+/*============================================================
+ * Function Name: CheckExtInt13()
+ * 
+ * Purpose      : Check hard disk if support extend int13h call or not
+ *
+ * Parameters   : [in] btDisk  ....... hard disk number (0 mean first hard disk)
+ *              
+ *============================================================*/
+BOOL   CheckExtInt13(BYTE  btDisk)  
+{    
+     DIOC_REGISTERS  reg ;  
+
+	 reg.reg_EAX = 0x4100 ;
+	 reg.reg_EBX = 0x55aa ;
+	 reg.reg_EDX = 0x80 + btDisk ;
+
+	 if ( !VirtualInt13(reg)||reg.reg_Flags & 0x0001)  
+		 return  FALSE ;
+	 return   TRUE ;
+}
+
+/*============================================================
+ * Function Name: GetDiskParam()
+ * 
+ * Purpose      : Get parameters of a hard disk (Cylinder,header,BytesPerSector,total size)
+ *
+ * Parameters   : [in]  btDisk ........ hard disk number ( 0 mean first hard disk)
+ *              : [out] DiskParam ..... parameters of the hard disk 
+ *              
+ *============================================================*/
+BOOL   GetDiskParam(BYTE btDisk ,DISK_PARAM &DiskParam)
+{ 
+    DIOC_REGISTERS  reg ;  
+	BOOL            bSuppExtInt13;
+
+    bSuppExtInt13 = CheckExtInt13(btDisk);
+	if (bSuppExtInt13)
+	{
+        reg.reg_EAX = 0x4800 ;
+	}
+	else
+	{
+		reg.reg_EAX = 0x0800 ;
+	}
+	reg.reg_EDX = 0x0080 + btDisk ;
+    reg.reg_ESI = DWORD(&DiskParam);
+	
+	if ( !VirtualInt13(reg)||reg.reg_Flags & 0x0001)
+	{
+		return  FALSE ;
+	}
+	if ( !bSuppExtInt13)
+	{
+		DiskParam.sectors = DiskParam.dwCylinders * DiskParam.dwHeads *
+			                  DiskParam.dwSectorsPerTrack ;
+	}
+    return TRUE;
+}
+
+/*============================================================
+ * Function Name: LogicToPhy()
+ * 
+ * Purpose      : Convert logic sector number to physical sector so 
+ *              : we can call Int13h(3) function.  
+ *
+ * Parameters   : [in] dwLogicSec 
+ *              : [in] DiskParam  
+ *              
+ *============================================================*/
+DWORD  LogicToPhy(DWORD  dwLogicSec ,DISK_PARAM  &DiskParam)
+{
+    DWORD	dwCylinder;   
+    DWORD	dwHead;       
+	DWORD	dwSector;     
+
+	dwSector    = (dwLogicSec % DiskParam.dwSectorsPerTrack)+1;
+    dwHead      = (dwLogicSec / DiskParam.dwSectorsPerTrack)% DiskParam.dwHeads;
+    dwCylinder  = (dwLogicSec / DiskParam.dwSectorsPerTrack)/DiskParam.dwHeads;
+    return ((dwCylinder & 0x00FF)<< 24)|((dwCylinder & 0x0300)<<14)|(dwHead << 8)|(dwSector<<16);       
+}
+
+/*============================================================
+ * Function Name: AbsWrite()
+ * 
+ * Purpose      : Abs write data to hard disk (int13h(3)) 
+ *
+ * Parameters   : [in] btDisk .......... hard disk number 
+ *              : [in] dwStartSec....... start sector number 
+ *              : [in] wWriteSecs....... write sectors
+ *              : [in] pBuffer  ........ data buffer 
+ *              : [in] DiskParam ....... parmaeters of the hard disk
+ *
+ *============================================================*/
+BOOL  AbsWrite( BYTE  btDisk ,DWORD dwStartSec ,WORD wWriteSecs,
+				PVOID pBuffer,DISK_PARAM  &DiskParam)
+{
+   	DIOC_REGISTERS  reg ;                 //  cpu registers             
+	DWORD   dwPhySec    ;                 //  physical start sector     
+	
+	int i = wWriteSecs / MAX_READ_SECS ;  //  read MAX_READ_SECS times  
+    int j = wWriteSecs % MAX_READ_SECS ;  //  lost sectors to read      
+
+    for (int k=0 ; k<i ; k++)
+	{
+       dwPhySec = LogicToPhy(dwStartSec + k * MAX_READ_SECS ,DiskParam); 
+	   
+	   reg.reg_EAX = 0x0300 + MAX_READ_SECS;     
+	   reg.reg_EBX = (DWORD)pBuffer + SECTORSIZE * MAX_READ_SECS * k; 
+	   reg.reg_ECX = HIWORD(dwPhySec);
+	   reg.reg_EDX = (LOWORD(dwPhySec)&0xff00) + 0x80 + btDisk;
+	   reg.reg_Flags =0x0001;
+	   if ( !VirtualInt13(reg)||reg.reg_Flags &0x0001)
+	   {
+#ifdef   _DEBUG
+		   MessageBox(NULL,"AbsWrite()(03h) Error!",NULL,MB_OK);
+#endif 
+		   return FALSE ;
+	   }
+    }
+
+	if (j == 0 )  return   TRUE;       // Can't write no data to hard disk!!!
+	
+	dwPhySec    = LogicToPhy(dwStartSec + MAX_READ_SECS * i ,DiskParam);
+    
+	reg.reg_EAX = 0x0300 + j;
+	reg.reg_EBX = (DWORD)pBuffer + SECTORSIZE * MAX_READ_SECS *i;
+	reg.reg_ECX = HIWORD(dwPhySec);
+	reg.reg_EDX = (LOWORD(dwPhySec)&0xff00) + 0x80 + btDisk;
+	reg.reg_Flags = 0x0001;
+
+    if  ( !VirtualInt13(reg)||reg.reg_Flags &0x0001) 
+	{
+#ifdef   _DEBUG
+		   MessageBox(NULL,"AbsWrite()(03h) Error!",NULL,MB_OK);
+#endif 
+		return FALSE ;
+	} 
+	return  TRUE ;
+}
+
+/*============================================================
+ * Function Name: AbsWriteEx()
+ * 
+ * Purpose      : 
+ *
+ * Parameters   : See prior function
+ *              :
+ *              :
+ *============================================================*/
+BOOL   AbsWriteEx( BYTE btDisk ,DWORD  dwStaSec ,WORD   wWriteSecs ,PVOID  pBuffer)
+{
+    DIOC_REGISTERS       reg ;                    // cpu registers
+	DISK_ADDRESS_PARKET  DiskParket ;             // 
+	
+	WORD         i = wWriteSecs / MAX_EXT13_READ_SECS ;
+	WORD         j = wWriteSecs % MAX_EXT13_READ_SECS ;
+
+	for ( DWORD  k = 0 ; k < i ; k ++) 
+	{
+     	DiskParket.PacketSize  = sizeof(DISK_ADDRESS_PARKET) ;
+     	DiskParket.Reserved    = 0 ;
+     	DiskParket.dwStaSec_Lo = dwStaSec + k * MAX_EXT13_READ_SECS ;
+		DiskParket.dwStaSec_Hi = 0 ;
+		DiskParket.SectorNums  = MAX_EXT13_READ_SECS ;
+		DiskParket.pBuffer     = (DWORD)pBuffer + SECTORSIZE * MAX_EXT13_READ_SECS  * k ;
+	    
+		reg.reg_EAX = 0x4300 ;
+	    reg.reg_EDX = 0x0080 + btDisk ;
+	    reg.reg_ESI = DWORD(&DiskParket);
+        reg.reg_Flags = 0x0001;
+		if ( !VirtualInt13(reg) || (reg.reg_Flags & 0x0001) ) 
+		{
+#ifdef   _DEBUG
+		   MessageBox(NULL,"AbsWriteEx() Error!",NULL,MB_OK);
+#endif 
+			return   FALSE ;
+		}
+	}
+	
+	if  ( 0 == j ) return  TRUE ;
+    
+	DiskParket.PacketSize  = sizeof(DISK_ADDRESS_PARKET) ;
+    DiskParket.Reserved    = 0 ;
+    DiskParket.dwStaSec_Lo = dwStaSec + i * MAX_EXT13_READ_SECS ;
+	DiskParket.dwStaSec_Hi = 0 ;
+	DiskParket.SectorNums  = j ;
+	DiskParket.pBuffer     = (DWORD)pBuffer + SECTORSIZE * MAX_EXT13_READ_SECS  * i ;
+	
+	reg.reg_EAX = 0x4300 ;
+	reg.reg_EDX = 0x0080 + btDisk ;
+	reg.reg_ESI = DWORD(&DiskParket);
+    
+	if ( !VirtualInt13(reg)||(reg.reg_Flags & 0x0001))    
+	{
+#ifdef   _DEBUG
+		   MessageBox(NULL,"AbsWriteEx() Error!",NULL,MB_OK);
+#endif 
+		return   FALSE ;
+	}
+	return  TRUE ;
+}
+
+/*============================================================
+ * Function Name: AbsWrite()
+ * 
+ * Purpose      : Support abs write data to a hard disk
+ *
+ * Parameters   : See prior function
+ *              
+ *============================================================*/
+BOOL   AbsWrite(BYTE btDisk ,DWORD dwStaSec ,WORD wWriteSecs,PVOID pBuffer) 
+{
+	static  BYTE           DiskNum    = 0xff ;
+	static  BOOL           bSuppExt13 = FALSE ;
+	static  DISK_PARAM     DiskParam ;
+                 
+    if  ( DiskNum != btDisk )              // Write to a new hard disk ,so we must update
+	{                                      // static vars.  
+		bSuppExt13 = CheckExtInt13(btDisk);
+		if ( !bSuppExt13 )
+		{
+			if (!GetDiskParam( btDisk ,DiskParam))
+			{
+				return FALSE ;
+			}
+		}
+		DiskNum = btDisk ;
+	}
+    
+	if ( bSuppExt13 )
+	{
+		return  AbsWriteEx(btDisk,dwStaSec,wWriteSecs,pBuffer );
+	}
+	else
+	{
+		return  AbsWrite( btDisk,dwStaSec,wWriteSecs,pBuffer,DiskParam);
+	}
+}
+
+
+/*============================================================
+ * Function Name: LockDrive()
+ * 
+ * Purpose      : Lock a drive so that we can write data to it
+ *
+ * Parameters   : [in] btDriveNum ....... drive number (1 mean A: etc.)
+ *              : [in] wLevel     ....... lock  level (0,1,2,3)
+ *              : [in] dwPermission...... permission of lock,detail see MSDN
+ *
+ *============================================================*/
+BOOL    LockDrive(BYTE btDriveNum ,WORD  wLevel ,DWORD dwPermission)
+{
+	HANDLE    hDevice  ;
+	BOOL      bIoResult = FALSE ;
+	DIOC_REGISTERS  regs ;
+	DWORD     dwCount    ;
+
+    hDevice = CreateFile( "\\\\.\\VWIN32",0,0,NULL,0,0,NULL);
+	
+	if ( INVALID_HANDLE_VALUE == hDevice )
+	{
+        return  FALSE;
+	}
+	regs.reg_EAX = 0x440d  ;
+	regs.reg_EBX = (wLevel<<8)+btDriveNum ;
+	regs.reg_ECX = 0x084a  ;
+	regs.reg_EDX = dwPermission ;
+	
+	bIoResult = DeviceIoControl( hDevice, 
+								 VWIN32_DIOC_DOS_IOCTL,
+								 &regs,sizeof(regs), 
+								 &regs,sizeof(regs), 
+								 &dwCount,NULL);
+    
+	CloseHandle( hDevice);
+	if ( !bIoResult || regs.reg_Flags & 0x0001 )
+		return  FALSE ;
+	return  TRUE ;
+}
+
+/*============================================================
+ * Function Name: UnlockDrive()
+ * 
+ * Purpose      : Support unlock a logic drive 
+ *
+ * Parameters   : [in] btDriveNum ..... drive number (1 mean A: etc.)
+ *              
+ *============================================================*/
+
+BOOL   UnlockDrive (BYTE  btDriveNum)
+{    
+	HANDLE    hDevice  ;
+	BOOL      bIoResult = FALSE ;
+	DIOC_REGISTERS  regs ;
+	DWORD     dwCount    ;
+
+    hDevice = CreateFile( "\\\\.\\VWIN32",
+					            0,0,NULL,0,0,NULL);
+	
+	if ( INVALID_HANDLE_VALUE == hDevice )
+	{
+        return  FALSE;
+	}
+	regs.reg_EAX = 0x440d ;
+	regs.reg_EBX = btDriveNum ;
+	regs.reg_ECX = 0x086a ;
+	regs.reg_EDX = 0x0000;        
+
+	bIoResult = DeviceIoControl( hDevice, 
+				            	 VWIN32_DIOC_DOS_IOCTL,
+				                 &regs,sizeof(regs), 
+					             &regs,sizeof(regs), 
+					             &dwCount,NULL);
+    CloseHandle( hDevice );
+	if ( !bIoResult || regs.reg_Flags & 0x0001 )
+		return FALSE ;
+	return  TRUE ;
+}
+
+/*============================================================
+ * Function Name: LogicAbsWrite()
+ * 
+ * Purpose      : Abs write data to a drive ( C:,D:,etc)
+ *
+ * Parameters   : [in]btDriveNum ...... 1 mean A: ect.
+ *              : [in]dwStartSecotor... start position to be write
+ *              : [in]wWriteSectors ... write sectors
+ *              : [in]pBuffer      .... data buffer 
+ *
+ *============================================================*/
+BOOL  LogicAbsWrite( BYTE btDrive ,DWORD  dwStartSector,
+				     WORD wWriteSectors,PVOID pBuffer )
+{
+	HANDLE			hDevice  ;       
+	BOOL		    bResult = FALSE;     
+    DWORD			dwCount;     
+	DIOC_REGISTERS  Regs ;
+    LOGIC_ABS_PARAM ReadParams;
+
+	hDevice = CreateFile("\\\\.\\vwin32",0,0,NULL,0,0,NULL);
+    if ( INVALID_HANDLE_VALUE == hDevice) 
+	{
+		return FALSE ;
+	}
+	ReadParams.dwStartSector = dwStartSector ;
+	ReadParams.wNumOfSectors = wWriteSectors  ;
+	ReadParams.dwBufferAddress = (DWORD)pBuffer ;
+    
+	memset(&Regs,0,sizeof(Regs));
+	Regs.reg_EAX = btDrive;
+	Regs.reg_ECX = -1 ;
+	Regs.reg_EBX = (DWORD)(&ReadParams);
+    
+	if (LockDrive(btDrive+1,0,0))  // Note: Must lock drive ,if not, the next DeviecIoControl 
+	{                                  // call will be fail! (crash)
+		if (LockDrive(btDrive+1,0,4))
+		{
+		    bResult = DeviceIoControl( hDevice, 
+						               VWIN32_DIOC_DOS_INT26,
+						               &Regs,sizeof(Regs), 
+								       &Regs,sizeof(Regs), 
+							           &dwCount,NULL);
+			if ( !bResult || Regs.reg_Flags & 0x0001 ) bResult = FALSE;
+			UnlockDrive(btDrive+1);
+		}
+		UnlockDrive(btDrive+1);
+	}
+	CloseHandle(hDevice);
+	return bResult;
+}
+
+/*============================================================
+ * Function Name: LogicAbsWrite()
+ * 
+ * Purpose      : Abs write data to a drive ( C:,D:,etc)
+ *
+ * Parameters   : [in]btDriveNum ...... 1 mean A: ect.
+ *              : [in]dwStartSecotor... start position to be write
+ *              : [in]wWriteSectors ... write sectors
+ *              : [in]pBuffer      .... data buffer 
+ *
+ *============================================================*/
+BOOL  LogicAbsRead( BYTE btDrive ,DWORD  dwStartSector,
+				     WORD wReadSectors,PVOID pBuffer )
+{
+	HANDLE			hDevice  ;       
+	BOOL		    bResult = FALSE;     
+    DWORD			dwCount;     
+	DIOC_REGISTERS  Regs ;
+    LOGIC_ABS_PARAM ReadParams;
+
+	hDevice = CreateFile("\\\\.\\vwin32",0,0,NULL,0,0,NULL);
+    if ( INVALID_HANDLE_VALUE == hDevice) 
+	{
+		return FALSE ;
+	}
+	ReadParams.dwStartSector = dwStartSector ;
+	ReadParams.wNumOfSectors = wReadSectors  ;
+	ReadParams.dwBufferAddress = (DWORD)pBuffer ;
+    
+	memset(&Regs,0,sizeof(Regs));
+	Regs.reg_EAX = btDrive;
+	Regs.reg_ECX = -1 ;
+	Regs.reg_EBX = (DWORD)(&ReadParams);
+    
+	if (LockDrive(btDrive+1,0,0))  // Note: Must lock drive ,if not, the next DeviecIoControl 
+	{                                  // call will be fail! (crash)
+		if (LockDrive(btDrive+1,0,4))
+		{
+		    bResult = DeviceIoControl( hDevice, 
+						               VWIN32_DIOC_DOS_INT25,
+						               &Regs,sizeof(Regs), 
+								       &Regs,sizeof(Regs), 
+							           &dwCount,NULL);
+			if ( !bResult || Regs.reg_Flags & 0x0001 ) bResult = FALSE;
+			UnlockDrive(btDrive+1);
+		}
+		UnlockDrive(btDrive+1);
+	}
+	CloseHandle(hDevice);
+	return bResult;
+}
+
+
+/*============================================================
+ * Function Name: CleanDriveArea() 
+ * 
+ * Purpose      : Clean a area of a drive to zero 
+ *
+ * Parameters   : 
+ *              :
+ *              :
+ *============================================================*/
+
+BOOL  CleanDriveArea(BYTE btDriveNum ,DWORD dwStartSector,DWORD dwSectors,HWND hWnd)
+{
+	PBYTE  pBuffer = NULL  ; 
+    pBuffer = (PBYTE)malloc(ZERO_DATA_BUFFER_SIZE);
+	if ( NULL == pBuffer ) return FALSE ;
+	memset(pBuffer,0,ZERO_DATA_BUFFER_SIZE);
+
+	DWORD  i = dwSectors / ZERO_DATA_BUFFER_SECS ;
+    DWORD  j = dwSectors % ZERO_DATA_BUFFER_SECS ;
+	
+	for (DWORD k = 0 ;k<i;k++)
+	{
+		if (!LogicAbsWrite(btDriveNum,dwStartSector+k*ZERO_DATA_BUFFER_SECS,ZERO_DATA_BUFFER_SECS,pBuffer))
+		{
+			free(pBuffer);
+			return FALSE ;
+		}
+		g_dwHaveFormatSectors += ZERO_DATA_BUFFER_SECS;
+	    if ( hWnd!=NULL )
+		{
+		   ::PostMessage(hWnd,WM_FORMAT_FLUSH_PROGRESS,(100*g_dwHaveFormatSectors)/g_dwTotalFormatSectors,0);
+		}
+	
+	}
+	if ( j!=0)
+	{
+		if (!LogicAbsWrite(btDriveNum,dwStartSector+i*ZERO_DATA_BUFFER_SECS,WORD(j),pBuffer))
+        {
+			free(pBuffer);
+			return FALSE;
+		}
+		g_dwHaveFormatSectors += j;
+	    if (hWnd!=NULL)
+		{
+		   ::PostMessage(hWnd,WM_FORMAT_FLUSH_PROGRESS,(100*g_dwHaveFormatSectors)/g_dwTotalFormatSectors,0);
+		}
+	}
+    free(pBuffer);
+	return TRUE ;
+}
+
+BOOL  CleanDiskArea(BYTE btDiskNum ,DWORD dwStartSector,DWORD dwSectors,HWND hWnd)
+{
+	PBYTE  pBuffer = NULL  ; 
+    pBuffer = (PBYTE)malloc(ZERO_DATA_BUFFER_SIZE);
+	if ( NULL == pBuffer ) return FALSE ;
+	memset(pBuffer,0,ZERO_DATA_BUFFER_SIZE);
+
+	DWORD  i = dwSectors / ZERO_DATA_BUFFER_SECS ;
+    DWORD  j = dwSectors % ZERO_DATA_BUFFER_SECS ;
+	
+	for (DWORD k = 0 ;k<i;k++)
+	{
+		if (!AbsWrite(btDiskNum,dwStartSector+k*ZERO_DATA_BUFFER_SECS,ZERO_DATA_BUFFER_SECS,pBuffer))
+		{
+			free(pBuffer);
+			return FALSE ;
+		}
+		g_dwHaveFormatSectors += ZERO_DATA_BUFFER_SECS ;
+		if ( hWnd != NULL)
+		{
+		    ::PostMessage(hWnd,WM_FORMAT_FLUSH_PROGRESS,(100*g_dwHaveFormatSectors)/g_dwTotalFormatSectors,0);
+		}
+	}
+	if ( j!=0)
+	{
+		if (!AbsWrite(btDiskNum,dwStartSector+i*ZERO_DATA_BUFFER_SECS,WORD(j),pBuffer))
+        {
+			free(pBuffer);
+			return FALSE;
+		}
+		g_dwHaveFormatSectors += j ;
+		if ( hWnd!= NULL )
+		{
+		    ::PostMessage(hWnd,WM_FORMAT_FLUSH_PROGRESS,(100*g_dwHaveFormatSectors)/g_dwTotalFormatSectors,0);
+		}
+	}
+    free(pBuffer);
+	return TRUE ;
+}
+
+BOOL  GetSecsPerClu(DWORD dwType,DWORD dwDriveSecs,DWORD &dwSecsPerClu)
+{
+   	if (FORMAT_FAT_32 == dwType)
+	{
+	 	if ( SEC1_PER_CLUSTER_32_MIN<=dwDriveSecs &&
+			 SEC1_PER_CLUSTER_32_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 1 ;
+		}
+	   	else if ( SEC4_PER_CLUSTER_32_MIN<=dwDriveSecs &&
+			 SEC4_PER_CLUSTER_32_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 4 ;
+		}
+		else if ( SEC8_PER_CLUSTER_32_MIN<=dwDriveSecs &&
+			 SEC8_PER_CLUSTER_32_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 8 ;
+		}
+		else if ( SEC16_PER_CLUSTER_32_MIN<=dwDriveSecs&&
+			SEC16_PER_CLUSTER_32_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 16 ;
+		}
+		else if ( SEC32_PER_CLUSTER_32_MIN<=dwDriveSecs&&
+			SEC32_PER_CLUSTER_32_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 32 ;
+		}
+		else if ( SEC64_PER_CLUSTER_32_MIN<=dwDriveSecs)
+		{
+			dwSecsPerClu = 64 ;
+		}
+		else
+		{
+			return FALSE ;
+		}
+	}
+	else if ( FORMAT_FAT_16 == dwType)
+	{
+		if ( SEC2_PER_CLUSTER_16_MIN<=dwDriveSecs&&
+        		  SEC2_PER_CLUSTER_16_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 2 ;
+		}
+		else if ( SEC4_PER_CLUSTER_16_MIN<=dwDriveSecs&&
+			SEC4_PER_CLUSTER_16_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 4 ;
+		}
+		else if ( SEC8_PER_CLUSTER_16_MIN<=dwDriveSecs &&
+			SEC8_PER_CLUSTER_16_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 8 ;
+		}
+		else if ( SEC16_PER_CLUSTER_16_MIN<=dwDriveSecs &&
+			SEC16_PER_CLUSTER_16_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 16 ;
+		}
+		else if ( SEC32_PER_CLUSTER_16_MIN<=dwDriveSecs&&
+			SEC32_PER_CLUSTER_16_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 32 ;
+		}
+		else if ( SEC64_PER_CLUSTER_16_MIN<=dwDriveSecs&&
+			SEC64_PER_CLUSTER_16_MAX>=dwDriveSecs)
+		{
+			dwSecsPerClu = 64 ;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	else if ( FORMAT_FAT_12 == dwType)
+	{
+        if (  dwDriveSecs> FAT_12_MIN_SIZE  && 
+			  dwDriveSecs<FAT_12_MAX_SIZE )
+		{
+		     dwSecsPerClu = 8 ;	
+		}
+		else 
+		{
+			return FALSE;
+		}
+	}
+	else
+	{
+		return FALSE ;
+	}
+	return TRUE ;
+}
+
+
+DWORD  GetSectorsPerFat(DWORD dwType ,DWORD dwDriveSecs ,DWORD dwSecsPerClu)
+{
+    DWORD  dwComputerSecs  ;
+    DWORD  dwLost          ;
+    DWORD  dwSectorsPerFAT ;
+
+	if (FORMAT_FAT_32 == dwType)
+	{
+		dwComputerSecs = dwDriveSecs - 32 + 4*dwSecsPerClu ;
+		dwSectorsPerFAT = dwComputerSecs/(128*dwSecsPerClu+2) ;
+		dwLost          = dwComputerSecs%(128*dwSecsPerClu+2) ;
+		if ( dwLost != 0 ) dwSectorsPerFAT++ ;
+	}
+	else if ( FORMAT_FAT_16 == dwType)
+	{
+		dwComputerSecs = dwDriveSecs - 33 + 4*dwSecsPerClu ;
+		dwSectorsPerFAT = dwComputerSecs/(256*dwSecsPerClu+2) ;
+		dwLost          = dwComputerSecs%(256*dwSecsPerClu+2) ;
+		if ( dwLost != 0 ) dwSectorsPerFAT++ ;
+	}
+	else if (FORMAT_FAT_12 == dwType)
+	{
+        dwComputerSecs = dwDriveSecs - 33 + 4*dwSecsPerClu ;
+        
+		float  fByteOfSize = dwComputerSecs * SECTORSIZE ;
+        float  fUnits      = fByteOfSize / (dwSecsPerClu*SECTORSIZE+1.5);
+		dwSectorsPerFAT =(DWORD)((fUnits * 1.5)/512)+1;
+	}
+	else 
+		return FALSE ;
+    return  dwSectorsPerFAT ;
+}
+
+
+BOOL  DoFormatFat16( BYTE btDiskOrDriveNum,
+					 DWORD dwStartSector,
+					 DWORD dwDriveSecs,
+					 DWORD dwSecsPerClu,
+					 DWORD dwSectorsPerFat16,
+					 BOOL bDisk,
+					 PBYTE  Label ,
+					 HWND hWnd , 
+					 PBYTE pBootSec, 
+					 BOOL  bFat16)
+{
+	char        szPath[20];
+    BOOT16_SEC  BootSec16 ;
+	WORD        FirstFatSec[256];
+	WORD		wSerial0,wSerial1;
+	DWORD       dwRead = 0 ;
+	DWORD		dwRootStart;
+	BYTE		btVol[32];
+	if (bFat16)
+	{
+		if (pBootSec)  memcpy((BYTE *)&BootSec16,pBootSec,SECTORSIZE);
+		else memcpy((BYTE *)&BootSec16,StdBootSec16,SECTORSIZE);
+	}
+	else
+	{
+        if (pBootSec)  memcpy((BYTE *)&BootSec16,pBootSec,SECTORSIZE);
+        else memcpy((BYTE *)&BootSec16,StdBootSec12,SECTORSIZE);
+	}
+	BootSec16.SectorsPerCluster =(BYTE)dwSecsPerClu ;
+    BootSec16.ReserveSectors    = 1 ;
+	BootSec16.RootEntries       = 512 ;
+	BootSec16.HiddenSectors = dwStartSector ;
+	wSerial0=(WORD)rand();
+	wSerial1=(WORD)rand();
+	BootSec16.SerialNumber=wSerial0; 
+	BootSec16.SerialNumber=BootSec16.SerialNumber&0x0000ffff; 
+	BootSec16.SerialNumber=BootSec16.SerialNumber<<16;
+	BootSec16.SerialNumber=BootSec16.SerialNumber+wSerial1;
+
+	if ( SEC1_PER_CLUSTER_16_MAX > dwDriveSecs) // smaller than 32Mb
+	{
+        BootSec16.SectorsSmall  = (WORD)dwDriveSecs ;
+		BootSec16.SectorsLarger = 0 ;
+	}
+	else
+	{
+		BootSec16.SectorsSmall  = 0 ;
+		BootSec16.SectorsLarger = dwDriveSecs ;
+	}
+	BootSec16.SectorsPerFAT = (WORD)dwSectorsPerFat16 ;
+	memcpy(BootSec16.VolumeLabel ,Label,sizeof(BootSec16.VolumeLabel));
+	memset(FirstFatSec,0,SECTORSIZE);
+	FirstFatSec[0] = 0xfff8 ;
+    dwRootStart=BootSec16.HiddenSectors+2*BootSec16.SectorsPerFAT+1;
+
+	if (bFat16) 
+	{
+		FirstFatSec[1] = 0xffff;
+	}
+	else
+	{
+		FirstFatSec[1] = 0x00ff;
+	}
+   memset(btVol,0,32);
+   memcpy(btVol,Label,11);
+
+	if (bDisk)
+	{
+       if (!AbsWrite(btDiskOrDriveNum,dwStartSector,1,&BootSec16))
+	   {
+		   return FALSE ;
+	   }
+       g_dwHaveFormatSectors ++;
+	   if ( hWnd!=NULL )
+	   {
+		   ::PostMessage(hWnd,WM_FORMAT_FLUSH_PROGRESS,(100*g_dwHaveFormatSectors)/g_dwTotalFormatSectors,0);
+	   }
+       if (!CleanDiskArea(btDiskOrDriveNum,dwStartSector+1,32+2*dwSectorsPerFat16,hWnd))
+	   {
+		   return FALSE ;
+	   }
+	   if (!AbsWrite(btDiskOrDriveNum,dwStartSector+1,1,FirstFatSec))
+	   {
+		   return FALSE ;
+	   }
+	   if (!AbsWrite(btDiskOrDriveNum,dwStartSector+1+dwSectorsPerFat16,1,FirstFatSec))
+	   {
+		   return FALSE ;
+	   }
+	   if(memcmp(btVol,"NO NAME",7))
+	   {
+		  WORD wTime;
+		  SYSTEMTIME systime;
+		  GetSystemTime(&systime);
+		  wTime=((systime.wYear-1980)<<9)&0xfe00;   
+		  wTime=((systime.wMonth<<5)&0x01e0)+wTime;
+		  wTime+=systime.wDay; 
+	      btVol[25]=HIBYTE(wTime);
+		  btVol[24]=LOBYTE(wTime);
+		  btVol[11]=0x28;
+		  wTime=(systime.wHour<<11)&0xf800;   
+		  wTime=((systime.wMinute<<5)&0x07e0)+wTime;
+		  wTime+=systime.wSecond; 
+	      btVol[23]=HIBYTE(wTime);
+		  btVol[22]=LOBYTE(wTime);
+		  memset(FirstFatSec,0,512);
+		  memcpy((PBYTE)FirstFatSec,btVol,32);
+		  if(!AbsWrite(btDiskOrDriveNum,dwRootStart,1,FirstFatSec))
+		     return FALSE;
+	   }
+	}
+	else
+	{
+		if (!LogicAbsWrite(btDiskOrDriveNum,0,1,&BootSec16))
+		{
+			return FALSE ;
+		}
+		g_dwHaveFormatSectors ++;
+	    if ( hWnd!=NULL )
+		{
+		   ::PostMessage(hWnd,WM_FORMAT_FLUSH_PROGRESS,(100*g_dwHaveFormatSectors)/g_dwTotalFormatSectors,0);
+		}
+	
+		if (!CleanDriveArea(btDiskOrDriveNum,1,32+2*dwSectorsPerFat16, hWnd))
+		{
+			return FALSE;
+		}
+		if (!LogicAbsWrite(btDiskOrDriveNum,1,1,FirstFatSec))
+		{
+			return FALSE ;
+		}
+		if (!LogicAbsWrite(btDiskOrDriveNum,1+dwSectorsPerFat16,1,FirstFatSec))
+		{
+			return FALSE ;
+		}
+	    strcpy(szPath,"C:\\");
+	    szPath[0] = btDiskOrDriveNum+'A';
+		SetVolumeLabel(szPath,(char *)btVol);
+	}
+    return TRUE; 
+}
+
+
+BOOL  DoFormatFat32( BYTE btDiskOrDriveNum,
+					 DWORD dwStartSector,
+					 DWORD dwDriveSecs,
+					 DWORD dwSecsPerClu,
+					 DWORD dwSectorsPerFat32,BOOL bDisk,
+					 PBYTE  Label,HWND hWnd, PBYTE pBootSec)
+{
+	BOOT32_SEC  BootSec32 ;
+	char        szPath[20];
+	DWORD       FirstFatSec[128];
+    DWORD       dwFreeClusters ;
+	BYTE		btVol[32];
+	DWORD		dwRootStart;
+	WORD		wSerial0,wSerial1;
+	// 32 Reserved sectors , 1 mean  root directory 
+	dwFreeClusters = (dwDriveSecs - 32 - 2*dwSectorsPerFat32)/ dwSecsPerClu -1;
+
+	if (pBootSec)    // Used input boot sectors 
+		memcpy((BYTE *)&BootSec32,pBootSec,SECTORSIZE*3);
+	else memcpy((BYTE *)&BootSec32,StdBootSec32,SECTORSIZE);
+
+	BootSec32.SectorsPerCluster = (BYTE)dwSecsPerClu ;
+    BootSec32.ReserveSectors    = 32 ;
+    BootSec32.SectorsSmall      = 0 ;
+    BootSec32.SectorsLarger     = dwDriveSecs ;
+	BootSec32.SectorsPerFAT_32  = dwSectorsPerFat32 ;
+	BootSec32.HiddenSectors		= dwStartSector ;
+	BootSec32.ExtFlags          = 0 ;
+	BootSec32.Fs_Version        = 0 ;
+    BootSec32.RootStartCluster  = 2 ;
+	wSerial0=(WORD)rand();
+	wSerial1=(WORD)rand();
+	BootSec32.VolumeID=wSerial0; 
+	BootSec32.VolumeID=BootSec32.VolumeID&0x0000ffff; 
+	BootSec32.VolumeID=BootSec32.VolumeID<<16;
+	BootSec32.VolumeID=BootSec32.VolumeID+wSerial1;
+	memcpy(BootSec32.VolumeLabel ,Label,sizeof(BootSec32.VolumeLabel));
+	memset(BootSec32.Reserved,0,sizeof(BootSec32.Reserved));
+	memset(FirstFatSec,0,SECTORSIZE);
+	FirstFatSec[0] = 0x0ffffff8 ;
+	FirstFatSec[1] = 0x0fffffff ;
+	FirstFatSec[2] = END_OF_FAT32_CLAIN ;
+	dwRootStart=BootSec32.HiddenSectors+BootSec32.ReserveSectors+2*BootSec32.SectorsPerFAT_32+(BootSec32.RootStartCluster-2)*BootSec32.SectorsPerCluster;//2 is Start
+
+	*((PDWORD)(&((BYTE *)&BootSec32)[512+488]))= dwFreeClusters ; // free space ,used by getfreespace() API call
+    memset(btVol,0,32);
+    memcpy(btVol,Label,11);
+	if (bDisk)   // int13 
+	{
+       if (!CleanDiskArea(btDiskOrDriveNum,dwStartSector+1,31+2*dwSectorsPerFat32+dwSecsPerClu,hWnd))
+	   {
+		   return FALSE ;
+	   }
+       if (!AbsWrite(btDiskOrDriveNum,dwStartSector,3,&BootSec32))
+	   {
+		   return FALSE ;
+	   }
+       if (!AbsWrite(btDiskOrDriveNum,dwStartSector+6,3,&BootSec32))
+	   {
+		   return FALSE ;
+	   }
+	   g_dwHaveFormatSectors ++;
+	   if ( hWnd!= NULL)
+	   {
+		   ::PostMessage(hWnd,WM_FORMAT_FLUSH_PROGRESS,(100*g_dwHaveFormatSectors)/g_dwTotalFormatSectors,0);
+	   }
+	   if (!AbsWrite(btDiskOrDriveNum,dwStartSector+32,1,FirstFatSec))
+	   {
+		   return FALSE ;
+	   }
+       if (!AbsWrite(btDiskOrDriveNum,dwStartSector+32+dwSectorsPerFat32,1,FirstFatSec))
+	   {
+		   return FALSE ;
+	   }
+	   if(memcmp(btVol,"NO NAME",7))
+	   {
+		  WORD wTime;
+		  SYSTEMTIME systime;
+		  GetSystemTime(&systime);
+		  wTime=((systime.wYear-1980)<<9)&0xfe00;   
+		  wTime=((systime.wMonth<<5)&0x01e0)|wTime;
+		  wTime|=systime.wDay; 
+	      btVol[11]=0x28;
+		  btVol[25]=HIBYTE(wTime);
+		  btVol[24]=LOBYTE(wTime);
+ 		  wTime=(systime.wHour<<11)&0xf800;   
+		  wTime=((systime.wMinute<<5)&0x07e0)+wTime;
+		  wTime|=systime.wSecond; 
+	      btVol[23]=HIBYTE(wTime);
+		  btVol[22]=LOBYTE(wTime);
+		  memset(FirstFatSec,0,512);
+	      memcpy((PBYTE)FirstFatSec,btVol,32);
+          if (!AbsWrite(btDiskOrDriveNum,dwRootStart,1,FirstFatSec))
+		    return FALSE;
+	   }
+	}
+    else     // int26
+	{
+		if (!CleanDriveArea(btDiskOrDriveNum,1,31+2*dwSectorsPerFat32+dwSecsPerClu,hWnd))
+		{
+			return FALSE;
+		}
+		if (!LogicAbsWrite(btDiskOrDriveNum,0,3,&BootSec32))
+		{
+			return FALSE ;
+		}
+		if (!LogicAbsWrite(btDiskOrDriveNum,6,3,&BootSec32))
+		{
+			return FALSE ;
+		}
+	    g_dwHaveFormatSectors ++;
+	    if ( hWnd!= NULL)
+		{
+		   ::PostMessage(hWnd,WM_FORMAT_FLUSH_PROGRESS,(100*g_dwHaveFormatSectors)/g_dwTotalFormatSectors,0);
+		}
+		if (!LogicAbsWrite(btDiskOrDriveNum,32,1,FirstFatSec))
+		{
+			return FALSE;
+		}
+		if (!LogicAbsWrite(btDiskOrDriveNum,32+dwSectorsPerFat32,1,FirstFatSec))
+		{
+			return FALSE;
+		}
+	    strcpy(szPath,"C:\\");
+	    szPath[0] = btDiskOrDriveNum+'A';
+		SetVolumeLabel(szPath,(char *)btVol);
+    }
+    return TRUE ;
+}
+
+BOOL DoFormat(FORMAT_INFO  &FormatInfo)
+{
+	DWORD   dwSecsPerClu ;
+	DWORD   dwSectorsPerFat ;
+	
+    if (!GetSecsPerClu(FormatInfo.dwType ,FormatInfo.dwDriveSize ,dwSecsPerClu))
+	{
+#ifdef  _DEBUG
+		MessageBox(NULL,"GetSecsPerClu() Error!",NULL,MB_OK);
+#endif  
+		return FALSE ;
+	}
+	dwSectorsPerFat = GetSectorsPerFat(FormatInfo.dwType,FormatInfo.dwDriveSize,dwSecsPerClu);
+    if ( FORMAT_FAT_32 == FormatInfo.dwType )
+	{
+		return  DoFormatFat32( FormatInfo.btDriveNum,
+			                   FormatInfo.dwStartSec,
+							   FormatInfo.dwDriveSize ,
+                               dwSecsPerClu,
+							   dwSectorsPerFat,
+							   FALSE,              // int26 call
+							   FormatInfo.Label,
+							   DONT_NEED_PROGRESS,
+							   FormatInfo.pBootSec);
+	}
+	else if ( FORMAT_FAT_16 == FormatInfo.dwType )
+	{
+		return  DoFormatFat16( FormatInfo.btDriveNum,
+			                   FormatInfo.dwStartSec,
+							   FormatInfo.dwDriveSize ,
+		 	                   dwSecsPerClu,
+							   dwSectorsPerFat,
+							   FALSE ,             // int26 call to write data to disk
+							   FormatInfo.Label,
+							   DONT_NEED_PROGRESS,
+							   FormatInfo.pBootSec);
+	}
+	else if ( FORMAT_FAT_12 == FormatInfo.dwType )
+	{
+		return  DoFormatFat16( FormatInfo.btDriveNum,
+			                   FormatInfo.dwStartSec,
+							   FormatInfo.dwDriveSize ,
+			                   dwSecsPerClu,
+							   dwSectorsPerFat,
+							   FALSE ,             // int26 call
+							   FormatInfo.Label,
+							   DONT_NEED_PROGRESS,
+							   FormatInfo.pBootSec,FALSE); // false mean fat12 
+	}
+	else 
+	{
+		return FALSE ;
+	}
+
+	g_dwTotalFormatSectors = g_dwHaveFormatSectors = 0 ;
+}
+
+BOOL  DoFormatEx(FORMAT_INFO_EX &FormatInfoEx)
+{
+    DWORD  dwSecsPerClu ;
+	DWORD  dwSectorsPerFat ;
+    HWND   hWnd = NULL ;
+
+	hWnd = (IsWindow(FormatInfoEx.hWnd))? FormatInfoEx.hWnd:NULL;
+	if (!GetSecsPerClu( FormatInfoEx.dwType ,FormatInfoEx.dwSectors,dwSecsPerClu))
+	{
+#ifdef  _DEBUG
+		MessageBox(NULL,"GetSecsPerClu() Error!",NULL,MB_OK);
+#endif
+		return FALSE ;
+	}
+	dwSectorsPerFat = GetSectorsPerFat(FormatInfoEx.dwType,FormatInfoEx.dwSectors,dwSecsPerClu);
+     
+	if ( FORMAT_FAT_32 == FormatInfoEx.dwType )
+	{
+		g_dwTotalFormatSectors = 32+2*dwSectorsPerFat+dwSecsPerClu;
+
+		return  DoFormatFat32(FormatInfoEx.btDiskNum,
+			                  FormatInfoEx.dwStartSector ,
+	 		                  FormatInfoEx.dwSectors ,
+							  dwSecsPerClu,dwSectorsPerFat,
+							  TRUE ,        // int13 call to write data to disk
+							  FormatInfoEx.Label,
+							  hWnd,NULL);
+	} 
+	else if (FORMAT_FAT_16 == FormatInfoEx.dwType)
+	{
+		g_dwTotalFormatSectors = 33 + 2*dwSectorsPerFat; 
+		return  DoFormatFat16(FormatInfoEx.btDiskNum,
+			                  FormatInfoEx.dwStartSector ,
+			                  FormatInfoEx.dwSectors ,
+							  dwSecsPerClu,dwSectorsPerFat,TRUE,FormatInfoEx.Label,
+							  hWnd,NULL);
+	}
+	else if (FORMAT_FAT_12 == FormatInfoEx.dwType )
+	{
+		g_dwTotalFormatSectors = 33 + 2*dwSectorsPerFat; 
+		return  DoFormatFat16(FormatInfoEx.btDiskNum,FormatInfoEx.dwStartSector ,
+			                  FormatInfoEx.dwSectors ,dwSecsPerClu,dwSectorsPerFat,TRUE,FormatInfoEx.Label,
+							  hWnd,NULL,FALSE ); // false mean  fat12 
+	}
+	else 
+	{
+		return FALSE ;
+	}
+}
+
+BOOL APIENTRY DllMain( HANDLE hModule, 
+                       DWORD  ul_reason_for_call, 
+                       LPVOID lpReserved
+					 )
+{
+    return TRUE;
+}
+
+

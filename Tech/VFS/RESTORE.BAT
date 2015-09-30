@@ -1,0 +1,11 @@
+@xcopy .\backup\*.dsp .\Cur_ver/s/y
+@xcopy .\backup\*.dsw .\Cur_ver/s/y
+@xcopy .\backup\*.asm .\Cur_ver/s/y
+@xcopy .\backup\*.inc .\Cur_ver/s/y
+@xcopy .\backup\*.mak .\Cur_ver/s/y
+@xcopy .\backup\*.cpp .\Cur_ver/s/y
+@xcopy .\backup\*.c .\Cur_ver/s/y
+@xcopy .\backup\*.h .\Cur_ver/s/y
+@xcopy .\backup\*.rc .\Cur_ver/s/y
+@xcopy .\backup\*.def .\Cur_ver/s/y
+@xcopy .\backup\makefile .\Cur_ver/s/y

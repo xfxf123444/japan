@@ -1,0 +1,46 @@
+ygvpar.c(101) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+ygvpar.c(101) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+ygvpar.c(101) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+ygvpar.c(101) : error C2143: syntax error : missing ')' before 'identifier'
+ygvpar.c(101) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+ygvpar.c(101) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+ygvpar.c(101) : error C2059: syntax error : ';'
+ygvpar.c(101) : error C2059: syntax error : ')'
+ygvpar.c(537) : error C2065: 'IOCTL_DISK_GET_PARTITION_INFO_EX' : undeclared identifier
+ygvpar.c(537) : error C2051: case expression not constant
+ygvpar.c(539) : error C2065: 'PARTITION_INFORMATION_EX' : undeclared identifier
+ygvpar.c(545) : error C4013: 'FillParInfoEx' undefined; assuming extern returning int
+ygvpar.c(545) : error C2065: 'PPARTITION_INFORMATION_EX' : undeclared identifier
+ygvpar.c(545) : error C2146: syntax error : missing ')' before identifier 'Irp'
+ygvpar.c(545) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+ygvpar.c(545) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+ygvpar.c(545) : error C2143: syntax error : missing ')' before 'identifier'
+ygvpar.c(545) : error C2059: syntax error : ')'
+ygvpar.c(549) : error C2065: 'IOCTL_DISK_GET_LENGTH_INFO' : undeclared identifier
+ygvpar.c(549) : error C2051: case expression not constant
+ygvpar.c(551) : error C2065: 'GET_LENGTH_INFORMATION' : undeclared identifier
+ygvpar.c(558) : error C2065: 'PGET_LENGTH_INFORMATION' : undeclared identifier
+ygvpar.c(558) : error C2064: term does not evaluate to a function
+ygvpar.c(559) : error C2064: term does not evaluate to a function
+ygvpar.c(560) : error C2064: term does not evaluate to a function
+ygvpar.c(561) : error C2064: term does not evaluate to a function
+ygvpar.c(843) : error C4013: 'CreateHashList' undefined; assuming extern returning int
+ygvpar.c(843) : error C4047: '=' : 'HANDLE' differs in levels of indirection from 'int'
+ygvpar.c(879) : error C4013: 'DestroyHashList' undefined; assuming extern returning int
+ygvpar.c(962) : error C4013: 'GetObj' undefined; assuming extern returning int
+ygvpar.c(965) : error C4013: 'RemoveObj' undefined; assuming extern returning int
+ygvpar.c(966) : error C4013: 'DeallocateObj' undefined; assuming extern returning int
+ygvpar.c(1196) : error C4013: 'SetObj' undefined; assuming extern returning int
+ygvpar.c(1259) : error C4013: 'GetNextObjEx' undefined; assuming extern returning int
+ygvpar.c(1259) : error C4047: '=' : 'PVOID' differs in levels of indirection from 'int'
+ygvpar.c(1264) : error C4047: '=' : 'PVOID' differs in levels of indirection from 'int'
+ygvpar.c(1285) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+ygvpar.c(1285) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+ygvpar.c(1285) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+ygvpar.c(1285) : error C2143: syntax error : missing ')' before 'identifier'
+ygvpar.c(1285) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+ygvpar.c(1285) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+ygvpar.c(1285) : error C2059: syntax error : ';'
+ygvpar.c(1285) : error C2059: syntax error : ')'
+ygvpar.c(1286) : error C2449: found '{' at file scope (missing function header?)
+ygvpar.c(1297) : error C2059: syntax error : '}'

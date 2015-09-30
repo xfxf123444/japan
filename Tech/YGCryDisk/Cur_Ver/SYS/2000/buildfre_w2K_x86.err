@@ -1,0 +1,75 @@
+1>errors in directory e:\tech\ygcrydisk\cur_ver\sys\2000
+1>ygcrydisk.c(155) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+1>ygcrydisk.c(155) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>ygcrydisk.c(155) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>ygcrydisk.c(155) : error C2143: syntax error : missing ')' before 'identifier'
+1>ygcrydisk.c(155) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+1>ygcrydisk.c(155) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+1>ygcrydisk.c(155) : error C2059: syntax error : ';'
+1>ygcrydisk.c(155) : error C2059: syntax error : ')'
+1>ygcrydisk.c(669) : error C2065: 'IOCTL_DISK_GET_LENGTH_INFO' : undeclared identifier
+1>ygcrydisk.c(669) : error C2051: case expression not constant
+1>ygcrydisk.c(672) : error C2065: 'GET_LENGTH_INFORMATION' : undeclared identifier
+1>ygcrydisk.c(679) : error C2065: 'PGET_LENGTH_INFORMATION' : undeclared identifier
+1>ygcrydisk.c(679) : error C2146: syntax error : missing ')' before identifier 'Irp'
+1>ygcrydisk.c(679) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>ygcrydisk.c(679) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>ygcrydisk.c(679) : error C2143: syntax error : missing ')' before 'identifier'
+1>ygcrydisk.c(679) : error C2059: syntax error : ')'
+1>ygcrydisk.c(703) : error C2065: 'IOCTL_DISK_GET_PARTITION_INFO_EX' : undeclared identifier
+1>ygcrydisk.c(703) : error C2051: case expression not constant
+1>ygcrydisk.c(705) : error C2065: 'PARTITION_INFORMATION_EX' : undeclared identifier
+1>ygcrydisk.c(712) : error C4013: 'FillParInfoEx' undefined; assuming extern returning int
+1>ygcrydisk.c(712) : error C2065: 'PPARTITION_INFORMATION_EX' : undeclared identifier
+1>ygcrydisk.c(712) : error C2146: syntax error : missing ')' before identifier 'Irp'
+1>ygcrydisk.c(712) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>ygcrydisk.c(712) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>ygcrydisk.c(712) : error C2143: syntax error : missing ')' before 'identifier'
+1>ygcrydisk.c(712) : error C2059: syntax error : ')'
+1>ygcrydisk.c(1238) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+1>ygcrydisk.c(1238) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>ygcrydisk.c(1238) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>ygcrydisk.c(1238) : error C2143: syntax error : missing ')' before 'identifier'
+1>ygcrydisk.c(1238) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+1>ygcrydisk.c(1238) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+1>ygcrydisk.c(1238) : error C2059: syntax error : ';'
+1>ygcrydisk.c(1238) : error C2059: syntax error : ')'
+1>ygcrydisk.c(1239) : error C2449: found '{' at file scope (missing function header?)
+1>ygcrydisk.c(1250) : error C2059: syntax error : '}'
+101>ygcrydisk.c(155) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+101>ygcrydisk.c(155) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>ygcrydisk.c(155) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>ygcrydisk.c(155) : error C2143: syntax error : missing ')' before 'identifier'
+101>ygcrydisk.c(155) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+101>ygcrydisk.c(155) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+101>ygcrydisk.c(155) : error C2059: syntax error : ';'
+101>ygcrydisk.c(155) : error C2059: syntax error : ')'
+101>ygcrydisk.c(669) : error C2065: 'IOCTL_DISK_GET_LENGTH_INFO' : undeclared identifier
+101>ygcrydisk.c(669) : error C2051: case expression not constant
+101>ygcrydisk.c(672) : error C2065: 'GET_LENGTH_INFORMATION' : undeclared identifier
+101>ygcrydisk.c(679) : error C2065: 'PGET_LENGTH_INFORMATION' : undeclared identifier
+101>ygcrydisk.c(679) : error C2146: syntax error : missing ')' before identifier 'Irp'
+101>ygcrydisk.c(679) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>ygcrydisk.c(679) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>ygcrydisk.c(679) : error C2143: syntax error : missing ')' before 'identifier'
+101>ygcrydisk.c(679) : error C2059: syntax error : ')'
+101>ygcrydisk.c(703) : error C2065: 'IOCTL_DISK_GET_PARTITION_INFO_EX' : undeclared identifier
+101>ygcrydisk.c(703) : error C2051: case expression not constant
+101>ygcrydisk.c(705) : error C2065: 'PARTITION_INFORMATION_EX' : undeclared identifier
+101>ygcrydisk.c(712) : error C4013: 'FillParInfoEx' undefined; assuming extern returning int
+101>ygcrydisk.c(712) : error C2065: 'PPARTITION_INFORMATION_EX' : undeclared identifier
+101>ygcrydisk.c(712) : error C2146: syntax error : missing ')' before identifier 'Irp'
+101>ygcrydisk.c(712) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>ygcrydisk.c(712) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>ygcrydisk.c(712) : error C2143: syntax error : missing ')' before 'identifier'
+101>ygcrydisk.c(712) : error C2059: syntax error : ')'
+101>ygcrydisk.c(1238) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+101>ygcrydisk.c(1238) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>ygcrydisk.c(1238) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>ygcrydisk.c(1238) : error C2143: syntax error : missing ')' before 'identifier'
+101>ygcrydisk.c(1238) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+101>ygcrydisk.c(1238) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+101>ygcrydisk.c(1238) : error C2059: syntax error : ';'
+101>ygcrydisk.c(1238) : error C2059: syntax error : ')'
+101>ygcrydisk.c(1239) : error C2449: found '{' at file scope (missing function header?)
+101>ygcrydisk.c(1250) : error C2059: syntax error : '}'

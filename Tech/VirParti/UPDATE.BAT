@@ -1,0 +1,11 @@
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.dsw .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.dsp .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.cpp .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.c .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.h .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.asm .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.inc .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.mak .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.def .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\*.rc .\Cur_ver/s/y
+@xcopy z:\LiHuiBin\tech\VirParti\cur_ver\Makefile .\Cur_ver/s/y

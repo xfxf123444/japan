@@ -1,0 +1,118 @@
+ VIRPARTI
+
+ Timestamp is 3c5a0d71 (Fri Feb 01 11:37:21 2002)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000074H .bss                    CODE
+ 0001:00000080 000000e0H .text                   CODE
+ 0001:00000160 000001c4H _LDATA                  CODE
+ 0001:00000330 00001322H _LTEXT                  CODE
+ 0002:00000000 000007e0H _PTEXT                  CODE
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0001:00000000       _dpDiskPara                00401000     <common>
+ 0001:0000000c       _dwStatus                  0040100c     <common>
+ 0001:00000020       _resize_info               00401020     <common>
+ 0001:00000058       _g_bWorking                00401058     <common>
+ 0001:00000060       _convert_info              00401060     <common>
+ 0001:00000160       _MonitorDCB                00401160     VIRPARTI.OBJ
+ 0001:00000164       _pChain                    00401164     VIRPARTI.OBJ
+ 0001:00000168       _SharkDCB                  00401168     VIRPARTI.OBJ
+ 0001:0000016c       _pSharkChain               0040116c     VIRPARTI.OBJ
+ 0001:00000170       _lDCB                      00401170     VIRPARTI.OBJ
+ 0001:00000174       _lVirtual                  00401174     VIRPARTI.OBJ
+ 0001:000001d8       _VIRPARTI_W32_Proc         004011d8     VIRPARTI.OBJ
+ 0001:00000258       _VIRPARTI_GetMonitorDCB    00401258     SYSCTRL.OBJ
+ 0001:0000025c       _VIRPARTI_GetSharkDCB      0040125c     SYSCTRL.OBJ
+ 0001:00000260       _VIRPARTI_SetMonitorDCB    00401260     SYSCTRL.OBJ
+ 0001:00000264       _VIRPARTI_SetSharkDCB      00401264     SYSCTRL.OBJ
+ 0001:00000268       _theDRP                    00401268     SYSCTRL.OBJ
+ 0001:000002a0       _theILB                    004012a0     SYSCTRL.OBJ
+ 0001:000002d4       VIRPARTI_DDB               004012d4     SYSCTRL.OBJ
+ 0001:00000330       _OnSysDynamicDeviceInit    00401330 f   VIRPARTI.OBJ
+ 0001:0000038d       _OnSysDynamicDeviceExit    0040138d f   VIRPARTI.OBJ
+ 0001:000003a2       _OnAsyncRequest            004013a2 f   VIRPARTI.OBJ
+ 0001:000003eb       _DefaultHandler            004013eb f   VIRPARTI.OBJ
+ 0001:000003f3       _OnConfigDcb               004013f3 f   VIRPARTI.OBJ
+ 0001:00000644       _DriveLetter2PhysDcb       00401644 f   VIRPARTI.OBJ
+ 0001:000006a5       _OnUnconfigDcb             004016a5 f   VIRPARTI.OBJ
+ 0001:0000073f       _DoCallDown                0040173f f   VIRPARTI.OBJ
+ 0001:0000074e       _DoCallBack                0040174e f   VIRPARTI.OBJ
+ 0001:0000075b       _InsertCallBack            0040175b f   VIRPARTI.OBJ
+ 0001:0000078c       _OnRequest_OnMirrorDisk    0040178c f   VIRPARTI.OBJ
+ 0001:0000087f       _OnRequest_OnSharkDisk     0040187f f   VIRPARTI.OBJ
+ 0001:00000970       _GetCallDownChain          00401970 f   VIRPARTI.OBJ
+ 0001:000009b9       _OnRequest_OnMoverDisk     004019b9 f   VIRPARTI.OBJ
+ 0001:00000b12       _OnRequest_OnRealDisk      00401b12 f   VIRPARTI.OBJ
+ 0001:00000c3d       _MirrorProcess             00401c3d f   VIRPARTI.OBJ
+ 0001:00000d30       _SharkProcess              00401d30 f   VIRPARTI.OBJ
+ 0001:00000e11       _MoverProcess              00401e11 f   VIRPARTI.OBJ
+ 0001:00000efe       _Logic2Phys                00401efe f   VIRPARTI.OBJ
+ 0001:00000f6e       _AssignTCH                 00401f6e f   VIRPARTI.OBJ
+ 0001:000010da       _IsOurVirtualDCB           004020da f   VIRPARTI.OBJ
+ 0001:00001122       _IsOurMoverDCB             00402122 f   VIRPARTI.OBJ
+ 0001:00001158       _IsOurMirrorDCB            00402158 f   VIRPARTI.OBJ
+ 0001:0000118e       _IsOurSharkDCB             0040218e f   VIRPARTI.OBJ
+ 0001:000011c4       _Real2MirrorDriveLttr      004021c4 f   VIRPARTI.OBJ
+ 0001:0000129a       _Real2SharkDriveLttr       0040229a f   VIRPARTI.OBJ
+ 0001:00001370       _MatchVirtualDriveLttr     00402370 f   VIRPARTI.OBJ
+ 0001:000013ff       _Logical2PhysicalDriveLttr 004023ff f   VIRPARTI.OBJ
+ 0001:000014aa       _RetrieveDriveLttr         004024aa f   VIRPARTI.OBJ
+ 0001:0000154c       VIRPARTI_Control           0040254c f   SYSCTRL.OBJ
+ 0001:00001593       VIRPARTI_GetMonitorDCB     00402593 f   SYSCTRL.OBJ
+ 0001:00001598       VIRPARTI_GetSharkDCB       00402598 f   SYSCTRL.OBJ
+ 0001:0000159d       VIRPARTI_SetMonitorDCB     0040259d f   SYSCTRL.OBJ
+ 0001:000015a2       VIRPARTI_SetSharkDCB       004025a2 f   SYSCTRL.OBJ
+ 0001:000015a7       _GetCurTime                004025a7 f   SYSCTRL.OBJ
+ 0001:000015b8       _LCODE_List_Destroy@4      004025b8 f   vxdwraps:vmm231.obj
+ 0001:000015c8       _LCODE_List_Create@8       004025c8 f   vxdwraps:vmm211.obj
+ 0001:000015dc       _LCODE_List_Attach_Tail@8  004025dc f   vxdwraps:vmm201.obj
+ 0001:000015ec       _LCODE_List_Allocate@4     004025ec f   vxdwraps:vmm1e1.obj
+ 0001:00001600       _LCODE_List_Get_Next@8     00402600 f   vxdwraps:vmm251.obj
+ 0001:00001610       _LCODE_List_Get_First@4    00402610 f   vxdwraps:vmm241.obj
+ 0001:00001620       _LCODE_List_Deallocate@8   00402620 f   vxdwraps:vmm221.obj
+ 0001:00001630       _LCODE__HeapFree           00402630 f   vxdwraps:vmm031.obj
+ 0001:00001638       _LCODE_List_Remove@8       00402638 f   vxdwraps:vmm271.obj
+ 0001:0000164c       _LCODE__HeapAllocate       0040264c f   vxdwraps:vmm021.obj
+ 0002:00000000       _VIRPARTI_W32_DeviceIOControl@16 00402800 f   VIRPARTI.OBJ
+ 0002:00000068       _VIRPARTI_CleanUp@0        00402868 f   VIRPARTI.OBJ
+ 0002:00000072       _VIRPARTI_Get_Version@12   00402872 f   VIRPARTI.OBJ
+ 0002:00000091       _VIRPARTI_GetDriveletterOfMover@12 00402891 f   VIRPARTI.OBJ
+ 0002:000000c6       _VIRPARTI_RetrieveDriveLttr@12 004028c6 f   VIRPARTI.OBJ
+ 0002:00000102       _VIRPARTI_DriveMapInfo@12  00402902 f   VIRPARTI.OBJ
+ 0002:00000132       _VIRPARTI_Real2MirrorDriveLttr@12 00402932 f   VIRPARTI.OBJ
+ 0002:00000172       _VIRPARTI_Real2SharkDriveLttr@12 00402972 f   VIRPARTI.OBJ
+ 0002:000001b2       _VIRPARTI_EnableOrDisable@12 004029b2 f   VIRPARTI.OBJ
+ 0002:000001dc       _VIRPARTI_Set_Params@12    004029dc f   VIRPARTI.OBJ
+ 0002:00000266       _GetMonitorDCB             00402a66 f   VIRPARTI.OBJ
+ 0002:00000270       _GetSharkDCB               00402a70 f   VIRPARTI.OBJ
+ 0002:0000027a       _SetMonitorDCB             00402a7a f   VIRPARTI.OBJ
+ 0002:000002c3       _SetSharkDCB               00402ac3 f   VIRPARTI.OBJ
+ 0002:0000030c       _SimulatePartition         00402b0c f   VIRPARTI.OBJ
+ 0002:00000455       _SimulateMoverPartition    00402c55 f   VIRPARTI.OBJ
+ 0002:000007c7       _CalcTick                  00402fc7 f   VIRPARTI.OBJ
+
+ entry point at        0000:00000000
+
+ Static symbols
+
+ 0001:00000258       $$$00001                   00401258 f   SYSCTRL.OBJ
+ 0001:000002d4       $$$00002                   004012d4 f   SYSCTRL.OBJ
+ 0001:00000324       $$$00003                   00401324 f   SYSCTRL.OBJ
+ 0001:0000154c       $$$00004                   0040254c f   SYSCTRL.OBJ
+ 0001:0000154c       $$$00005                   0040254c f   SYSCTRL.OBJ
+ 0001:00001593       $$$00007                   00402593 f   SYSCTRL.OBJ
+ 0001:00001593       $$$00008                   00402593 f   SYSCTRL.OBJ
+ 0001:00001598       $$$00010                   00402598 f   SYSCTRL.OBJ
+ 0001:0000159d       $$$00012                   0040259d f   SYSCTRL.OBJ
+ 0001:000015a2       $$$00014                   004025a2 f   SYSCTRL.OBJ
+ 0001:000015a7       $$$00016                   004025a7 f   SYSCTRL.OBJ
+ 0001:000015b7       $$$00018                   004025b7 f   SYSCTRL.OBJ
+ 0001:00000080       _IOS_Register              00401080 f   VIRPARTI.OBJ
+ 0001:00000097       _IspInsertCalldown         00401097 f   VIRPARTI.OBJ
+ 0001:000000f1       _IlbService                004010f1 f   VIRPARTI.OBJ
+ 0001:000000f7       _IspGetFirstNextDcb        004010f7 f   VIRPARTI.OBJ
+ 0001:00000149       _Out_Debug_String          00401149 f   VIRPARTI.OBJ

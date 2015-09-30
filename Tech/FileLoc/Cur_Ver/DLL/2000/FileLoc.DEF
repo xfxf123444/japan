@@ -1,0 +1,28 @@
+; FileLoc.def : Declares the module parameters for the DLL.
+
+LIBRARY      "FileLoc"
+DESCRIPTION  'FileLoc Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+
+	MakeMirrorDrive					@1
+	MakeVirtualDrive				@2
+	DiscardVirtualDrive				@3
+	Init_FileLocater				@4
+	Free_FileLocater				@5
+	Open_FL_Handle					@6
+	Close_FL_Handle					@7
+	LogicSector2PhysSectorFast		@8
+	FileLocatorFlush				@9
+	CopyData						@10
+	FL_LogicSector2PhysSector       @11
+	FL_Create_File                  @12
+	FL_ReadFile                     @13
+	FL_WriteFile					@14
+	FL_GetFileSize                  @15
+	MakeCryDisk                     @16
+	GetMPDriveInfo                  @17
+	GetCount                        @18
+	AddCount                        @19
+	

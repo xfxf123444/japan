@@ -1,0 +1,11 @@
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.dsw .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.dsp .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.cpp .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.asm .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.c .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.h .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.inc .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.def .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.rc .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\*.mak .\Cur_ver/s
+@xcopy z:\TianWenBin\tech\Format\cur_ver\makefile .\Cur_ver/s

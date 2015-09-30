@@ -1,0 +1,83 @@
+ FileLocL
+
+ Timestamp is 3c0c82f4 (Tue Dec 04 16:01:56 2001)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000200H .bss                    CODE
+ 0001:00000200 0000012cH .text                   CODE
+ 0001:0000032c 00000170H _LDATA                  CODE
+ 0001:000004a0 000009a3H _LTEXT                  CODE
+ 0002:00000000 00000098H _PTEXT                  CODE
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0001:00000000       _cSignSector               00401000     <common>
+ 0001:0000032c       _bWorking                  0040132c     LowLoc.OBJ
+ 0001:00000330       _cSignStr                  00401330     LowLoc.OBJ
+ 0001:00000344       _lDiskList                 00401344     LowLoc.OBJ
+ 0001:00000348       _hIoSem                    00401348     LowLoc.OBJ
+ 0001:000003d8       _FILELOCL_GetVersion       004013d8     FileLocL.OBJ
+ 0001:000003dc       _FILELOCL_EnableOrDisable  004013dc     FileLocL.OBJ
+ 0001:000003e0       _theDRP                    004013e0     FileLocL.OBJ
+ 0001:00000418       _theILB                    00401418     FileLocL.OBJ
+ 0001:0000044c       FileLocL_DDB               0040144c     FileLocL.OBJ
+ 0001:000004a0       _OnSysDynamicDeviceInit    004014a0 f   LowLoc.OBJ
+ 0001:0000057d       _OnSysDynamicDeviceExit    0040157d f   LowLoc.OBJ
+ 0001:000005ec       _OnAsyncRequest            004015ec f   LowLoc.OBJ
+ 0001:00000635       _DoCallDown                00401635 f   LowLoc.OBJ
+ 0001:00000644       _DoCallBack                00401644 f   LowLoc.OBJ
+ 0001:00000651       _InsertCallBack            00401651 f   LowLoc.OBJ
+ 0001:00000682       _OnRequest                 00401682 f   LowLoc.OBJ
+ 0001:0000088a       _GetIOP                    0040188a f   LowLoc.OBJ
+ 0001:000008f8       _RetIOP                    004018f8 f   LowLoc.OBJ
+ 0001:0000091e       _IsLocatingSector          0040191e f   LowLoc.OBJ
+ 0001:00000946       _WriteSector               00401946 f   LowLoc.OBJ
+ 0001:000009a3       _SynReadWrite              004019a3 f   LowLoc.OBJ
+ 0001:00000b2d       _CreateOrOpenList          00401b2d f   LowLoc.OBJ
+ 0001:00000bce       _SearchList                00401bce f   LowLoc.OBJ
+ 0001:00000c39       _SearchSector              00401c39 f   LowLoc.OBJ
+ 0001:00000c9b       _IsOurVirtualDCB           00401c9b f   LowLoc.OBJ
+ 0001:00000ce3       _IsOurMoverDCB             00401ce3 f   LowLoc.OBJ
+ 0001:00000d19       _IsOurMirrorDCB            00401d19 f   LowLoc.OBJ
+ 0001:00000d50       FileLocL_Control           00401d50 f   FileLocL.OBJ
+ 0001:00000d85       FILELOCL_GetVersion        00401d85 f   FileLocL.OBJ
+ 0001:00000d8b       FILELOCL_EnableOrDisable   00401d8b f   FileLocL.OBJ
+ 0001:00000d98       _LCODE_List_Destroy@4      00401d98 f   vxdwraps:vmm231.obj
+ 0001:00000da8       _LCODE_Destroy_Semaphore@4 00401da8 f   vxdwraps:vmm101.obj
+ 0001:00000db4       _LCODE_List_Create@8       00401db4 f   vxdwraps:vmm211.obj
+ 0001:00000dc8       _LCODE_Create_Semaphore@4  00401dc8 f   vxdwraps:vmm0f1.obj
+ 0001:00000dd8       _LCODE_List_Get_Next@8     00401dd8 f   vxdwraps:vmm251.obj
+ 0001:00000de8       _LCODE_List_Get_First@4    00401de8 f   vxdwraps:vmm241.obj
+ 0001:00000df8       _LCODE_Signal_Semaphore@4  00401df8 f   vxdwraps:vmm111.obj
+ 0001:00000e04       _LCODE_List_Attach@8       00401e04 f   vxdwraps:vmm1f1.obj
+ 0001:00000e14       _LCODE_Wait_Semaphore@8    00401e14 f   vxdwraps:vmm121.obj
+ 0001:00000e20       _LCODE_List_Deallocate@8   00401e20 f   vxdwraps:vmm221.obj
+ 0001:00000e30       _LCODE_List_Allocate@4     00401e30 f   vxdwraps:vmm1e1.obj
+ 0002:00000000       _OnInitialize              00402000 f   LowLoc.OBJ
+ 0002:00000008       _OnUninitialize            00402008 f   LowLoc.OBJ
+ 0002:00000010       _OnBootComplete            00402010 f   LowLoc.OBJ
+ 0002:00000018       _OnConfigDcb               00402018 f   LowLoc.OBJ
+ 0002:0000008e       _OnUnconfigDcb             0040208e f   LowLoc.OBJ
+
+ entry point at        0000:00000000
+
+ Static symbols
+
+ 0001:000003d8       $$$00001                   004013d8 f   FileLocL.OBJ
+ 0001:0000044c       $$$00002                   0040144c f   FileLocL.OBJ
+ 0001:0000049c       $$$00003                   0040149c f   FileLocL.OBJ
+ 0001:00000d50       $$$00004                   00401d50 f   FileLocL.OBJ
+ 0001:00000d50       $$$00005                   00401d50 f   FileLocL.OBJ
+ 0001:00000d85       $$$00007                   00401d85 f   FileLocL.OBJ
+ 0001:00000d85       $$$00008                   00401d85 f   FileLocL.OBJ
+ 0001:00000d8b       $$$00010                   00401d8b f   FileLocL.OBJ
+ 0001:00000d95       $$$00012                   00401d95 f   FileLocL.OBJ
+ 0001:00000200       _IOS_Register              00401200 f   LowLoc.OBJ
+ 0001:00000217       _IspInsertCalldown         00401217 f   LowLoc.OBJ
+ 0001:00000271       _IlbService                00401271 f   LowLoc.OBJ
+ 0001:00000277       _IspCreateIop              00401277 f   LowLoc.OBJ
+ 0001:000002d4       _IspDeallocMem             004012d4 f   LowLoc.OBJ
+ 0001:00000309       _IlbIntIoCriteria          00401309 f   LowLoc.OBJ
+ 0001:0000030f       _IlbInternalRequest        0040130f f   LowLoc.OBJ

@@ -1,0 +1,8 @@
+BUILD: Computing Include file dependencies:
+BUILD: Examining e:\tech\lib\crypto\cur_ver\lib\2000 directory for files to compile.
+BUILD: Unable to save the dependency database: x:\2000ddk\build.dat
+Compiling e:\tech\lib\crypto\cur_ver\lib\2000 directory ********************
+'nmake.exe /c BUILDMSG=Stop. -i NTTEST= UMTEST= NOLINK=1 NOPASS0=1 386=1'
+'nmake.exe' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。
+BUILD: nmake.exe failed - rc = 1

@@ -1,0 +1,91 @@
+BUILD: Computing Include file dependencies:
+BUILD: Examining e:\tech\ygcrydisk\cur_ver\sys\2000 directory for files to compile.
+Compiling (NoSync) e:\tech\ygcrydisk\cur_ver\sys\2000 directory ********************
+1>'nmake.exe /nologo BUILDMSG=Stop. -i NTTEST= UMTEST= NOLINK=1 NOPASS0=1 PASS1_NOLIB=1 386=1'
+1>BUILDMSG: Processing e:\tech\ygcrydisk\cur_ver\sys\2000
+1>cl -nologo -Ii386\ -I. -IC:\WINDDK\3790~1.183\inc\mfc42 -I..\inc -Iobjfre_w2K_x86\i386 -IC:\WINDDK\3790~1.183\inc\w2K -IC:\WINDDK\3790~1.183\inc\w2K -IC:\WINDDK\3790~1.183\inc\ddk\w2K -IC:\WINDDK\3790~1.183\inc\ddk\wdm\w2K -IC:\WINDDK\3790~1.183\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1   -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0500 /DWINVER=0x0500 -D_WIN32_IE=0x0501    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=WinDDK -DFPO=0  -DNDEBUG -D_DLL=1      /c /Zl /Zp8 /Gy /Gm- -cbstring /W3 /WX /Gz  /GX-  /GR- /GF /GS /G6 /Ze /Gi- /QIfdiv- /hotpatch -Z7 /Oxs  /Oy-   -FIC:\WINDDK\3790~1.183\inc\w2K\warning.h   .\ygcrydisk.c 
+1>ygcrydisk.c
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2143: syntax error : missing ')' before 'identifier'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2059: syntax error : ';'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2059: syntax error : ')'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(669) : error C2065: 'IOCTL_DISK_GET_LENGTH_INFO' : undeclared identifier
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(669) : error C2051: case expression not constant
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(672) : error C2065: 'GET_LENGTH_INFORMATION' : undeclared identifier
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2065: 'PGET_LENGTH_INFORMATION' : undeclared identifier
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2146: syntax error : missing ')' before identifier 'Irp'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2143: syntax error : missing ')' before 'identifier'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2059: syntax error : ')'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(703) : error C2065: 'IOCTL_DISK_GET_PARTITION_INFO_EX' : undeclared identifier
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(703) : error C2051: case expression not constant
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(705) : error C2065: 'PARTITION_INFORMATION_EX' : undeclared identifier
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C4013: 'FillParInfoEx' undefined; assuming extern returning int
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2065: 'PPARTITION_INFORMATION_EX' : undeclared identifier
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2146: syntax error : missing ')' before identifier 'Irp'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2143: syntax error : missing ')' before 'identifier'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2059: syntax error : ')'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2143: syntax error : missing ')' before 'identifier'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2059: syntax error : ';'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2059: syntax error : ')'
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1239) : error C2449: found '{' at file scope (missing function header?)
+1>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1250) : error C2059: syntax error : '}'
+1>
+1>Stop.
+TESTING: Number of dirs done build libs 0 out of  1Compiling  e:\tech\ygcrydisk\cur_ver\sys\2000 directory ********************
+101>'nmake.exe /nologo BUILDMSG=Stop. -i NTTEST= UMTEST= NOLINK=1 NOPASS0=1 386=1'
+101>BUILDMSG: Processing e:\tech\ygcrydisk\cur_ver\sys\2000
+101>cl -nologo -Ii386\ -I. -IC:\WINDDK\3790~1.183\inc\mfc42 -I..\inc -Iobjfre_w2K_x86\i386 -IC:\WINDDK\3790~1.183\inc\w2K -IC:\WINDDK\3790~1.183\inc\w2K -IC:\WINDDK\3790~1.183\inc\ddk\w2K -IC:\WINDDK\3790~1.183\inc\ddk\wdm\w2K -IC:\WINDDK\3790~1.183\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1   -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0500 /DWINVER=0x0500 -D_WIN32_IE=0x0501    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=WinDDK -DFPO=0  -DNDEBUG -D_DLL=1      /c /Zl /Zp8 /Gy /Gm- -cbstring /W3 /WX /Gz  /GX-  /GR- /GF /GS /G6 /Ze /Gi- /QIfdiv- /hotpatch -Z7 /Oxs  /Oy-   -FIC:\WINDDK\3790~1.183\inc\w2K\warning.h   .\ygcrydisk.c 
+101>ygcrydisk.c
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2143: syntax error : missing ')' before 'identifier'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2059: syntax error : ';'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(155) : error C2059: syntax error : ')'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(669) : error C2065: 'IOCTL_DISK_GET_LENGTH_INFO' : undeclared identifier
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(669) : error C2051: case expression not constant
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(672) : error C2065: 'GET_LENGTH_INFORMATION' : undeclared identifier
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2065: 'PGET_LENGTH_INFORMATION' : undeclared identifier
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2146: syntax error : missing ')' before identifier 'Irp'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2143: syntax error : missing ')' before 'identifier'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(679) : error C2059: syntax error : ')'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(703) : error C2065: 'IOCTL_DISK_GET_PARTITION_INFO_EX' : undeclared identifier
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(703) : error C2051: case expression not constant
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(705) : error C2065: 'PARTITION_INFORMATION_EX' : undeclared identifier
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C4013: 'FillParInfoEx' undefined; assuming extern returning int
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2065: 'PPARTITION_INFORMATION_EX' : undeclared identifier
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2146: syntax error : missing ')' before identifier 'Irp'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2143: syntax error : missing ')' before 'identifier'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(712) : error C2059: syntax error : ')'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2143: syntax error : missing ')' before 'identifier'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2059: syntax error : ';'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1238) : error C2059: syntax error : ')'
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1239) : error C2449: found '{' at file scope (missing function header?)
+101>e:\Tech\YGCryDisk\Cur_Ver\SYS\2000\YGCryDisk.C(1250) : error C2059: syntax error : '}'
+101>
+101>Stop.
+Compile errors: not linking e:\tech\ygcrydisk\cur_ver\sys\2000 directory ********************

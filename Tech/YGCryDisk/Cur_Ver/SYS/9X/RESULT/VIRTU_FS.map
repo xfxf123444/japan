@@ -1,0 +1,118 @@
+ VIRTU_FS
+
+ Timestamp is 3c5a0d73 (Fri Feb 01 11:37:23 2002)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 0000004cH .data                   CODE
+ 0001:00000050 00000a90H .text                   CODE
+ 0001:00000ae0 000001d4H _LDATA                  CODE
+ 0001:00000cc0 00000a62H _LTEXT                  CODE
+ 0002:00000000 000001e8H _PTEXT                  CODE
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0001:00000000       _VIRTU_FS_W32_Proc         00401000     inter320.obj
+ 0001:000000f0       _CreateHashList            004010f0 f   hashsrch.obj
+ 0001:00000180       _SetObj                    00401180 f   hashsrch.obj
+ 0001:00000338       _GetObj                    00401338 f   hashsrch.obj
+ 0001:000003bf       _GetNextObj                004013bf f   hashsrch.obj
+ 0001:000003df       _GetNextObjEx              004013df f   hashsrch.obj
+ 0001:000004ba       _RemoveObj                 004014ba f   hashsrch.obj
+ 0001:0000050b       _DeallocateObj             0040150b f   hashsrch.obj
+ 0001:0000055c       _DestroyHashList           0040155c f   hashsrch.obj
+ 0001:000005c0       _YG_List_Create            004015c0 f   list.obj
+ 0001:00000609       _YG_List_Allocate          00401609 f   list.obj
+ 0001:00000642       _YG_List_Attach            00401642 f   list.obj
+ 0001:00000693       _YG_List_Attach_Tail       00401693 f   list.obj
+ 0001:000006e7       _YG_List_Deallocate        004016e7 f   list.obj
+ 0001:00000706       _YG_List_Destroy           00401706 f   list.obj
+ 0001:0000074b       _YG_List_Get_First         0040174b f   list.obj
+ 0001:0000076d       _YG_List_Get_Last          0040176d f   list.obj
+ 0001:00000790       _YG_List_Get_Next          00401790 f   list.obj
+ 0001:000007be       _YG_List_Get_Prev          004017be f   list.obj
+ 0001:000007eb       _YG_List_Insert_Before     004017eb f   list.obj
+ 0001:0000084a       _YG_List_Insert            0040184a f   list.obj
+ 0001:000008c6       _YG_List_Remove            004018c6 f   list.obj
+ 0001:0000092e       _YG_Create_Pool            0040192e f   list.obj
+ 0001:000009a7       _YG_List_Create_From_Pool  004019a7 f   list.obj
+ 0001:000009ff       _YG_List_Allocate_From_Pool 004019ff f   list.obj
+ 0001:00000a41       _YG_List_Deallocate_To_Pool 00401a41 f   list.obj
+ 0001:00000a62       _YG_List_Destroy_To_Pool   00401a62 f   list.obj
+ 0001:00000ae0       _g_bWorking                00401ae0     VIRTU_FS.OBJ
+ 0001:00000ae4       _g_dwFinal1st              00401ae4     VIRTU_FS.OBJ
+ 0001:00000ae8       _g_dwFinalLast             00401ae8     VIRTU_FS.OBJ
+ 0001:00000aec       _g_dwMinSecAddr            00401aec     VIRTU_FS.OBJ
+ 0001:00000af0       _g_dwMaxSecAddr            00401af0     VIRTU_FS.OBJ
+ 0001:00000af4       _g_hHash                   00401af4     VIRTU_FS.OBJ
+ 0001:00000af8       _g_nSysSectors             00401af8     VIRTU_FS.OBJ
+ 0001:00000bec       _VIRTU_FS_GetVersion       00401bec     SYSCTRL.OBJ
+ 0001:00000bf0       _VIRTU_FS_GetFstNxtFsData  00401bf0     SYSCTRL.OBJ
+ 0001:00000bf4       _VIRTU_FS_GetSectorGroup   00401bf4     SYSCTRL.OBJ
+ 0001:00000bf8       _theDRP                    00401bf8     SYSCTRL.OBJ
+ 0001:00000c30       _theILB                    00401c30     SYSCTRL.OBJ
+ 0001:00000c64       VIRTU_FS_DDB               00401c64     SYSCTRL.OBJ
+ 0001:00000cc0       _OnSysDynamicDeviceInit    00401cc0 f   VIRTU_FS.OBJ
+ 0001:00000cf5       _OnSysDynamicDeviceExit    00401cf5 f   VIRTU_FS.OBJ
+ 0001:00000d04       _OnAsyncRequest            00401d04 f   VIRTU_FS.OBJ
+ 0001:00000d4d       _DefaultHandler            00401d4d f   VIRTU_FS.OBJ
+ 0001:00000d55       _OnUnConfigDcb             00401d55 f   VIRTU_FS.OBJ
+ 0001:00000d75       _OnConfigDcb               00401d75 f   VIRTU_FS.OBJ
+ 0001:00000deb       _DoCallDown                00401deb f   VIRTU_FS.OBJ
+ 0001:00000dfa       _DoCallBack                00401dfa f   VIRTU_FS.OBJ
+ 0001:00000e07       _InsertCallBack            00401e07 f   VIRTU_FS.OBJ
+ 0001:00000e38       _OnRequest                 00401e38 f   VIRTU_FS.OBJ
+ 0001:00001071       _ReadSector                00402071 f   VIRTU_FS.OBJ
+ 0001:000010d2       _WriteSector               004020d2 f   VIRTU_FS.OBJ
+ 0001:000011c2       _IsOurMoverDCB             004021c2 f   VIRTU_FS.OBJ
+ 0001:000011fd       _IsOurVirtualDCB           004021fd f   VIRTU_FS.OBJ
+ 0001:0000124f       _GetParameterForMoverDsk   0040224f f   VIRTU_FS.OBJ
+ 0001:000012dd       _FastUpdateFSData          004022dd f   VIRTU_FS.OBJ
+ 0001:0000141a       _GetFstNxtFsData           0040241a f   VIRTU_FS.OBJ
+ 0001:00001439       _GetSectorGroup            00402439 f   VIRTU_FS.OBJ
+ 0001:00001510       _FreeFsData                00402510 f   VIRTU_FS.OBJ
+ 0001:000015eb       _WriteEMBR                 004025eb f   VIRTU_FS.OBJ
+ 0001:0000161a       _EnableVFS                 0040261a f   VIRTU_FS.OBJ
+ 0001:00001690       VIRTU_FS_Control           00402690 f   SYSCTRL.OBJ
+ 0001:000016d7       _Reset_Direction_Flag      004026d7 f   SYSCTRL.OBJ
+ 0001:000016d9       VIRTU_FS_GetVersion        004026d9 f   SYSCTRL.OBJ
+ 0001:000016df       VIRTU_FS_GetFstNxtFsData   004026df f   SYSCTRL.OBJ
+ 0001:000016e4       VIRTU_FS_GetSectorGroup    004026e4 f   SYSCTRL.OBJ
+ 0001:000016ec       _LCODE__HeapAllocate       004026ec f   vxdwraps:vmm021.obj
+ 0001:000016f4       _LCODE__RegFlushKey        004026f4 f   vxdwraps:reg0C1.obj
+ 0001:000016fc       _LCODE__RegDeleteKey       004026fc f   vxdwraps:reg041.obj
+ 0001:00001704       _LCODE__RegCloseKey        00402704 f   vxdwraps:reg021.obj
+ 0001:0000170c       _LCODE__RegQueryValueEx    0040270c f   vxdwraps:reg0A1.obj
+ 0001:00001714       _LCODE__RegOpenKey         00402714 f   vxdwraps:reg011.obj
+ 0001:0000171c       _LCODE__HeapFree           0040271c f   vxdwraps:vmm031.obj
+ 0002:00000000       _VIRTU_FS_W32_DeviceIOControl@16 00402800 f   inter320.obj
+ 0002:00000068       _VIRTU_FS_CleanUp@0        00402868 f   inter320.obj
+ 0002:00000072       _VIRTU_FS_Get_Version@12   00402872 f   inter320.obj
+ 0002:00000091       _VIRTU_FS_EnableOrDisable@12 00402891 f   inter320.obj
+ 0002:000000c8       _VIRTU_FS_UpdateFSData@12  004028c8 f   inter320.obj
+ 0002:0000010a       _VIRTU_FS_FreeFsData@12    0040290a f   inter320.obj
+ 0002:0000012a       _VIRTU_FS_DstNxtFSData@12  0040292a f   inter320.obj
+ 0002:00000161       _VIRTU_FS_WriteEMBR@12     00402961 f   inter320.obj
+ 0002:00000191       _VIRTU_FS_GetSectorGroup@12 00402991 f   inter320.obj
+ 0002:000001c8       _VIRTU_FS_GetNumOfSysSectors@12 004029c8 f   inter320.obj
+
+ entry point at        0000:00000000
+
+ Static symbols
+
+ 0001:00000bec       $$$00001                   00401bec f   SYSCTRL.OBJ
+ 0001:00000c64       $$$00002                   00401c64 f   SYSCTRL.OBJ
+ 0001:00000cb4       $$$00003                   00401cb4 f   SYSCTRL.OBJ
+ 0001:00001690       $$$00004                   00402690 f   SYSCTRL.OBJ
+ 0001:00001690       $$$00005                   00402690 f   SYSCTRL.OBJ
+ 0001:000016d7       $$$00007                   004026d7 f   SYSCTRL.OBJ
+ 0001:000016d7       $$$00008                   004026d7 f   SYSCTRL.OBJ
+ 0001:000016d9       $$$00010                   004026d9 f   SYSCTRL.OBJ
+ 0001:000016df       $$$00012                   004026df f   SYSCTRL.OBJ
+ 0001:000016e4       $$$00014                   004026e4 f   SYSCTRL.OBJ
+ 0001:000016e9       $$$00016                   004026e9 f   SYSCTRL.OBJ
+ 0001:000000d0       _Out_Debug_String          004010d0 f   inter320.obj
+ 0001:00000050       _IOS_Register              00401050 f   VIRTU_FS.OBJ
+ 0001:00000067       _IspInsertCalldown         00401067 f   VIRTU_FS.OBJ
+ 0001:000000c1       _IlbService                004010c1 f   VIRTU_FS.OBJ

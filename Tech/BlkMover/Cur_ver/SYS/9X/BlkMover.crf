@@ -1,0 +1,5 @@
+	--machine:i386 -vxd
+	-DEF:BlkMover.def
+	-OUT:.\obj\BlkMover.VXD
+	-MAP:.\obj\BlkMover.MAP
+	X:\DDK\lib\vxdwraps.clb	 ..\obj\WIN9X\BlkMover.obj  ..\obj\WIN9X\object.obj ..\..\..\..\lib\HashSrch\Cur_ver\Export\9x\list.obj  .\obj\SYSCTRL.obj .\obj\inter320.obj .\obj\request.obj 

@@ -1,0 +1,2 @@
+warnings in directory e:\tech\fileloc\cur_ver\filelocl\2000
+e:\tech\fileloc\cur_ver\filelocl\2000\ygfloc.c(725) : warning C4996: 'ExAllocatePool' was declared deprecated

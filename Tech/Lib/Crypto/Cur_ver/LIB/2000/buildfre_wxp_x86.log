@@ -1,0 +1,96 @@
+BUILD: Computing Include file dependencies:
+BUILD: Examining e:\tech\lib\crypto\cur_ver\lib\2000 directory for files to compile.
+before AssemblyIdentity_AfterReadAllSources
+after AssemblyIdentity_AfterReadAllSources
+skipping post pass 0 command
+Compiling e:\tech\lib\crypto\cur_ver\lib\2000 *************
+'nmake.exe /nologo BUILDMSG=Stop. -i BUILD_PASS=PASS1 NOLINK=1 NOPASS0=1 MAKEDIR_RELATIVE_TO_BASEDIR= MAKEDIR_LOWERCASE=e:\tech\lib\crypto\cur_ver\lib\2000'
+e:\tech\lib\crypto\cur_ver\lib\2000: TARGETPATH is OBJ
+BUILDMSG: _NT_TARGET_VERSION SET TO WINXP
+	cl.exe @e:\tech\lib\crypto\cur_ver\lib\2000\objfre_wxp_x86\i386\cl.rsp
+Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 14.00.50727.220 for 80x86
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+cl /Fo"e:\tech\lib\crypto\cur_ver\lib\2000\objfre_wxp_x86\i386/"
+   /FC
+   /MT
+   /U_MT
+   /Ii386
+   /I.
+   /Ie:\tech\lib\crypto\cur_ver\lib\2000\objfre_wxp_x86\i386
+   /IC:\WinDDK\6000\inc\api
+   /IC:\WinDDK\6000\inc\api
+   /IC:\WinDDK\6000\inc\crt
+   /D_X86_=1
+   /Di386=1
+   
+   /DSTD_CALL
+   /DCONDITION_HANDLING=1
+   
+   
+   /DNT_INST=0
+   /DWIN32=100
+   /D_NT1X_=100
+   /DWINNT=1
+   /D_WIN32_WINNT=0x0501
+   /DWINVER=0x0501
+   /D_WIN32_IE=0x0603
+   
+   
+   
+   /DWIN32_LEAN_AND_MEAN=1
+   /DDEVL=1
+   /D__BUILDMACHINE__=WinDDK
+   /DFPO=0
+   
+   /DNDEBUG
+   
+   /DNTDDI_VERSION=0x05010200
+   
+   
+   
+   
+   /c
+   /Zc:wchar_t-
+   /Zl
+   /Zp8
+   /Gy
+   /Gm-
+   
+   /W3
+   /WX
+   /Gz
+   
+   
+   /hotpatch
+   /EHs-c-
+   
+   /GR-
+   /GF
+   /GS
+   /Z7
+   /Oxs
+   
+   /Oy-
+   /Z7
+   
+   
+   -DKMDF_MAJOR_VERSION=01
+   -DKMDF_MINOR_VERSION=005
+   /FIC:\WinDDK\6000\inc\api\warning.h
+   
+   
+   
+   
+   
+   ..\crypto.cpp ..\des.cpp ..\misc.cpp ..\nn.cpp ..\rsa.cpp ..\md5c.cpp ..\rijndael.cpp 
+
+crypto.cpp
+des.cpp
+misc.cpp
+nn.cpp
+rsa.cpp
+md5c.cpp
+rijndael.cpp
+Generating Code...
+	link.exe /lib /nologo /out:objfre_wxp_x86\i386\Crypto.lib /IGNORE:4198,4010,4037,4039,4065,4070,4078,4087,4089,4221  /WX /nodefaultlib /machine:ix86 @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\nm165.tmp

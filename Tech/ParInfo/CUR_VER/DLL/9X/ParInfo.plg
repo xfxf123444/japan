@@ -1,0 +1,45 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: ParInfo - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Release/parinfo.res" /d "NDEBUG" "E:\Tech\ParInfo\CUR_VER\DLL\9X\parinfo.rc"" 
+Creating temporary file "C:\DOCUME~1\lihuibin\LOCALS~1\Temp\RSP126.tmp" with contents
+[
+/nologo /Zp1 /MT /W3 /GX /O2 /D "WIN_9X" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PARINFO_EXPORTS" /FR"Release/" /Fp"Release/ParInfo.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\Tech\shark\Cur_Ver\dll\9x\CVirPar.cpp"
+"E:\Tech\Shark\Cur_Ver\DLL\CVxD.cpp"
+"E:\Tech\ParInfo\CUR_VER\DLL\9X\ParInfo.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\lihuibin\LOCALS~1\Temp\RSP126.tmp" 
+Creating temporary file "C:\DOCUME~1\lihuibin\LOCALS~1\Temp\RSP127.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"Release/ParInfo.pdb" /map:"Release/ParInfo.map" /machine:I386 /out:"Release/ParInfo.dll" /implib:"Release/ParInfo.lib" 
+.\Release\CVirPar.obj
+.\Release\CVxD.obj
+.\Release\ParInfo.obj
+.\Release\parinfo.res
+]
+Creating command line "link.exe @C:\DOCUME~1\lihuibin\LOCALS~1\Temp\RSP127.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+CVirPar.cpp
+CVxD.cpp
+ParInfo.cpp
+Linking...
+   Creating library Release/ParInfo.lib and object Release/ParInfo.exp
+Creating command line "bscmake.exe /nologo /o"Release/ParInfo.bsc"  .\Release\CVirPar.sbr .\Release\CVxD.sbr .\Release\ParInfo.sbr"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+ParInfo.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

@@ -1,0 +1,31 @@
+BUILD: Computing Include file dependencies:
+BUILD: Examining e:\tech\lib\crypto\cur_ver\lib\2000 directory for files to compile.
+Compiling e:\tech\lib\crypto\cur_ver\lib\2000 directory ********************
+'nmake.exe /c BUILDMSG=Stop. -i NTTEST= UMTEST= NOLINK=1 NOPASS0=1 386=1'
+cl -nologo -Ii386\ -I. -Iobjfre_w2k\i386 -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0501 /DWINVER=0x0501 -D_WIN32_IE=0x0600    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=lihuibin -DFPO=1  -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /WX /Gz  /QIfdiv- /QIf /G6 /Gi- /Gm- /GX-  /GR- /GF  -Z7 /Oxs /Oy   -FIC:\WINDDK\2600\inc\w2k\warning.h     ..\crypto.cpp
+crypto.cpp
+cl -nologo -Ii386\ -I. -Iobjfre_w2k\i386 -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0501 /DWINVER=0x0501 -D_WIN32_IE=0x0600    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=lihuibin -DFPO=1  -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /WX /Gz  /QIfdiv- /QIf /G6 /Gi- /Gm- /GX-  /GR- /GF  -Z7 /Oxs /Oy   -FIC:\WINDDK\2600\inc\w2k\warning.h     ..\des.cpp
+des.cpp
+cl -nologo -Ii386\ -I. -Iobjfre_w2k\i386 -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0501 /DWINVER=0x0501 -D_WIN32_IE=0x0600    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=lihuibin -DFPO=1  -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /WX /Gz  /QIfdiv- /QIf /G6 /Gi- /Gm- /GX-  /GR- /GF  -Z7 /Oxs /Oy   -FIC:\WINDDK\2600\inc\w2k\warning.h     ..\misc.cpp
+misc.cpp
+cl -nologo -Ii386\ -I. -Iobjfre_w2k\i386 -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0501 /DWINVER=0x0501 -D_WIN32_IE=0x0600    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=lihuibin -DFPO=1  -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /WX /Gz  /QIfdiv- /QIf /G6 /Gi- /Gm- /GX-  /GR- /GF  -Z7 /Oxs /Oy   -FIC:\WINDDK\2600\inc\w2k\warning.h     ..\nn.cpp
+nn.cpp
+cl -nologo -Ii386\ -I. -Iobjfre_w2k\i386 -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0501 /DWINVER=0x0501 -D_WIN32_IE=0x0600    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=lihuibin -DFPO=1  -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /WX /Gz  /QIfdiv- /QIf /G6 /Gi- /Gm- /GX-  /GR- /GF  -Z7 /Oxs /Oy   -FIC:\WINDDK\2600\inc\w2k\warning.h     ..\rsa.cpp
+rsa.cpp
+cl -nologo -Ii386\ -I. -Iobjfre_w2k\i386 -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0501 /DWINVER=0x0501 -D_WIN32_IE=0x0600    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=lihuibin -DFPO=1  -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /WX /Gz  /QIfdiv- /QIf /G6 /Gi- /Gm- /GX-  /GR- /GF  -Z7 /Oxs /Oy   -FIC:\WINDDK\2600\inc\w2k\warning.h     ..\md5c.cpp
+md5c.cpp
+cl -nologo -Ii386\ -I. -Iobjfre_w2k\i386 -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0501 /DWINVER=0x0501 -D_WIN32_IE=0x0600    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=lihuibin -DFPO=1  -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /WX /Gz  /QIfdiv- /QIf /G6 /Gi- /Gm- /GX-  /GR- /GF  -Z7 /Oxs /Oy   -FIC:\WINDDK\2600\inc\w2k\warning.h     ..\rijndael.cpp
+rijndael.cpp
+	lib -out:objfre_w2k\i386\Crypto.lib -IGNORE:4010,4037,4039,4065,4070,4078,4087,4089,4198,4221  /WX -nodefaultlib -machine:ix86 @C:\DOCUME~1\lihuibin\LOCALS~1\Temp\nma01800.
+Microsoft (R) Library Manager Version 7.00.9210
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+objfre_w2k\i386\crypto.obj 
+objfre_w2k\i386\des.obj 
+objfre_w2k\i386\misc.obj 
+objfre_w2k\i386\nn.obj 
+objfre_w2k\i386\rsa.obj 
+objfre_w2k\i386\md5c.obj 
+objfre_w2k\i386\rijndael.obj 
+
+Stop.

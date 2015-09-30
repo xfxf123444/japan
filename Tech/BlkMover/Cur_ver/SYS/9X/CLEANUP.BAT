@@ -1,0 +1,10 @@
+@echo off
+del .\obj\*.obj
+del .\obj\*.vxd
+del .\obj\*.map
+del .\obj\*.exp
+del .\obj\*.lib
+del .\obj\*.sym
+del .\obj\*.pdb
+del ..\obj\WIN9X\*.obj
+del ..\..\export\win9x\*.vxd

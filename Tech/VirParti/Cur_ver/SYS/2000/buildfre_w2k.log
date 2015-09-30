@@ -1,0 +1,55 @@
+BUILD: Computing Include file dependencies:
+BUILD: Examining e:\tech\virparti\cur_ver\sys\2000 directory for files to compile.
+Compiling e:\tech\virparti\cur_ver\sys\2000 directory ********************
+'nmake.exe /c BUILDMSG=Stop. -i NTTEST= UMTEST= NOLINK=1 NOPASS0=1 386=1'
+cl -nologo -Ii386\ -I. -I..\inc -Iobjfre_w2k\i386 -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\w2k -IC:\WINDDK\2600\inc\ddk\w2k -IC:\WINDDK\2600\inc\ddk\wdm\w2k -IC:\WINDDK\2600\inc\crt -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0501 /DWINVER=0x0501 -D_WIN32_IE=0x0600    -DWIN32_LEAN_AND_MEAN=1 -DDEVL=1 -D__BUILDMACHINE__=lihuibin -DFPO=1  -DNDEBUG -D_DLL=1 -DOS_PLATFORM=WIN2000 -DMODULE_TYPE=DRIVER     /c /Zel /Zp8 /Gy -cbstring /W3 /WX /Gz  /QIfdiv- /QIf /G6 /Gi- /Gm- /GX-  /GR- /GF  -Z7 /Oxs /Oy   -FIC:\WINDDK\2600\inc\w2k\warning.h   .\ygvpar.c
+ygvpar.c
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(101) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(101) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(101) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(101) : error C2143: syntax error : missing ')' before 'identifier'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(101) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(101) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(101) : error C2059: syntax error : ';'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(101) : error C2059: syntax error : ')'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(537) : error C2065: 'IOCTL_DISK_GET_PARTITION_INFO_EX' : undeclared identifier
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(537) : error C2051: case expression not constant
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(539) : error C2065: 'PARTITION_INFORMATION_EX' : undeclared identifier
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(545) : error C4013: 'FillParInfoEx' undefined; assuming extern returning int
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(545) : error C2065: 'PPARTITION_INFORMATION_EX' : undeclared identifier
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(545) : error C2146: syntax error : missing ')' before identifier 'Irp'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(545) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(545) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(545) : error C2143: syntax error : missing ')' before 'identifier'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(545) : error C2059: syntax error : ')'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(549) : error C2065: 'IOCTL_DISK_GET_LENGTH_INFO' : undeclared identifier
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(549) : error C2051: case expression not constant
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(551) : error C2065: 'GET_LENGTH_INFORMATION' : undeclared identifier
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(558) : error C2065: 'PGET_LENGTH_INFORMATION' : undeclared identifier
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(558) : error C2064: term does not evaluate to a function
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(559) : error C2064: term does not evaluate to a function
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(560) : error C2064: term does not evaluate to a function
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(561) : error C2064: term does not evaluate to a function
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(843) : error C4013: 'CreateHashList' undefined; assuming extern returning int
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(843) : warning C4047: '=' : 'HANDLE' differs in levels of indirection from 'int'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(879) : error C4013: 'DestroyHashList' undefined; assuming extern returning int
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(962) : error C4013: 'GetObj' undefined; assuming extern returning int
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(965) : error C4013: 'RemoveObj' undefined; assuming extern returning int
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(966) : error C4013: 'DeallocateObj' undefined; assuming extern returning int
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1196) : error C4013: 'SetObj' undefined; assuming extern returning int
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1259) : error C4013: 'GetNextObjEx' undefined; assuming extern returning int
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1259) : warning C4047: '=' : 'PVOID' differs in levels of indirection from 'int'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1264) : warning C4047: '=' : 'PVOID' differs in levels of indirection from 'int'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1285) : error C2146: syntax error : missing ')' before identifier 'pPartitionInfoEx'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1285) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1285) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1285) : error C2143: syntax error : missing ')' before 'identifier'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1285) : error C2081: 'PPARTITION_INFORMATION_EX' : name in formal parameter list illegal
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1285) : error C2061: syntax error : identifier 'pPartitionInfoEx'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1285) : error C2059: syntax error : ';'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1285) : error C2059: syntax error : ')'
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1286) : error C2449: found '{' at file scope (missing function header?)
+e:\Tech\VirParti\Cur_ver\SYS\2000\YGVPar.C(1297) : error C2059: syntax error : '}'
+
+Stop.
+Compile errors: not linking e:\tech\virparti\cur_ver\sys\2000 directory ********************

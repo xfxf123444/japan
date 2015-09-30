@@ -1,0 +1,9 @@
+del .\c\*.obj
+del .\asm\*.obj
+del .\result\*.vxd
+del .\result\*.sym
+del .\result\*.map
+del .\result\*.lib
+del .\result\*.exp
+del .\log
+del ..\..\Export\9x\*.vxd

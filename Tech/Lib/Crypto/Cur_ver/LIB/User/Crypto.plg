@@ -1,0 +1,39 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Crypto - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP56.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "USER_LIB" /Fp"Release/Crypto.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\source\trunk\work\trunk\Tech\Lib\Crypto\Cur_ver\LIB\Crypto.cpp"
+"C:\source\trunk\work\trunk\Tech\Lib\Crypto\Cur_ver\LIB\des.cpp"
+"C:\source\trunk\work\trunk\Tech\Lib\Crypto\Cur_ver\LIB\md5c.cpp"
+"C:\source\trunk\work\trunk\Tech\Lib\Crypto\Cur_ver\LIB\misc.cpp"
+"C:\source\trunk\work\trunk\Tech\Lib\Crypto\Cur_ver\LIB\nn.cpp"
+"C:\source\trunk\work\trunk\Tech\Lib\Crypto\Cur_ver\LIB\rijndael.cpp"
+"C:\source\trunk\work\trunk\Tech\Lib\Crypto\Cur_ver\LIB\rsa.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP56.tmp" 
+Creating command line "link.exe -lib /nologo /out:"Release\Crypto.lib"  .\Release\Crypto.obj .\Release\des.obj .\Release\md5c.obj .\Release\misc.obj .\Release\nn.obj .\Release\rijndael.obj .\Release\rsa.obj "
+<h3>Output Window</h3>
+Compiling...
+Crypto.cpp
+des.cpp
+md5c.cpp
+misc.cpp
+nn.cpp
+rijndael.cpp
+rsa.cpp
+Creating library...
+
+
+
+<h3>Results</h3>
+Crypto.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

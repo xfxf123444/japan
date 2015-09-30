@@ -1,0 +1,2 @@
+warnings in directory e:\tech\ygcrydisk\cur_ver\sys\2000
+e:\tech\ygcrydisk\cur_ver\sys\2000\ygcrydisk.c(1072) : warning C4242: '=' : conversion from 'int' to 'UCHAR', possible loss of data

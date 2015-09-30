@@ -1,0 +1,34 @@
+BUILD: Computing Include file dependencies:
+BUILD: Examining z:\jiliren\tech\lib\crypto\cur_ver\lib\2000 directory for files to compile.
+Compiling z:\jiliren\tech\lib\crypto\cur_ver\lib\2000 directory ********************
+'nmake.exe /c BUILDMSG=Stop. -i NTTEST= UMTEST= NOLINK=1 NOPASS0=1 386=1'
+cl -nologo -Ii386\ -I. -IX:\2000DDK\inc -IX:\2000DDK\inc -IX:\2000DDK\private\inc -IX:\2000DDK\inc -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0500 -DWINVER=0x0500 -D_WIN32_IE=0x0501    -DWIN32_LEAN_AND_MEAN=1 -DDBG=1 -DDEVL=1 -DFPO=0    -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /Gz  /QIfdiv- /QIf /QI0f /GB /Gi- /Gm- /GX-  /GR- /GF -Z7 /GX /Oy-   -FIX:\2000DDK\inc\warning.h  ..\crypto.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+crypto.cpp
+cl -nologo -Ii386\ -I. -IX:\2000DDK\inc -IX:\2000DDK\inc -IX:\2000DDK\private\inc -IX:\2000DDK\inc -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0500 -DWINVER=0x0500 -D_WIN32_IE=0x0501    -DWIN32_LEAN_AND_MEAN=1 -DDBG=1 -DDEVL=1 -DFPO=0    -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /Gz  /QIfdiv- /QIf /QI0f /GB /Gi- /Gm- /GX-  /GR- /GF -Z7 /GX /Oy-   -FIX:\2000DDK\inc\warning.h  ..\des.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+des.cpp
+cl -nologo -Ii386\ -I. -IX:\2000DDK\inc -IX:\2000DDK\inc -IX:\2000DDK\private\inc -IX:\2000DDK\inc -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0500 -DWINVER=0x0500 -D_WIN32_IE=0x0501    -DWIN32_LEAN_AND_MEAN=1 -DDBG=1 -DDEVL=1 -DFPO=0    -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /Gz  /QIfdiv- /QIf /QI0f /GB /Gi- /Gm- /GX-  /GR- /GF -Z7 /GX /Oy-   -FIX:\2000DDK\inc\warning.h  ..\misc.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+misc.cpp
+cl -nologo -Ii386\ -I. -IX:\2000DDK\inc -IX:\2000DDK\inc -IX:\2000DDK\private\inc -IX:\2000DDK\inc -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0500 -DWINVER=0x0500 -D_WIN32_IE=0x0501    -DWIN32_LEAN_AND_MEAN=1 -DDBG=1 -DDEVL=1 -DFPO=0    -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /Gz  /QIfdiv- /QIf /QI0f /GB /Gi- /Gm- /GX-  /GR- /GF -Z7 /GX /Oy-   -FIX:\2000DDK\inc\warning.h  ..\nn.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+nn.cpp
+cl -nologo -Ii386\ -I. -IX:\2000DDK\inc -IX:\2000DDK\inc -IX:\2000DDK\private\inc -IX:\2000DDK\inc -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0500 -DWINVER=0x0500 -D_WIN32_IE=0x0501    -DWIN32_LEAN_AND_MEAN=1 -DDBG=1 -DDEVL=1 -DFPO=0    -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /Gz  /QIfdiv- /QIf /QI0f /GB /Gi- /Gm- /GX-  /GR- /GF -Z7 /GX /Oy-   -FIX:\2000DDK\inc\warning.h  ..\rsa.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+rsa.cpp
+cl -nologo -Ii386\ -I. -IX:\2000DDK\inc -IX:\2000DDK\inc -IX:\2000DDK\private\inc -IX:\2000DDK\inc -D_X86_=1 -Di386=1  -DSTD_CALL -DCONDITION_HANDLING=1 -DNT_UP=1  -DNT_INST=0 -DWIN32=100 -D_NT1X_=100 -DWINNT=1 -D_WIN32_WINNT=0x0500 -DWINVER=0x0500 -D_WIN32_IE=0x0501    -DWIN32_LEAN_AND_MEAN=1 -DDBG=1 -DDEVL=1 -DFPO=0    -DNDEBUG      /c /Zel /Zp8 /Gy  /W3 /Gz  /QIfdiv- /QIf /QI0f /GB /Gi- /Gm- /GX-  /GR- /GF -Z7 /GX /Oy-   -FIX:\2000DDK\inc\warning.h  ..\md5c.cpp
+Command line warning D4025 : overriding '/GX-' with '/GX'
+md5c.cpp
+	lib -out:objchk\i386\Crypto.lib -debugtype:cv -IGNORE:4001,4037,4039,4044,4065,4070,4078,4087,4089,4198  /newimplib -nodefaultlib -machine:ix86 @C:\DOCUME~1\liren\LOCALS~1\Temp\nma00912.
+Microsoft (R) Library Manager Version 6.00.8168
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+objchk\i386\crypto.obj 
+objchk\i386\des.obj 
+objchk\i386\misc.obj 
+objchk\i386\nn.obj 
+objchk\i386\rsa.obj 
+objchk\i386\md5c.obj 
+
+Stop.

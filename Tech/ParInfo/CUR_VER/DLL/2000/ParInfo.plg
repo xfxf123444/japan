@@ -1,0 +1,49 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: ParInfo - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\feix\LOCALS~1\Temp\RSP75.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PARINFO_EXPORTS" /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\source_20090108\Tech\ParInfo\CUR_VER\DLL\2000\ParInfo.cpp"
+"D:\source_20090108\Tech\ParInfo\CUR_VER\DLL\2000\ParInfoPrivate.cpp"
+"D:\source_20090108\Tech\ParInfo\CUR_VER\DLL\2000\SymbolicLink.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\feix\LOCALS~1\Temp\RSP75.tmp" 
+Creating temporary file "C:\DOCUME~1\feix\LOCALS~1\Temp\RSP76.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "PARINFO_EXPORTS" /Fp"Release/ParInfo.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\source_20090108\Tech\ParInfo\CUR_VER\DLL\2000\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\feix\LOCALS~1\Temp\RSP76.tmp" 
+Creating temporary file "C:\DOCUME~1\feix\LOCALS~1\Temp\RSP77.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"Release/ParInfo.pdb" /machine:I386 /out:"Release/ParInfo.dll" /implib:"Release/ParInfo.lib" 
+.\Release\ParInfo.obj
+.\Release\ParInfoPrivate.obj
+.\Release\StdAfx.obj
+.\Release\SymbolicLink.obj
+]
+Creating command line "link.exe @C:\DOCUME~1\feix\LOCALS~1\Temp\RSP77.tmp"
+<h3>Output Window</h3>
+Compiling...
+StdAfx.cpp
+Compiling...
+ParInfo.cpp
+D:\source_20090108\Tech\ParInfo\CUR_VER\DLL\2000\ParInfo.cpp(20) : fatal error C1083: Cannot open include file: '..\..\..\..\YGDiskRW\Cur_ver\Export\YGDiskRW.h': No such file or directory
+ParInfoPrivate.cpp
+SymbolicLink.cpp
+Generating Code...
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+ParInfo.dll - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

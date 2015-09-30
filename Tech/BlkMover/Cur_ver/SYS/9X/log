@@ -1,0 +1,45 @@
+------------------------------------------------------------
+Set ..\obj\WIN9X for common output.
+Set .\obj for specific output.
+------------------------------------------------------------
+	X:\PROGRA~1\MICROS~1\VC98\BIN\CL -IX:\DDK\inc32 -I\include -IX:\PROGRA~1\MICROS~1\VC98\include -Zdp -Gs -c -DIS_32 -Zl -Zp1 -DOS_PLATFORM=WIN9X -DMODULE_TYPE=DRIVER -DWIN_9X -DSEGNUM=1  -Fo..\obj\WIN9X\BlkMover.obj ..\BlkMover.c
+BlkMover.c
+..\.\9x\share.h(26) : warning C4163: 'memmove' : not available as an intrinsic function
+	X:\PROGRA~1\MICROS~1\VC98\BIN\CL -IX:\DDK\inc32 -I\include -IX:\PROGRA~1\MICROS~1\VC98\include -Zdp -Gs -c -DIS_32 -Zl -Zp1 -DOS_PLATFORM=WIN9X -DMODULE_TYPE=DRIVER -DWIN_9X -DSEGNUM=1  -Fo..\obj\WIN9X\object.obj ..\object.c
+object.c
+..\.\9x\share.h(26) : warning C4163: 'memmove' : not available as an intrinsic function
+	X:\MASM611\bin\ml -IX:\DDK\inc32 -DBLD_COFF -DIS_32 -W2 -Zd -c -Cx -DMASM6  -Fo.\obj\SYSCTRL.obj .\SYSCTRL.asm
+ Assembling: .\SYSCTRL.asm
+	X:\PROGRA~1\MICROS~1\VC98\BIN\CL -IX:\DDK\inc32 -I\include -IX:\PROGRA~1\MICROS~1\VC98\include -Zdp -Gs -c -DIS_32 -Zl -Zp1 -DOS_PLATFORM=WIN9X -DMODULE_TYPE=DRIVER -DWIN_9X -DSEGNUM=1  -Fo.\obj\inter320.obj .\inter320.c
+inter320.c
+.\share.h(26) : warning C4163: 'memmove' : not available as an intrinsic function
+	X:\PROGRA~1\MICROS~1\VC98\BIN\CL -IX:\DDK\inc32 -I\include -IX:\PROGRA~1\MICROS~1\VC98\include -Zdp -Gs -c -DIS_32 -Zl -Zp1 -DOS_PLATFORM=WIN9X -DMODULE_TYPE=DRIVER -DWIN_9X -DSEGNUM=1  -Fo.\obj\request.obj .\request.c
+request.c
+.\share.h(26) : warning C4163: 'memmove' : not available as an intrinsic function
+	X:\PROGRA~1\MICROS~1\VC98\BIN\LINK.EXE @BlkMover.crf
+Microsoft (R) Incremental Linker Version 6.00.8168
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+--machine:i386 -vxd 
+-DEF:BlkMover.def 
+-OUT:.\obj\BlkMover.VXD 
+-MAP:.\obj\BlkMover.MAP 
+X:\DDK\lib\vxdwraps.clb ..\obj\WIN9X\BlkMover.obj ..\obj\WIN9X\object.obj ..\..\..\..\lib\HashSrch\Cur_ver\Export\9x\list.obj .\obj\SYSCTRL.obj .\obj\inter320.obj .\obj\request.obj 
+LINK : warning LNK4044: unrecognized option "-machine:i386"; ignored
+.\obj\SYSCTRL.obj : warning LNK4033: converting object format from OMF to COFF
+.\obj\SYSCTRL.obj : warning LNK4033: converting object format from OMF to COFF
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (40000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4039: section "MCODE_vxdpni" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpni" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpdi" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpdi" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdni" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdni" specified with /SECTION option does not exist
+	X:\PROGRA~1\MICROS~1\VC98\BIN\mapsym.exe -o .\obj\BlkMover.SYM .\obj\BlkMover.MAP
+Microsoft (R) Symbol File Generator  Version 6.00
+Copyright (C) Microsoft Corp 1984 - 1995.  All rights reserved.
+Line number support enabled
+Program entry point at 0000:0000
