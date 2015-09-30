@@ -1,0 +1,234 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 7,0,0,1
+ PRODUCTVERSION 7,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041103a4"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "FrontLine Inc.\0"
+            VALUE "FileDescription", "AM01DLL DLL\0"
+            VALUE "FileVersion", "7, 0, 0, 1\0"
+            VALUE "InternalName", "AM01DLL\0"
+            VALUE "LegalCopyright", "Copyright  (C) 2008 FrontLine Inc.\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "AM01DLL.DLL\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "BackupMaster\0"
+            VALUE "ProductVersion", "7, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 932
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_INPUT_PASSWORD DIALOG DISCARDABLE  0, 0, 203, 122
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "パスワード入力"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "このイメージファイルはパスワードで暗号化されています。",
+                    IDC_STATIC,17,16,168,8
+    LTEXT           "パスワードを入力してください。",IDC_STATIC,17,36,168,8
+    EDITTEXT        IDC_IMAGE_PASSWORD,17,56,167,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "キャンセル",IDC_BUTTON_CANCEL,17,86,50,14
+    PUSHBUTTON      "OK",IDC_BUTTON_OK,134,86,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_INPUT_PASSWORD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 196
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 115
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_EMPTY_SOURCE        "保存対象内に何もファイルが見つかりません。"
+    IDS_CREATE_IMAGE_ERROR  "イメージファイルの作成に失敗しました。"
+    IDS_DISK_FULL           "保存先のディスクが一杯になりました。イメージファイルの保存先に新しいディスクを選択してください。"
+    IDS_USER_CANCEL         "ユーザーからの操作でバックアップは中断しました。"
+    IDS_BACKUP_ERROR        "バックアップエラー"
+    IDS_NOT_ENOUGH_MEMORY   "メモリ不足です。"
+    IDS_SELECT_LAST_IMAGE   "このバックアップセットのイメージの最後のファイルを選択してください。"
+    IDS_OPEN_IMAGE_FAIL     "イメージファイルを開けませんでした。"
+    IDS_NOT_AM01_IMAGE      "これは、BackupMasterのイメージファイルではありません。ファイルを選び直してください。"
+    IDS_NOT_LAST_IMAGE      "バックアップセットの分割されたイメージの最後のファイルではありません。選択し直してください。"
+    IDS_NOT_INTEGRATE_IMAGE "継続バックアップの途中でエラーがあったイメージです。"
+    IDS_SELECT_FILE         "ファイルを選択してください。"
+    IDS_FILE_NUMBER         "ファイル番号："
+    IDS_ORIGINAL_FILE_NAME  "オリジナルのファイル番号："
+    IDS_NOSELECT_TIMESTAMP  "保存日時を選択してください。"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_FILE_ALREADY_EXIST  "そのファイルは既に存在します。上書きしますか?"
+    IDS_OVERWRITE_ALL       "全てのファイルを上書きしますか?"
+    IDS_SKIP_ALL            "全てのファイルをスキップしますか?"
+    IDS_OVERWRITE_ORIGINAL  "このオプションは全ての古いファイルを上書きします。処理を続けますか?"
+    IDS_INVALID_TARGET_PATH "保存先のパスが正しくありません："
+    IDS_INVALID_TARGET_DIR  "保存先のディレクトリが正しくありません。"
+    IDS_NOT_ENOUGH_FREE_SPACE "空き領域が不足しています。"
+    IDS_OPEN_SOURCE_ERROR   "次のソースファイルを開くことが出来ません:"
+    IDS_ASK_CONTINUE        "バックアップをこのまま継続しますか？"
+    IDS_OE_DIR_NOT_EXIST    "Outlook Expressのメールディレクトリが存在しません。メールデータを現在のユーザにリストアしますか？"
+    IDS_ASK_OVERWRITE_OE    "この操作は、現在のユーザのOutlook Expressのメールデータを消して上書きしてしまいます。操作を続けますか？"
+    IDS_OE_DIR_NOT_FOUND    "Outlook Expressのディレクトリを特定することが出来ません。"
+    IDS_OPEN_DIFF_IMAGE     "差分バックアップの元になるイメージファイルを開いてください。"
+    IDS_ASK_FOR_NEW_FILE    "その名称のファイルは既に存在します。別の名称を入力してください。"
+    IDS_INVALID_PASSWORD    "パスワードが間違っています"
+    IDS_LOG_FORMAT          "バックアップ %s 失敗、ユーザ:%s,バックアップ時刻:%4.4d-%2.2d-%2.2d %2.2d:%2.2d:%2.2d,%s"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_RETRY_TIME          " %d 分後にリトライ"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 中国語 (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "..\\resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""..\\res\\AM01DLL.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中国語 (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "..\res\AM01DLL.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

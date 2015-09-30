@@ -1,0 +1,90 @@
+; AM01DLL.def : Declares the module parameters for the DLL.
+
+LIBRARY      "AM01DLL"
+DESCRIPTION  'AM01DLL Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+
+; backup function begin
+CheckLastImage @1
+BackupSelectionFile @2
+DiffBackupSelectionFile @3
+GetWorkState @4
+SetBakCancel @5
+GetSelectionArrayPro @6
+bMultiFile @7
+GetOneFile @8
+NewRecordTail @9
+GetLastTargetNumber @10
+GetSelectionLink @11
+FreeSelectionLink @12
+IsOneDirectory @13
+; backup function end
+
+; restore function begin
+RestoreFile  @15
+GetSeperateFile @16
+SelectFile @17
+GetRestoreFileCount @18
+GetNextFileName @19
+GetTotalIndexOffset @20
+bPathExist @21
+SelectFolder @22
+GetRestoreState @23
+SetRestoreState @24
+SetRestoreInfo @25
+;restore function end
+
+; find function begin
+GetDataFilePointer @26
+RestoreFindFile @27
+GetIndexData @28
+bExistingFileNew @29
+LoadFirstSegment @30
+; find function end
+
+; Squeeze function begin
+SqueezeImage @31
+SetSqueezeCancel @32
+GetLongMainName  @33
+GetSqueezeState  @34
+; Squeeze function end
+
+; huapage 2003.10.21 added begin
+strrchrpro @35
+; huapage 2003.10.21 added end
+
+; huapage 2003.10.22 added begin
+TrimRightChar @36
+CreateOneDir @37
+GetRightPart @38
+; huapage 2003.10.22 added end
+
+CreateDirFile @39
+
+; 2004.05.20 added begin
+EncryptPassword @40
+DecryptPassword @41
+; 2004.05.20 added end
+
+; 2004.05.21 added begin
+GetImageHead @42
+CheckImagePassword @43
+; 2004.05.21 added end
+
+;Fail retry
+RecordFailRetrySchedule @44
+RemoveFailRetrySchedule @45
+ReadFailRetrySchedule @46
+ExcuteFailRetrySchedule @47
+FreeFailRetrySchedule @48
+
+GetSourceArray @49
+FreeAMStringArray @50
+FreeAMDataArray @51
+
+YGSetFilePointer @52
+NewGetOutlookExpressDataPath @53
+GetApplicationDataPath @54
+SearchLastImage @55

@@ -1,0 +1,9 @@
+;shellext.def : Declares the module parameters for the DLL.
+
+LIBRARY      SHELLEXT
+DESCRIPTION  'Shell Extension Sample'
+
+EXPORTS
+    DllCanUnloadNow             @2  PRIVATE                ;DLL unloading
+    DllGetClassObject           @3  PRIVATE
+;Component object model

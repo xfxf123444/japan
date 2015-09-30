@@ -1,0 +1,565 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Japanese resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\DelFile.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DELFILE_DIALOG DIALOGEX 0, 0, 320, 79
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "ファイル消去"
+FONT 9, "MS UI Gothic", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,201,58,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,268,58,45,14
+    PUSHBUTTON      "コピーして消去(B)",IDC_BACKUP_DELTE,79,58,73,14
+    LTEXT           "Static",IDC_SEL_ITEM,7,7,306,42
+END
+
+IDD_SELECT_METHOD DIALOG DISCARDABLE  0, 0, 211, 98
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "消去方式"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,154,77,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,94,77,50,14
+    LTEXT           "消去方式を選択してください:",IDC_STATIC,13,13,109,8
+    CONTROL         "",IDC_DELETE_METHOD,"ComboBoxEx32",CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,13,37,131,62
+    LTEXT           "",IDC_DEL_STRING,13,55,191,9
+    CONTROL         "ビープ音無し",IDC_BEEP_OFF,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,151,38,50,10
+END
+
+IDD_DEL_PROGRESS DIALOG DISCARDABLE  0, 0, 187, 83
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "消去中"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,130,62,50,14
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,130,62,50,14
+    LTEXT           "",IDC_DEL_STATUS,9,10,160,8
+    CONTROL         "Progress1",IDC_DEL_PROGRESS,"msctls_progress32",
+                    WS_BORDER,7,32,173,12
+    LTEXT           "",IDC_BACK_FILE_NAME,10,20,160,8
+END
+
+IDD_GIVE_DIRECTORY DIALOG DISCARDABLE  0, 0, 243, 199
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "保存先ディレクトリ"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,40,178,50,14
+    EDITTEXT        IDC_FILE,9,9,226,12,ES_AUTOHSCROLL
+    CONTROL         "Tree1",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | 
+                    TVS_NOTOOLTIPS | WS_BORDER | WS_TABSTOP,9,27,226,136
+    DEFPUSHBUTTON   "キャンセル",IDCANCEL,153,178,50,14
+END
+
+IDD_SCHEDULE_EDIT DIALOG DISCARDABLE  0, 0, 308, 179
+STYLE WS_CHILD
+FONT 9, "MS UI Gothic"
+BEGIN
+    CONTROL         "List1",IDC_SCHEDULE_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
+                    WS_TABSTOP,7,7,296,147
+    PUSHBUTTON      "スケジュールを追加",IDC_ADD_SCHEDULE,5,160,70,14
+    PUSHBUTTON      "スケジュールを修正",IDC_MODIFY_SCHEDULE,82,160,70,14
+    PUSHBUTTON      "スケジュールを削除",IDC_DELETE_SCHEDULE,159,160,70,14
+    PUSHBUTTON      "パスワード設定",IDC_SET_PASSWORD,236,160,70,14
+END
+
+IDD_MAIN_DIALOG DIALOG DISCARDABLE  0, 0, 314, 231
+STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+CAPTION "ファイル消去"
+MENU IDR_MAINMENU
+FONT 9, "MS UI Gothic"
+BEGIN
+    CONTROL         "List1",IDC_FILE_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,163,39,144,
+                    177
+END
+
+IDD_FOLDER_FORM DIALOG DISCARDABLE  0, 0, 135, 152
+STYLE WS_CHILD
+FONT 9, "MS UI Gothic"
+BEGIN
+    CONTROL         "Tree1",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | 
+                    TVS_NOTOOLTIPS | WS_BORDER | WS_TABSTOP,7,6,121,143
+END
+
+IDD_SEARCH_FORM DIALOG DISCARDABLE  0, 0, 138, 153
+STYLE WS_CHILD | WS_VISIBLE
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "ファイル名 :",IDC_STATIC,8,9,45,8
+    EDITTEXT        IDC_FILE_TOSEARCH,63,8,66,12,ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    LTEXT           "検索対象",IDC_STATIC,8,24,83,8
+    COMBOBOX        IDC_COMBO_PATH,8,36,121,73,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO_DATE_TYPE,46,70,83,44,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "日付",IDC_CHECK_DATE,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,8,71,35,8
+    LTEXT           "開始",IDC_STATIC,35,88,29,8
+    CONTROL         "DateTimePicker1",IDC_DATETIMEPICKER_START,
+                    "SysDateTimePick32",DTS_RIGHTALIGN | WS_DISABLED | 
+                    WS_TABSTOP,71,87,58,10
+    LTEXT           "終了",IDC_STATIC,35,102,29,8
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER_END,
+                    "SysDateTimePick32",DTS_RIGHTALIGN | WS_DISABLED | 
+                    WS_TABSTOP,71,101,58,10
+    CONTROL         "種類",IDC_CHECK_TYPE,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,8,117,35,8
+    COMBOBOX        IDC_COMBO_FILE_TYPE,47,115,82,143,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "サイズ",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,8,135,35,8
+    COMBOBOX        IDC_COMBO_SIZE_TYPE,47,133,36,38,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FILE_SIZE,88,133,30,12,ES_AUTOHSCROLL | ES_NUMBER | 
+                    WS_DISABLED
+    LTEXT           "K",IDC_STATIC,120,135,8,8
+    CONTROL         "Spin1",IDC_SPIN_SIZE,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_ARROWKEYS | WS_DISABLED,109,133,9,
+                    12
+    PUSHBUTTON      "検索",IDC_SEARCH,85,53,44,12
+    GROUPBOX        "",IDC_STATIC,2,0,132,150
+END
+
+IDD_SCHEDULE DIALOG DISCARDABLE  0, 0, 227, 187
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "スケジュール"
+FONT 9, "MS UI Gothic"
+BEGIN
+    EDITTEXT        IDC_FILE_PATH,13,37,150,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_REFER,170,36,50,14
+    GROUPBOX        "スケジュール日時",IDC_STATIC,7,60,213,71
+    CONTROL         "実行する曜日",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,25,75,83,10
+    COMBOBOX        IDC_COMBO_WEEK,114,74,67,52,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "実行する日",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,25,
+                    92,83,10
+    COMBOBOX        IDC_COMBO_MONTH,114,91,67,49,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "実行時刻",IDC_STATIC,25,110,83,10
+    CONTROL         "DateTimePicker1",IDC_DATETIMEPICKER1,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,114,109,
+                    67,12
+    LTEXT           "消去方式",IDC_STATIC,7,145,45,10
+    CONTROL         "ログに記録",IDC_CHECK_LOG,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,146,144,63,10
+    DEFPUSHBUTTON   "OK",IDOK,47,166,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,129,166,50,14
+    CONTROL         "",IDC_COMBO_METHOD,"ComboBoxEx32",CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,56,143,76,62
+    GROUPBOX        "スケジュール消去対象の選択",IDC_STATIC,7,7,213,50
+END
+
+IDD_DIALOG_LOGIN DIALOG DISCARDABLE  0, 0, 171, 83
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "パスワード入力"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,17,61,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,81,61,50,14
+    LTEXT           "新パスワード",IDC_ENTER_PASS,8,28,45,8
+    EDITTEXT        IDC_PASSWORD,68,26,77,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "新パスワード（確認)",IDC_CONFIRM_PASS,8,45,54,8,NOT 
+                    WS_VISIBLE
+    EDITTEXT        IDC_PASSWORD_CONFIRM,68,43,77,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL | NOT WS_VISIBLE
+    LTEXT           "古いパスワード",IDC_OLD_PASS,8,12,45,8,NOT WS_VISIBLE
+    EDITTEXT        IDC_OLD_PASSWORD,68,10,77,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL | NOT WS_VISIBLE
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 4,0,0,0
+ PRODUCTVERSION 4,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "FrontLine Inc.\0"
+            VALUE "FileDescription", "データ消去\0"
+            VALUE "FileVersion", "4, 0, 0, 0\0"
+            VALUE "InternalName", "DelFile\0"
+            VALUE "LegalCopyright", "Copyright (c) 2007 FrontLine Inc.\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "DelFile.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "DelFile\0"
+            VALUE "ProductVersion", "4, 0, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_DELFILE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 72
+    END
+
+    IDD_SELECT_METHOD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 204
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 91
+    END
+
+    IDD_DEL_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 76
+    END
+
+    IDD_GIVE_DIRECTORY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 236
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 192
+    END
+
+    IDD_SCHEDULE_EDIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        TOPMARGIN, 7
+    END
+
+    IDD_MAIN_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 224
+    END
+
+    IDD_FOLDER_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 128
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_SEARCH_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 134
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 150
+    END
+
+    IDD_SCHEDULE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 220
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 180
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_TREE                BITMAP  DISCARDABLE     "res\\tree.bmp"
+IDB_LIST                BITMAP  DISCARDABLE     "res\\list.bmp"
+IDR_TOOLBAR             BITMAP  DISCARDABLE     "res\\toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "表示形式"
+    BEGIN
+        MENUITEM "フォルダ(&F)",                ID_FOLDER_VIEW
+        MENUITEM "検索(&S)",                    ID_SEARCH_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "終了",                        ID_EXIT
+    END
+    POPUP "操作"
+    BEGIN
+        MENUITEM "消去(&D)",                    ID_SEC_DELETE
+    END
+    POPUP "スケジュール"
+    BEGIN
+        MENUITEM "スケジュール編集",            ID_SCHEDULE_EDIT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_TOOLBAR TOOLBAR DISCARDABLE  48, 48
+BEGIN
+    BUTTON      ID_FOLDER_VIEW
+    BUTTON      ID_SEARCH_VIEW
+    BUTTON      ID_SEC_DELETE
+    BUTTON      ID_SCHEDULE_EDIT
+    BUTTON      ID_EXIT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "ファイル消去について(&A)..."
+    IDS_SINGLE_SELECTED     "%s を指定の方式により消去します。消去後は、ファイルを復活させることは出来ません。"
+    IDS_MULTY_SELECTED      "%d の項目を指定の方式により消去します。消去後は、ファイルを復活させることは出来ません。"
+    IDS_DELETE_STATUS       "消去中です。お待ちください..."
+    IDS_DELETE_SUCCESS      "完全に消去しました。"
+    IDS_00_METHOD           "ゼロ１回書き込み"
+    IDS_FF_METHOD           "１を１回書き込み"
+    IDS_RANDOM_METHOD       "乱数を１回書き込み"
+    IDS_NSA_METHOD          "NSA方式"
+    IDS_OLD_NSA_METHOD      "旧NSA方式"
+    IDS_DOD_STD_METHOD      "米国防総省方式"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_NATO_METHOD         "NATO方式"
+    IDS_GUTMANN_METHOD      "Gutmann方式"
+    IDS_PRODUCT_NAME        "完全データ消去"
+    IDS_NO_ENOUGH_MEM       "メモリ不足です。"
+    IDS_SELECT_OTHER_SAVE_PATH 
+                            "選択したディレクトリ %s は消去されるので、保存先には他のディレクトリを選択してください。"
+    IDS_SELECT_PARENT_PATH  "選択したディレクトリ %s は消去されるディレクトリの親なので、保存先には他のディレクトリを選択してください。"
+    IDS_DEL_FINISH_CAPTION  "処理完了"
+    IDS_DEVICE_NOT_READY    "デバイスは準備中です、やり直すか、他のディレクトリを選んでください。"
+    IDS_BACKUP_FILE_NAME    "バックアップファイル  %s."
+    IDS_DELETED_FILES       "消去ファイル"
+    IDS_DELETED_FILE_SIZE   "サイズ(KB)"
+    IDS_DELETE_CONFIRM_ITEMS "これら、 %d 個の項目を完全に消去しますか?"
+    IDS_DELETE_CONFIRM_ITEM " %s を完全消去しますか??"
+    IDS_LOG_FORMAT          "Delete %s, User:%s,Start time:%4.4d/%2.2d/%2.2d %2.2d:%2.2d:%2.2d,End time:%4.4d/%2.2d/%2.2d %2.2d:%2.2d:%2.2d,Result:%s"
+    IDS_RESULT_SUCC         "Success"
+    IDS_RESULT_FAIL         "Failure"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_LOG_FAIL            "ログを %s に保存できませんでした"
+    IDS_SEARCH              "検索"
+    IDS_FOLDER              "フォルダ"
+    IDS_FILE_NAME           "ファイル名"
+    IDS_DIRECTORY           "ディレクトリ"
+    IDS_FILE_SIZE           "ファイルサイズ"
+    IDS_LAST_MODIFY         "更新日時"
+    IDS_LAST_ACCESS         "アクセス日時"
+    IDS_CREATE_TIME         "作成日時"
+    IDS_NAME_VALID          "検索名に不正な文字が含まれています。"
+    IDS_MIN                 "最小"
+    IDS_MAX                 "最大"
+    IDS_ALL_TYPE            "(.*) すべて"
+    IDS_UNKNOWN_TYPE        "不明"
+    IDS_DATE_ERROR          "日付範囲のエラー"
+    IDS_CANCEL_SEARCH       "キャンセル"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SEARCH2             "検索"
+    IDS_NO_ITEM             "何も選択されていません。消去する項目を選択してください。"
+    IDS_INSUFER_MEMORY      "メモリ不足です。"
+    IDS_NO_FILE_SELECTED    "ファイルが選択されていません。"
+    IDS_CREATE_DIR_FAIL     "ターゲットのディレクトリを作成できません。"
+    IDS_OVER_WRITE          "次のファイルを上書きしますか %s"
+    IDS_CREATE_FILE_FAIL    "次のファイルを作成できません %s!"
+    IDS_INVALID_PATH        "パスが不正"
+    IDS_DELETE_TIME         "消去時刻"
+    IDS_EMPTY_NAME          "名前は空ではいけません"
+    IDS_DELETE_DATE         "消去日"
+    IDS_SUNDAY              "日曜"
+    IDS_MONDAY              "月曜"
+    IDS_TUESDAY             "火曜"
+    IDS_WEDNESDAY           "水曜"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_THURSDAY            "木曜"
+    IDS_FRIDAY              "金曜"
+    IDS_SATURDAY            "土曜"
+    IDS_DAY_OF_MONTH        "%d 毎月"
+    IDS_UNKNOW              "不明"
+    IDS_SELECT_SCHEDULE     "スケジュールが選択されていません"
+    IDS_SELECT_FILE_OR_DIR  "ファイルかディレクトリを選んでください"
+    IDS_INVALID_DATE        "不正な日付"
+    IDS_PROTECT_PATH        "保護されたパスは消去対象には出来ません！"
+    IDS_TRY_LIMIT           "間違ったパスワードを3回入力されましたので、10分間、アプリケーションをロックします！"
+    IDS_PASSWORD_MATCH      "パスワードが一致しません!"
+    IDS_INVALID_PASSWORD    "パスワードが間違っています!"
+    IDS_NEW_PASSWORD        "新パスワード"
+    IDS_ENTER_PASSWORD      "パスワード："
+    IDS_RECYCLED            "Recycled"
+END
+
+#endif    // Japanese resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "..\\resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\DelFile.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\DelFile.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

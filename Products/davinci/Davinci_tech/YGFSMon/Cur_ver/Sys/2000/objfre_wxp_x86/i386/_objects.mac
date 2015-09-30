@@ -1,0 +1,17 @@
+MUI_386_OBJECTS= \
+ $O\ygfsmon.res
+
+386_OBJECTS= \
+ $O\ygfsmon.res \
+ $O\ygfsmon.obj
+
+
+_RES_FILE=$O\ygfsmon.res
+
+
+
+# lowercased
+BASEDIR=c:\winddk\6000
+OBJECT_ROOT=c:\winddk\6000
+MAKEDIR_LOWERCASE=e:\products\davinci\davinci_tech\ygfsmon\cur_ver\sys\2000
+OBJ_PATH=e:\products\davinci\davinci_tech\ygfsmon\cur_ver\sys\2000

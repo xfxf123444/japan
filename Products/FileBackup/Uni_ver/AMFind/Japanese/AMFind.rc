@@ -1,0 +1,378 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_STATUS_ICON         BITMAP  DISCARDABLE     "..\\res\\tree.bmp"
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "..\\res\\Toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "..\\res\\AMFind.ico"
+IDR_AMFINDTYPE          ICON    DISCARDABLE     "..\\res\\AMFindDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      ID_FILE_OPEN
+    SEPARATOR
+    BUTTON      ID_RESTORE
+    SEPARATOR
+    BUTTON      ID_RESTORE_TO
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "ファイル(&F)"
+    BEGIN
+        MENUITEM "開く(&O)...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "リストア(&R)\tCtrl+R",        ID_RESTORE
+        MENUITEM SEPARATOR
+        MENUITEM "終了(&X)",                    ID_APP_EXIT
+    END
+    POPUP "ビュー(&V)"
+    BEGIN
+        MENUITEM "ツールバー(&T)",              ID_VIEW_TOOLBAR
+        MENUITEM "ステータスバー(&S)",          ID_VIEW_STATUS_BAR
+    END
+    POPUP "ヘルプ(&H)"
+    BEGIN
+        MENUITEM "データバックアップについて(&A)...", ID_APP_ABOUT
+    END
+END
+
+IDR_RESTORE MENU DISCARDABLE 
+BEGIN
+    POPUP "リストア"
+    BEGIN
+        MENUITEM "リストア(&R)",                ID_RESTORE
+        MENUITEM "他にリストア...",             ID_RESTORE_TO
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "データバックアップについて"
+FONT 9, "MS UI Gothic"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "データバックアップ",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "CopyRight (C) 2008",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_SEARCH_FORM DIALOG DISCARDABLE  0, 0, 128, 206
+STYLE DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | WS_CHILD
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "ファイル名 :",IDC_STATIC,8,10,55,8
+    EDITTEXT        IDC_FILE_TOSEARCH,66,8,57,12,ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    LTEXT           "保存日時による検索 :",IDC_STATIC,8,25,94,8
+    COMBOBOX        IDC_COMBO_TIMESTAMP,8,37,115,38,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_DATE_TYPE,18,85,105,44,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "日付",IDC_CHECK_DATE,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,7,69,31,10
+    LTEXT           "開始日",IDC_STATIC,17,103,33,8
+    CONTROL         "DateTimePicker1",IDC_DATETIMEPICKER_START,
+                    "SysDateTimePick32",DTS_RIGHTALIGN | WS_DISABLED | 
+                    WS_TABSTOP,57,101,66,12
+    LTEXT           "終了日",IDC_STATIC,17,118,33,8
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER_END,
+                    "SysDateTimePick32",DTS_RIGHTALIGN | WS_DISABLED | 
+                    WS_TABSTOP,57,117,66,12
+    CONTROL         "タイプ",IDC_CHECK_TYPE,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,8,135,31,10
+    COMBOBOX        IDC_COMBO_FILE_TYPE,17,152,105,143,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "サイズ",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,7,171,31,10
+    COMBOBOX        IDC_COMBO_SIZE_TYPE,17,187,58,38,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FILE_SIZE,77,187,34,12,ES_AUTOHSCROLL | ES_NUMBER | 
+                    WS_DISABLED
+    LTEXT           "KB",IDC_STATIC,114,189,9,8
+    CONTROL         "Spin1",IDC_SPIN_SIZE,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_ARROWKEYS | WS_DISABLED,110,187,9,
+                    14
+    PUSHBUTTON      "検索",IDC_SEARCH,73,55,50,14,WS_DISABLED
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 7,0,0,1
+ PRODUCTVERSION 7,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041103a4"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "FrontLine Inc\0"
+            VALUE "FileDescription", "BMFind データバックアップ補助プログラム\0"
+            VALUE "FileVersion", "7, 0, 0, 1\0"
+            VALUE "InternalName", "AMFind\0"
+            VALUE "LegalCopyright", "Copyright (C) 2008 FrontLine Inc.\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "FileFind.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "BackupMaster\0"
+            VALUE "ProductVersion", "7, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 932
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_SEARCH_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 123
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 203
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "BMFind\n\nBMFind\n\n\nBMFind.Document\nBMFind Document"
+    IDS_FILE_NAME           "ファイル名"
+    IDS_DIRECTORY           "ディレクトリ"
+    IDS_FILE_SIZE           "ファイルサイズ"
+    IDS_LAST_MODIFY         "最終更新時刻"
+    IDS_LAST_ACCESS         "最終アクセス時刻"
+    IDS_CREATE_TIME         "作成時刻"
+    IDS_NAME_VALID          "検索対象に不正な文字が含まれています。"
+    IDS_MIN                 "最小"
+    IDS_MAX                 "最大"
+    IDS_ALL_TYPE            "(.*) 全てのファイルタイプ"
+    IDS_UNKNOWN_TYPE        "不明"
+    IDS_DATE_ERROR          "日付範囲の誤り"
+    IDS_CANCEL_SEARCH       "キャンセル"
+    IDS_SEARCH              "検索"
+    IDS_NO_TIMESTAMP        "保存日時が選択されていません。必ず選択してください。"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "データバックアップ検索"
+    AFX_IDS_IDLEMESSAGE     "準備完了"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "拡張"
+    ID_INDICATOR_CAPS       "Caps"
+    ID_INDICATOR_NUM        "Number"
+    ID_INDICATOR_SCRL       "Scroll"
+    ID_INDICATOR_OVR        "OverWrite"
+    ID_INDICATOR_REC        "Record"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_RESTORE              "リストア"
+    ID_RESTORE_TO           "他にリストア ..."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_INSUFER_MEMORY      "メモリが不足しています!"
+    IDS_NO_FILE_SELECTED    "ファイルが選択されていません!"
+    IDS_CREATE_DIR_FAIL     "保存先ディレクトリを作成できません!"
+    IDS_OVER_WRITE          "ファイル %s を上書きしてもよろしいですか?"
+    IDS_CREATE_FILE_FAIL    "ファイル %s を作成できません!"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 中国語 (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "..\\resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""..\\res\\AMFind.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#include ""l.chs\\afxprint.rc""        // printing/print preview resources\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中国語 (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "..\res\AMFind.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#include "l.chs\afxprint.rc"        // printing/print preview resources
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

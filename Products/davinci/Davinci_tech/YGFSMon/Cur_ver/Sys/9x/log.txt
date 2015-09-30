@@ -1,0 +1,32 @@
+------------------------------------------------------------
+Set ..\obj\WIN9X for common output.
+Set .\obj for specific output.
+------------------------------------------------------------
+	X:\MASM611\bin\ml -IX:\DDK\inc32 -coff -DBLD_COFF -DIS_32 -W2 -Zd -c -Cx -DMASM6 -DDEBUG -Fo.\obj\SYSCTRL.obj .\SYSCTRL.asm
+ Assembling: .\SYSCTRL.asm
+	X:\PROGRA~1\MICROS~1\VC98\BIN\CL -IX:\DDK\inc32 -I\include -IX:\PROGRA~1\MICROS~1\VC98\include -Zdp -Gs -c -DIS_32 -Zl -Zp1 -DOS_PLATFORM=WIN9X -DMODULE_TYPE=DRIVER -DDEBUG -Fo.\obj\Shell.obj .\Shell.c
+Shell.c
+	X:\PROGRA~1\MICROS~1\VC98\BIN\CL -IX:\DDK\inc32 -I\include -IX:\PROGRA~1\MICROS~1\VC98\include -Zdp -Gs -c -DIS_32 -Zl -Zp1 -DOS_PLATFORM=WIN9X -DMODULE_TYPE=DRIVER -DDEBUG -Fo.\obj\YGFSMon.obj .\YGFSMon.c
+YGFSMon.c
+	X:\98DDK\BIN\LINK.EXE @YGFSMon.crf
+Microsoft (R) Incremental Linker Version 5.12.8181
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+--machine:i386 -vxd -debug -pdb:.\obj\YGFSMon.PDB 
+-DEF:YGFSMon.def 
+-OUT:.\obj\YGFSMon.VXD 
+-MAP:.\obj\YGFSMon.MAP 
+X:\DDK\lib\vxdwraps.clb .\obj\SYSCTRL.obj .\obj\Shell.obj .\obj\YGFSMon.obj 
+LINK : warning LNK4044: unrecognized option "-machine:i386"; ignored
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4078: multiple "PCODE_vxdn" sections found with different attributes (C0000040)
+LINK : warning LNK4039: section "MCODE_vxdpni" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpni" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpdi" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpdi" specified with /SECTION option does not exist
+	X:\PROGRA~1\MICROS~1\VC98\BIN\mapsym.exe -o .\obj\YGFSMon.SYM .\obj\YGFSMon.MAP
+Microsoft (R) Symbol File Generator  Version 6.00
+Copyright (C) Microsoft Corp 1984 - 1995.  All rights reserved.
+Line number support enabled
+Program entry point at 0000:0000

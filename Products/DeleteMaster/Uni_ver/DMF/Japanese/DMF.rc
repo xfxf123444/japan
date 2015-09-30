@@ -1,0 +1,180 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Japanese resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 4,0,0,0
+ PRODUCTVERSION 4,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080003a4"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "FrontLine Inc.\0"
+            VALUE "FileDescription", "DMF\0"
+            VALUE "FileVersion", "4, 0, 0, 0\0"
+            VALUE "InternalName", "DMF\0"
+            VALUE "LegalCopyright", "Copyright (C) 2007\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "DMF.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "FrontLine DMF\0"
+            VALUE "ProductVersion", "4, 0, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x800, 932
+    END
+END
+
+#endif    // !_MAC
+
+#endif    // Japanese resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "..\\resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_USAGE               "Usage: \n DMF -S""Setting file""\n -F""Full Name of File Or Directory"" \n -R\n -MDeleteMethod\n -B\n -N"
+    IDS_IMPORTANT           "Important:\n / can consider as - \n Case Insensitive \n eg. -F equ -f equ /F equ /f\n"
+    IDS_EXPLAIN             "-S Full Name of the setting file \n-F Full Name of File Or Directory to delete\n-R Delete File in recycler \n-M Delete Method 0-Fill Zero 1-Fill FF 2-Fill Random 3-NSA 4-Old NSA 5-Dod 6-Nato 7-Gutmann\n-B if this parameter is refered then beep is on else beep is off\n -N no confirm"
+    IDS_INVALID_PARAM       "Invalid parameter"
+    IDS_OPEN_SOURCE_FAILED  "Can not open souce file: %s"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_NOT_ENOUGH_MEMORY   "Not enough memory"
+    IDS_PRODUCT_NAME        "Delete Master"
+    IDS_00_METHOD           "fill zero method"
+    IDS_FF_METHOD           "fill """"FF"""" method"
+    IDS_RANDOM_METHOD       "Random fill method"
+    IDS_NSA_METHOD          "NSA method"
+    IDS_OLD_NSA_METHOD      "old NSA method"
+    IDS_DOD_STD_METHOD      "DOD stand method"
+    IDS_NATO_METHOD         "Nato method"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_GUTMANN_METHOD      "Gutmann method"
+    IDS_SECURE_DELETE_FINISHED "Secure delete finished"
+    IDS_SECURE_DELETE_FAILURE "Secure delete fail"
+    IDS_START_SECDEL        "Start secure delete %s,please wait..."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SINGLE_SELECTED     "Operation is delete %s by %s, Beep is %s, continue?(Y/N)"
+    IDS_BEEP_ON             "On"
+    IDS_BEEP_OFF            "Off"
+    IDS_LOG_FORMAT          "Delete %s, User:%s,Start time:%4.4d/%2.2d/%2.2d %2.2d:%2.2d:%2.2d,End time:%4.4d/%2.2d/%2.2d %2.2d:%2.2d:%2.2d,Result:%s"
+    IDS_RESULT_SUCC         "Success"
+    IDS_RESULT_FAIL         "Failure"
+    IDS_LOG_FAIL            "Fail to save log to %s!"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

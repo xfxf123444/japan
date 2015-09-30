@@ -1,0 +1,181 @@
+ YGFSMON
+
+ Timestamp is 3ef6cda5 (Mon Jun 23 17:51:33 2003)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000200H .bss                    CODE
+ 0001:00000200 000003e3H .data                   CODE
+ 0001:000005f0 00003163H .text                   CODE
+ 0001:00003754 00000050H _LDATA                  CODE
+ 0001:000037b0 000006c2H _LTEXT                  CODE
+ 0002:00000000 0000001cH _IDATA                  CODE
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0001:00000000       _g_bRecord                 00401000     YGFSMon.obj
+ 0001:00000008       _OldVMMRegCreateDynKey     00401008     <common>
+ 0001:0000000c       _OldVMMRegQueryValue       0040100c     <common>
+ 0001:00000010       _OldVMMRegRemapPreDefKey   00401010     <common>
+ 0001:00000014       _OldVMMRegQueryInfoKey     00401014     <common>
+ 0001:00000018       _PrevIFSHookProc           00401018     <common>
+ 0001:0000001c       _OldVMMRegCloseKey         0040101c     <common>
+ 0001:00000020       _OldVMMRegDeleteKey        00401020     <common>
+ 0001:00000024       _OldVMMRegDeleteValue      00401024     <common>
+ 0001:00000028       _OldVMMRegFlushKey         00401028     <common>
+ 0001:0000002c       _OldVMMRegQueryValueEx     0040102c     <common>
+ 0001:00000030       _OldVMMRegEnumKey          00401030     <common>
+ 0001:00000034       _OldVMMRegSetValueEx       00401034     <common>
+ 0001:00000038       _OldVMMRegOpenKey          00401038     <common>
+ 0001:00000040       _FsVolTable                00401040     <common>
+ 0001:000001e0       _OldVMMRegEnumValue        004011e0     <common>
+ 0001:000001e4       _OldVMMRegQueryMultipleValues 004011e4     <common>
+ 0001:000001e8       _OldVMMRegSetValue         004011e8     <common>
+ 0001:000001ec       _OldVMMRegCreateKey        004011ec     <common>
+ 0001:000001f0       _VMMWin32ServiceTable      004011f0     <common>
+ 0001:000001f4       _OldVMMWin32RegQueryInfoKey 004011f4     <common>
+ 0001:000001f8       _hFSHashTable              004011f8     <common>
+ 0001:000001fc       _hRegHashTable             004011fc     <common>
+ 0001:00000200       _YGFSMON_W32_Proc          00401200     Shell.obj
+ 0001:000005f0       _CreateDirAnsi             004015f0 f   YGFSMon.obj
+ 0001:000006dc       _YGFSMonConvertRegPath     004016dc f   YGFSMon.obj
+ 0001:00000ae7       _YGFSMonSaveRegData        00401ae7 f   YGFSMon.obj
+ 0001:00000d9e       _YGFSMonDeleteRegData      00401d9e f   YGFSMon.obj
+ 0001:00000ee2       _YGFSMonSaveRegKey         00401ee2 f   YGFSMon.obj
+ 0001:00000ef4       _DeleteDirectory           00401ef4 f   YGFSMon.obj
+ 0001:00001095       _YGFSMonDeleteRegKey       00402095 f   YGFSMon.obj
+ 0001:00001107       _YGFSMonRedirStart         00402107 f   YGFSMon.obj
+ 0001:00001116       _YGFSMonRedirStop          00402116 f   YGFSMon.obj
+ 0001:00001125       _YGFSMonConvertParsedPath  00402125 f   YGFSMon.obj
+ 0001:00001194       _CreateHashList            00402194 f   YGFSMon.obj
+ 0001:00001225       _YGFSMonHashCleanup        00402225 f   YGFSMon.obj
+ 0001:000012c6       _YGFSMonLogHash            004022c6 f   YGFSMon.obj
+ 0001:00001371       _YGFSMonGetLog             00402371 f   YGFSMon.obj
+ 0001:000013d1       _YGFSMonFreeHashEntry      004023d1 f   YGFSMon.obj
+ 0001:00001499       _ClearDriveInfo            00402499 f   YGFSMon.obj
+ 0001:00001554       _StoreDriveInfo            00402554 f   YGFSMon.obj
+ 0001:000015be       _IsProtectDirAndFile       004025be f   YGFSMon.obj
+ 0001:00001766       _CreateDir                 00402766 f   YGFSMon.obj
+ 0001:00001924       _wstrlen                   00402924 f   YGFSMon.obj
+ 0001:00001963       _YGFSMonGetProcess         00402963 f   YGFSMon.obj
+ 0001:00001a37       _YGFSMonConvertUnparsedPath 00402a37 f   YGFSMon.obj
+ 0001:00001a6f       _YGFSMonConvertMixedPath   00402a6f f   YGFSMon.obj
+ 0001:00001b0f       _YGFSMonConvertPath        00402b0f f   YGFSMon.obj
+ 0001:00001ba7       _YGRegMonGetFullName       00402ba7 f   YGFSMon.obj
+ 0001:00001d9b       _YGFSMonGetFullPath        00402d9b f   YGFSMon.obj
+ 0001:00001eeb       _YGRegMonVMMRegOpenKey     00402eeb f   YGFSMon.obj
+ 0001:00001fa8       _YGRegMonVMMRegCreateKey   00402fa8 f   YGFSMon.obj
+ 0001:0000209f       _YGRegMonVMMRegDeleteKey   0040309f f   YGFSMon.obj
+ 0001:0000214a       _YGRegMonVMMRegDeleteValue 0040314a f   YGFSMon.obj
+ 0001:000021f9       _YGRegMonVMMRegCloseKey    004031f9 f   YGFSMon.obj
+ 0001:00002227       _YGRegMonVMMRegFlushKey    00403227 f   YGFSMon.obj
+ 0001:00002242       _YGRegMonVMMRegEnumKey     00403242 f   YGFSMon.obj
+ 0001:00002269       _YGRegMonVMMRegEnumValue   00403269 f   YGFSMon.obj
+ 0001:000022a0       _YGRegMonVMMRegQueryInfoKey 004032a0 f   YGFSMon.obj
+ 0001:000022e7       _YGRegMonVMMRegQueryValue  004032e7 f   YGFSMon.obj
+ 0001:0000230e       _YGRegMonVMMRegQueryValueEx 0040330e f   YGFSMon.obj
+ 0001:0000233d       _YGRegMonVMMRegSetValue    0040333d f   YGFSMon.obj
+ 0001:00002405       _YGRegMonVMMRegSetValueEx  00403405 f   YGFSMon.obj
+ 0001:000024ce       _YGRegMonVMMRegRemapPreDefKey 004034ce f   YGFSMon.obj
+ 0001:00002559       _YGRegMonVMMRegQueryMultipleValues 00403559 f   YGFSMon.obj
+ 0001:000025f0       _YGRegMonVMMRegCreateDynKey 004035f0 f   YGFSMon.obj
+ 0001:000026dd       _YGRegMonVMMWin32RegQueryInfoKey@32 004036dd f   YGFSMon.obj
+ 0001:0000278b       _YGFSMonRestoreFile        0040378b f   YGFSMon.obj
+ 0001:0000290b       _YGFSMonParseWrite         0040390b f   YGFSMon.obj
+ 0001:00002a9d       _YGFSMonParseNameBasedFunc 00403a9d f   YGFSMon.obj
+ 0001:00002c1d       _YGFSMonMapHandleBasedFunc 00403c1d f   YGFSMon.obj
+ 0001:00002ce7       _YGFSMonHookProc           00403ce7 f   YGFSMon.obj
+ 0001:00003613       _OnCriticalInit            00404613 f   YGFSMon.obj
+ 0001:000036b1       _OnCriticalExit            004046b1 f   YGFSMon.obj
+ 0001:00003714       _OnDeviceInit              00404714 f   YGFSMon.obj
+ 0001:00003736       _OnDeviceReboot            00404736 f   YGFSMon.obj
+ 0001:00003754       YGFSMON_DDB                00404754     SYSCTRL.obj
+ 0001:000037b0       YGFSMON_Control            004047b0 f   SYSCTRL.obj
+ 0001:000037fc       _HookRegServices           004047fc f   SYSCTRL.obj
+ 0001:00003961       _UnHookRegServices         00404961 f   SYSCTRL.obj
+ 0001:00003a79       VMMRegOpenKeyHandler       00404a79 f   SYSCTRL.obj
+ 0001:00003a9d       VMMRegCloseKeyHandler      00404a9d f   SYSCTRL.obj
+ 0001:00003abb       VMMRegCreateKeyHandler     00404abb f   SYSCTRL.obj
+ 0001:00003adf       VMMRegDeleteKeyHandler     00404adf f   SYSCTRL.obj
+ 0001:00003b00       VMMRegEnumKeyHandler       00404b00 f   SYSCTRL.obj
+ 0001:00003b27       VMMRegQueryValueHandler    00404b27 f   SYSCTRL.obj
+ 0001:00003b4e       VMMRegSetValueHandler      00404b4e f   SYSCTRL.obj
+ 0001:00003b78       VMMRegDeleteValueHandler   00404b78 f   SYSCTRL.obj
+ 0001:00003b99       VMMRegEnumValueHandler     00404b99 f   SYSCTRL.obj
+ 0001:00003bcc       VMMRegQueryValueExHandler  00404bcc f   SYSCTRL.obj
+ 0001:00003bfb       VMMRegSetValueExHandler    00404bfb f   SYSCTRL.obj
+ 0001:00003c28       VMMRegFlushKeyHandler      00404c28 f   SYSCTRL.obj
+ 0001:00003c46       VMMRegRemapPreDefKeyHandler 00404c46 f   SYSCTRL.obj
+ 0001:00003c67       VMMRegQueryMultipleValuesHandler 00404c67 f   SYSCTRL.obj
+ 0001:00003c91       VMMRegCreateDynKeyHandler  00404c91 f   SYSCTRL.obj
+ 0001:00003cbe       VMMRegQueryInfoKeyHandler  00404cbe f   SYSCTRL.obj
+ 0001:00003cf1       _RemoveDirectory           00404cf1 f   SYSCTRL.obj
+ 0001:00003d12       _CreateDirectory           00404d12 f   SYSCTRL.obj
+ 0001:00003d40       _YGFSMON_W32_DeviceIOControl@16 00404d40 f   Shell.obj
+ 0001:00003d9b       _YGFSMON_GetVersion@12     00404d9b f   Shell.obj
+ 0001:00003db0       _YGFSMON_RedirStart@12     00404db0 f   Shell.obj
+ 0001:00003dbe       _YGFSMON_RedirStop@12      00404dbe f   Shell.obj
+ 0001:00003dcc       _YGFSMON_CleanUp@0         00404dcc f   Shell.obj
+ 0001:00003dd8       _LCODE__lmemcpy            00404dd8     vxdwraps:vmm3b1.obj
+ 0001:00003de0       _LCODE__lstrlen            00404de0     vxdwraps:vmm3a1.obj
+ 0001:00003de8       _LCODE__lstrcpyn           00404de8     vxdwraps:vmm391.obj
+ 0001:00003df0       _LCODE_Create_Semaphore@4  00404df0     vxdwraps:vmm0f1.obj
+ 0001:00003e00       _LCODE__HeapAllocate       00404e00     vxdwraps:vmm021.obj
+ 0001:00003e08       _LCODE_Destroy_Semaphore@4 00404e08     vxdwraps:vmm101.obj
+ 0001:00003e14       _LCODE__HeapFree           00404e14     vxdwraps:vmm031.obj
+ 0001:00003e1c       _LCODE_Signal_Semaphore@4  00404e1c     vxdwraps:vmm111.obj
+ 0001:00003e28       _LCODE_Wait_Semaphore@8    00404e28     vxdwraps:vmm121.obj
+ 0001:00003e34       _LCODE_Get_Sys_VM_Handle   00404e34     vxdwraps:vmm0d1.obj
+ 0001:00003e40       _LCODE__Sprintf            00404e40     vxdwraps:vmm2a1.obj
+ 0001:00003e48       _LCODE__Debug_Printf_Service 00404e48     vxdwraps:vmm091.obj
+ 0001:00003e5c       _LCODE_Get_DDB@8           00404e5c     vxdwraps:vmm191.obj
+
+ entry point at        0000:00000000
+
+ Static symbols
+
+ 0001:000006b6       _R0_GetFileAttributes      004016b6 f   YGFSMon.obj
+ 0001:00000caa       _R0_OpenCreateFile         00401caa f   YGFSMon.obj
+ 0001:00000cff       _R0_WriteFile              00401cff f   YGFSMon.obj
+ 0001:00000d4b       _R0_CloseFile              00401d4b f   YGFSMon.obj
+ 0001:00000d6b       _strcat                    00401d6b f   YGFSMon.obj
+ 0001:00000ebe       _R0_DeleteFile             00401ebe f   YGFSMon.obj
+ 0001:00001003       _R0_FindFirstFile          00402003 f   YGFSMon.obj
+ 0001:0000102f       _R0_FindNextFile           0040202f f   YGFSMon.obj
+ 0001:00001052       _R0_FindClose              00402052 f   YGFSMon.obj
+ 0001:00001072       _stricmp                   00402072 f   YGFSMon.obj
+ 0001:0000118e       _UniToBCSPath              0040218e f   YGFSMon.obj
+ 0001:000011f6       _memset                    004021f6 f   YGFSMon.obj
+ 0001:00001760       _UniToBCS                  00402760 f   YGFSMon.obj
+ 0001:000019f7       _SelectorMapFlat           004029f7 f   YGFSMon.obj
+ 0001:00001a1d       _GetCurrentProcessHandle   00402a1d f   YGFSMon.obj
+ 0001:00001edf       _IFSMgr_GetHeap            00402edf f   YGFSMon.obj
+ 0001:00001ee5       _IFSMgr_RetHeap            00402ee5 f   YGFSMon.obj
+ 0001:00003730       _IFSMgr_InstallFileSystemApiHook 00404730 f   YGFSMon.obj
+ 0001:0000374d       _IFSMgr_RemoveFileSystemApiHook 0040474d f   YGFSMon.obj
+ 0002:0000001c       $$$00001                   0040501c f   SYSCTRL.obj
+ 0001:000037a4       $$$00002                   004047a4 f   SYSCTRL.obj
+ 0001:000037a4       $$$00003                   004047a4 f   SYSCTRL.obj
+ 0001:000037b0       $$$00004                   004047b0 f   SYSCTRL.obj
+ 0001:000037fc       $$$00006                   004047fc f   SYSCTRL.obj
+ 0001:00003961       $$$00008                   00404961 f   SYSCTRL.obj
+ 0001:00003a6d       $$$00010                   00404a6d f   SYSCTRL.obj
+ 0001:00003a91       $$$00012                   00404a91 f   SYSCTRL.obj
+ 0001:00003aaf       $$$00014                   00404aaf f   SYSCTRL.obj
+ 0001:00003ad3       $$$00016                   00404ad3 f   SYSCTRL.obj
+ 0001:00003af4       $$$00018                   00404af4 f   SYSCTRL.obj
+ 0001:00003b1b       $$$00020                   00404b1b f   SYSCTRL.obj
+ 0001:00003b42       $$$00022                   00404b42 f   SYSCTRL.obj
+ 0001:00003b6c       $$$00024                   00404b6c f   SYSCTRL.obj
+ 0001:00003b8d       $$$00026                   00404b8d f   SYSCTRL.obj
+ 0001:00003bc0       $$$00028                   00404bc0 f   SYSCTRL.obj
+ 0001:00003bef       $$$00030                   00404bef f   SYSCTRL.obj
+ 0001:00003c1c       $$$00032                   00404c1c f   SYSCTRL.obj
+ 0001:00003c3a       $$$00034                   00404c3a f   SYSCTRL.obj
+ 0001:00003c5b       $$$00036                   00404c5b f   SYSCTRL.obj
+ 0001:00003c85       $$$00038                   00404c85 f   SYSCTRL.obj
+ 0001:00003cb2       $$$00040                   00404cb2 f   SYSCTRL.obj
+ 0001:00003cf1       $$$00042                   00404cf1 f   SYSCTRL.obj
+ 0001:00003d12       $$$00044                   00404d12 f   SYSCTRL.obj
+ 0001:00003d33       $$$00046                   00404d33 f   SYSCTRL.obj

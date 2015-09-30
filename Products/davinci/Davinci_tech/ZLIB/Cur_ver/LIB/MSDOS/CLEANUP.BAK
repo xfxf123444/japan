@@ -1,0 +1,5 @@
+del *.obj
+del log
+del *.map
+del *.lib
+del *.sbr

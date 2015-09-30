@@ -1,0 +1,604 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Japanese resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\DeleteMaster.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "ファイル(&F)"
+    BEGIN
+        MENUITEM "新規(&N)\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "開く(&O)...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "保存(&S)\tCtrl+S",            ID_FILE_SAVE
+        MENUITEM "名前を付けて保存(&A)...",     ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "最近使ったファイル",          ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "アプリケーションの終了(&X)",  ID_APP_EXIT
+    END
+    POPUP "編集(&E)"
+    BEGIN
+        MENUITEM "取り消し(&U)\tCtrl+Z",        ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "切り取り(&T)\tCtrl+X",        ID_EDIT_CUT
+        MENUITEM "コピー(&C)\tCtrl+C",          ID_EDIT_COPY
+        MENUITEM "貼り付け(&P)\tCtrl+V",        ID_EDIT_PASTE
+    END
+    POPUP "ヘルプ(&H)"
+    BEGIN
+        MENUITEM "製品情報(&A)...",             ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 4,0,0,0
+ PRODUCTVERSION 4,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "FrontLine Inc.\0"
+            VALUE "FileDescription", "DELETEMASTER3\0"
+            VALUE "FileVersion", "4, 0, 0, 0\0"
+            VALUE "InternalName", "DELETEMASTER\0"
+            VALUE "LegalCopyright", " (C) 2007 FrontLine Inc.\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "DeleteMaster.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "DELETEMASTER3\0"
+            VALUE "ProductVersion", "4, 0, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DM_DELETE_PARTITION DIALOG DISCARDABLE  0, 0, 373, 145
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "消去",IDC_DM_DELETE,191,127,50,14
+    PUSHBUTTON      "クリア",IDC_DELETE_CLEAR,258,127,50,14
+    LTEXT           "物理ディスク：",IDC_STATIC,7,9,52,8
+    CONTROL         "List1",IDC_DM_DELETE_PAR_LIST,"SysListView32",
+                    LVS_REPORT | LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,7,33,
+                    301,86
+    CONTROL         "ディスク全体",IDC_DELETE_ENTIR_DISK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,189,9,60,11
+    CONTROL         "",IDC_DELETE_DISK_COMBO,"ComboBoxEx32",CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,66,8,117,57
+    CONTROL         "",IDC_DELETE_MOTHED,"ComboBoxEx32",CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,47,129,56,66
+    LTEXT           "消去方式：",IDC_LABEL_MOTHED,7,129,35,8
+    DEFPUSHBUTTON   "ディスク情報",IDC_DM_DISK_INFO,258,7,53,14
+    DEFPUSHBUTTON   "オプション",IDC_DM_OPTIONS,316,7,50,14
+    CONTROL         "ビープ音無し",IDC_BEEP_OFF,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,120,129,54,10
+END
+
+IDD_DM_DISK_VIEW DIALOG DISCARDABLE  0, 0, 300, 143
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "物理ディスク：",IDC_STATIC,7,10,57,8
+    CONTROL         "",IDC_VIEW_DISK_COMBO,"ComboBoxEx32",CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,66,9,117,59
+    CONTROL         "ディスク全体",IDC_VIEW_ENTIR_DISK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,196,9,89,11
+    CONTROL         "List1",IDC_DM_VIEW_PAR_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,7,31,286,84
+    PUSHBUTTON      "表示",IDC_DM_VIEW,187,122,50,14
+    PUSHBUTTON      "クリア",IDC_VIEW_CLEAR,243,122,50,14
+END
+
+IDD_VIEW_SECTOR DIALOG DISCARDABLE  0, 0, 385, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "セクタ情報"
+FONT 9, "ＭＳ ゴシック"
+BEGIN
+    DEFPUSHBUTTON   "閉じる",IDOK,328,169,50,14
+    PUSHBUTTON      "次へ",IDC_SECTOR_NEXT,52,152,43,13
+    PUSHBUTTON      "前へ",IDC_SECTOR_PREV,7,152,43,13
+    RTEXT           "セクタ絶対位置：",IDC_STATIC,0,8,73,8
+    LTEXT           "Static",IDC_SECTOR_NUM,75,7,73,8
+    LTEXT           "Static",IDC_SECTOR_CHS,102,154,251,8
+    PUSHBUTTON      "セクタ指定",IDC_SET_SECTOR_NUM,333,7,45,14
+END
+
+IDD_SET_SERCTOR_NUMBER DIALOG DISCARDABLE  0, 0, 187, 98
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "セクタ番号の設定"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,69,77,50,14
+    LTEXT           "表示するセクタ番号を設定してください",IDC_STATIC,7,18,
+                    145,8
+    EDITTEXT        IDC_SECTOR_NUMBER,41,33,104,12,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CTEXT           "範囲 : 0 - 213456",IDC_SECTOR_RANGE,7,52,173,9
+END
+
+IDD_DELETE_CONFIRM DIALOG DISCARDABLE  0, 0, 260, 77
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "確認"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "続ける",IDOK,56,56,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,153,56,50,14
+    LTEXT           "Static",IDC_SELECT_TARGET,7,9,246,8
+    LTEXT           "は消去されます。",IDC_DEL_MOTHED,7,20,246,8
+    LTEXT           "続けると、このデータは完全に失われます。キャンセルを選ぶと処理を中止します。",
+                    IDC_STATIC,7,31,191,16
+END
+
+IDD_DELETE_PROGRESS DIALOG DISCARDABLE  0, 0, 214, 101
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ディスク／パーティションの消去"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "キャンセル",IDCANCEL,151,80,50,14
+    CONTROL         "Progress1",IDC_DELETE_PROGRESS,"msctls_progress32",
+                    WS_BORDER,13,53,188,14
+    LTEXT           "Static",IDC_COMPLETE_PECNET,14,72,19,8
+    LTEXT           "完了",IDC_STATIC,34,72,35,8
+    LTEXT           "Static",IDC_DEL_PROGRESS_TAR,14,8,159,8
+    LTEXT           "Static",IDC_DEL_PROGRESS_MOTHED,14,19,160,9
+    PUSHBUTTON      "保存しない",IDC_NO_SAVE,79,80,50,14
+    DEFPUSHBUTTON   "保存する",IDC_SAVE,151,80,50,14
+    LTEXT           "経過時間",IDC_STATIC,13,32,57,8
+    LTEXT           "00:00:00",IDC_TIME_ELASPED,15,43,63,8
+    LTEXT           "残り時間",IDC_STATIC,118,32,73,8
+    LTEXT           "00:00:00",IDC_TIME_REMAINING,118,43,80,8
+END
+
+IDD_HARD_DISK_INFORMATION DIALOG DISCARDABLE  0, 0, 218, 136
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ハードディスク情報"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,84,115,50,14
+    LTEXT           "ディスク情報",IDC_STATIC,77,4,64,9
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,8,17,204,1
+    LTEXT           "モジュール番号：",IDC_STATIC,21,27,65,8
+    LTEXT           "Static",IDC_MODULE_NUMBER,97,27,106,11
+    LTEXT           "Firmware rev.：",IDC_STATIC,25,45,61,8
+    LTEXT           "Static",IDC_FIRMWARE,97,45,108,10
+    LTEXT           "シリアル番号：",IDC_STATIC,29,62,57,8
+    LTEXT           "Static",IDC_SERIAL_NUMBER,97,62,105,10
+    LTEXT           "容量：",IDC_STATIC,61,78,25,8
+    LTEXT           "Static",IDC_CAPACITY,97,78,107,8
+END
+
+IDD_DM_WIPE_FREE_SPACE DIALOG DISCARDABLE  0, 0, 300, 143
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "物理ディスク：",IDC_STATIC,7,10,53,8
+    CONTROL         "List1",IDC_WIPE_PAR_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,7,29,286,86
+    LTEXT           "消去方式：",IDC_LABEL_MOTHED,9,123,35,8
+    DEFPUSHBUTTON   "ワイプ",IDC_DM_WIPE,181,122,50,14
+    PUSHBUTTON      "クリア",IDC_WIPE_CLEAR,243,122,50,14
+    CONTROL         "",IDC_WIPE_DISK_COMBO,"ComboBoxEx32",CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,71,9,126,55
+    CONTROL         "",IDC_WIPE_MOTHED,"ComboBoxEx32",CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,47,122,56,63
+    CONTROL         "焼却炉を表示",IDC_CHECK_SHREDDER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,209,7,84,11
+    CONTROL         "ビープ音無し",IDC_BEEP_OFF,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,115,124,54,10
+END
+
+IDD_WIPE_PROGRESS DIALOG DISCARDABLE  0, 0, 210, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "空き領域をワイプ"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "Static",DC_WIPE_PROGRESS_TAR,18,9,139,8
+    LTEXT           "Static",IDC_WIPE_PROGRESS_MOTHED,18,20,167,8
+    LTEXT           "経過時間",IDC_STATIC,18,33,45,8
+    LTEXT           "00:00:00",IDC_TIME_ELASPED,19,45,64,8
+    LTEXT           "残り時間",IDC_STATIC,132,33,56,8
+    LTEXT           "00:00:00",IDC_TIME_REMAINING,133,44,70,8
+    CONTROL         "Progress1",IDC_WIPE_PROGRESS,"msctls_progress32",
+                    WS_BORDER,13,56,184,14
+    LTEXT           "Static",IDC_COMPLETE_PECNET,19,74,24,8
+    LTEXT           "完了",IDC_STATIC,44,74,28,8
+    PUSHBUTTON      "保存しない",IDC_NO_SAVE,79,79,50,14
+    PUSHBUTTON      "保存する",IDC_SAVE,146,79,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,146,79,50,14
+END
+
+IDD_DELETE_OPTIONS DIALOG DISCARDABLE  0, 0, 231, 94
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "オプション"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,53,73,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,126,73,50,14
+    CONTROL         "パーティション消去後にFAT/NTFSでフォーマット",
+                    IDC_OPTIONS_FORMAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    14,31,194,12
+    CONTROL         "消去処理後に、検証",IDC_OPTIONS_VERIFY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,14,12,196,12
+    LTEXT           "Max try with bad sectors",IDC_STATIC,15,52,105,11
+    EDITTEXT        IDC_TRY_NUM,137,49,70,19,ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_DM_DELETE_PARTITION, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 366
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 141
+    END
+
+    IDD_DM_DISK_VIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 293
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_VIEW_SECTOR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 378
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 183
+    END
+
+    IDD_SET_SERCTOR_NUMBER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 91
+    END
+
+    IDD_DELETE_CONFIRM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 253
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 70
+    END
+
+    IDD_DELETE_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 207
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+    END
+
+    IDD_HARD_DISK_INFORMATION, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 211
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 129
+    END
+
+    IDD_DM_WIPE_FREE_SPACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 293
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_WIPE_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 93
+    END
+
+    IDD_DELETE_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 224
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 87
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_TAB_IMAGE_LIST      BITMAP  DISCARDABLE     "res\\Tab.bmp"
+IDB_BOX                 BITMAP  DISCARDABLE     "res\\volum.bmp"
+IDB_LIST                BITMAP  DISCARDABLE     "res\\list.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_USED_MOTHED         "消去方式： %s"
+    IDS_JAN                 "Jan"
+    IDS_FEB                 "Feb"
+    IDS_MAR                 "Mar"
+    IDS_APR                 "Apr"
+    IDS_MAY                 "May"
+    IDS_JUN                 "Jun"
+    IDS_JUL                 "Jul"
+    IDS_AUG                 "Aug"
+    IDS_SEP                 "Sep"
+    IDS_OCT                 "Oct"
+    IDS_NOV                 "Nov"
+    IDS_DEC                 "Dec"
+    IDS_DISK_LIST_FORMAT    "ディスク_%d  %dM"
+    IDS_FD_LIST_FORMAT      "フロッピー %c:"
+    IDS_FD_NOT_READY        "デバイスは準備中"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_DM_ERROR            "データ消去エラー"
+    IDS_APP_INIT_ERR        "DeleteMaster.exe初期化失敗"
+    IDS_NOT_ADMIN           "完全データ消去をご利用になるには、ローカルマシンの管理者権限が必要です。"
+    IDS_VOLUME_LABEL        "ボリュームラベル"
+    IDS_TYPE                "タイプ"
+    IDS_SIZE                "サイズ(M)"
+    IDS_USED                "使用(M)"
+    IDS_UNUSED              "未使用(M)"
+    IDS_STATUS              "ステータス"
+    IDS_ORI_LOG             "論理/基本"
+    IDS_HIDE_FAT32          "隠しFAT32"
+    IDS_FAT32               "FAT32"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_FAT                 "FAT"
+    IDS_HIDE_FAT            "隠しFAT"
+    IDS_NTFS                "NTFS"
+    IDS_HIDE_NTFS           "隠しNTFS"
+    IDS_LUX_EXT2            "Linux Ext2"
+    IDS_LUX_SWP             "Linux Swap"
+    IDS_FREE                "空き"
+    IDS_LIST_ACTIVE         "Active"
+    IDS_LIST_INACTIVE       "-"
+    IDS_LIST_LOG            "論理"
+    IDS_LIST_PRI            "基本"
+    IDS_UNKNOW              "不明"
+    IDS_NOT_DELETE_SYSTEM_PAR 
+                            "システムパーティションは消去できません。他のパーティションを選んでください。"
+    IDS_CHS                 "シリンダ：%d ヘッド：%d セクタ：%d"
+    IDS_SECTOR_RANGE        "範囲：  %d - %d"
+    IDS_CONFIRM_DISK        "ディスク - %d 開始： %d 終了： %d"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_CONFIRM_PARTITION   "%c ：ディスク %d 上、開始： %d 終了： %d"
+    IDS_METHOD              "は %s で消去されます。"
+    IDS_DEL_PERSENT         "%d%%"
+    IDS_DEL_PROGRESS_MOTHED "は %s で消去中です。"
+    IDS_PRODUCT_NAME        "完全データ消去"
+    IDS_00_MOTHED           "ゼロ１回書き込み"
+    IDS_FF_MOTHED           "１を１回書き込み"
+    IDS_RANDOM_MOTHED       "乱数１回書き込み"
+    IDS_NSA_MOTHED          "NSA方式"
+    IDS_OLD_NSA_MOTHED      "旧NSA方式"
+    IDS_DOD_STD_MOTHED      "米国防総省方式"
+    IDS_NATO_MOTHED         "NATO方式"
+    IDS_GUTMANN_MOTHED      "Gutmann方式"
+    IDS_TIME_STAMP          "開始時刻： %s %.2d %.2d:%.2d:%.2d %d  終了時刻：  %s %.2d %.2d:%.2d:%.2d %d"
+    IDS_DELETE_PARTITION_REPORT 
+                            "削除したパーティション： %c:  - %d ディスク上、開始：%d 終了：%d"
+    IDS_DELETE_DISK_REPORT  "消去したディスク - %d C:%d H:%d S:%d"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_CONFIRM_FD          "フロッピー %c: 開始: %d 終了: %d"
+    IDS_DELETE_FD_REPORT    "消去フロッピー %c: C:%d H:%d S:%d"
+    IDS_REMOVE_DISK_LIST    "リムーバブル %c: %dM"
+    IDS_CONFIRM_RD          "リムーバブル %c: 開始: %d 終了: %d"
+    IDS_MAIN_BUTTON_EXIT    "終了"
+    IDS_DELETE_DELETE_PAR_FAIL "データの移動に失敗しました。"
+    IDS_DEL_SUCCESS         "消去は完了しました。"
+    IDS_WRITE_SEC_FAIL      "セクタ %d への書き込みに失敗しました。継続しますか？"
+    IDS_CONFIRM_WIPE_FREE   " %c: 上の空き領域をワイプしますか??"
+    IDS_DM_CONFIRM_CAPTITION "確認"
+    IDS_TIME_INFO           "%02d:%02d:%02d"
+    IDS_WIPE_FREE           " %c: 上の空き領域をワイプ"
+    IDS_Q_FORMAT_PARTITION  "先に、このパーティションをフォーマットしてください"
+    IDS_DM_INFO             "情報"
+    IDS_WIPE_PARTITION_REPORT "パーティション %c: 上の空き領域をワイプ"
+    IDS_DISKINFO_MODULE     "モジュール番号： %s"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_DISKINFO_FIRMWARE_VER "Firmwareバージョン： %s"
+    IDS_DISKINFO_SERIAL_NUM "シリアル番号： %s"
+    IDS_DISKINFO_CAPACITY   "容量： %s"
+    IDS_VERIFY_FAIL_WRAN_MSG 
+                            "データ消去の検証にエラーがあります。ログファイル、 %s .をご参照ください。"
+    IDS_VERIFY_LOG          "セクタ： %d から、セクタ： %d までの検証が失敗しました。"
+    IDS_SHREDDER_LINK       "\\DM 焼却炉.lnk"
+    IDS_WRITE_LOG           "Write start sector:%d sectors:%d failed"
+END
+
+#endif    // Japanese resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "..\\..\\resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\DeleteMaster.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\DeleteMaster.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

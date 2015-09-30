@@ -1,0 +1,16 @@
+LIBRARY		"zlib"
+
+DESCRIPTION	'"""zlib data compression library"""'
+
+
+VERSION		1.11
+
+
+HEAPSIZE	1048576,8192
+
+EXPORTS
+    zError                         @1
+    compress                       @2
+    uncompress                     @3
+    zlibVersion                    @4
+

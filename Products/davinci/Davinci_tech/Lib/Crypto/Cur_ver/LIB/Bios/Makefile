@@ -1,0 +1,92 @@
+# Microsoft Visual C++ generated build script - Do not modify
+
+PROJ = CRYPTO
+DEBUG = 0
+PROGTYPE = 4
+CALLER = 
+ARGS = 
+DLLS = 
+D_RCDEFINES = -d_DEBUG
+R_RCDEFINES = -dNDEBUG
+ORIGIN = MSVC
+ORIGIN_VER = 1.00
+PROJPATH = .\
+USEMFC = 0
+CC = cl
+CPP = cl
+CXX = cl
+CCREATEPCHFLAG = 
+CPPCREATEPCHFLAG = 
+CUSEPCHFLAG = 
+CPPUSEPCHFLAG = 
+FIRSTC =             
+FIRSTCPP = CRYPTO.CPP  
+RC = rc
+CFLAGS_D_LIB = /nologo /G2 /Zp1 /W3 /Z7 /AL /Od /D "_DEBUG" /FR /GA 
+CFLAGS_R_LIB = /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /D "BIOS_LIB" /FR /Gw 
+RCFLAGS = /nologo
+RESFLAGS = /nologo
+RUNFLAGS = 
+OBJS_EXT = 
+LIBS_EXT = 
+!if "$(DEBUG)" == "1"
+CFLAGS = $(CFLAGS_D_LIB)
+LFLAGS = 
+LIBS = 
+MAPFILE = nul
+RCDEFINES = $(D_RCDEFINES)
+!else
+CFLAGS = $(CFLAGS_R_LIB)
+LFLAGS = 
+LIBS = 
+MAPFILE = nul
+RCDEFINES = $(R_RCDEFINES)
+!endif
+!if [if exist MSVC.BND del MSVC.BND]
+!endif
+SBRS = CRYPTO.SBR \
+		DES.SBR \
+		MD5C.SBR \
+		MISC.SBR \
+		NN.SBR \
+		RSA.SBR
+
+all:	$(PROJ).LIB $(PROJ).BSC
+
+CRYPTO.OBJ:	..\CRYPTO.CPP $(CRYPTO_DEP)
+	$(CPP) $(CFLAGS) $(CPPCREATEPCHFLAG) /c ..\CRYPTO.CPP
+
+DES.OBJ:	..\DES.CPP $(DES_DEP)
+	$(CPP) $(CFLAGS) $(CPPUSEPCHFLAG) /c ..\DES.CPP
+
+MD5C.OBJ:	..\MD5C.CPP $(MD5C_DEP)
+	$(CPP) $(CFLAGS) $(CPPUSEPCHFLAG) /c ..\MD5C.CPP
+
+MISC.OBJ:	..\MISC.CPP $(MISC_DEP)
+	$(CPP) $(CFLAGS) $(CPPUSEPCHFLAG) /c ..\MISC.CPP
+
+NN.OBJ:	..\NN.CPP $(NN_DEP)
+	$(CPP) $(CFLAGS) $(CPPUSEPCHFLAG) /c ..\NN.CPP
+
+RSA.OBJ:	..\RSA.CPP $(RSA_DEP)
+	$(CPP) $(CFLAGS) $(CPPUSEPCHFLAG) /c ..\RSA.CPP
+
+$(PROJ).LIB::	CRYPTO.OBJ DES.OBJ MD5C.OBJ MISC.OBJ NN.OBJ RSA.OBJ $(OBJS_EXT)
+	echo >NUL @<<$(PROJ).CRF
+$@ /PAGESIZE:64
+y
++CRYPTO.OBJ &
++DES.OBJ &
++MD5C.OBJ &
++MISC.OBJ &
++NN.OBJ &
++RSA.OBJ &
+;
+<<
+	if exist $@ del $@
+	lib @$(PROJ).CRF
+
+$(PROJ).BSC: $(SBRS)
+	bscmake @<<
+/o$@ $(SBRS)
+<<

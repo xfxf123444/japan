@@ -1,0 +1,836 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Japanese resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_SHUTDOWN DIALOG DISCARDABLE  0, 0, 204, 94
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "終了"
+FONT 9, "MS UI Gothic"
+BEGIN
+    CONTROL         "Progress1",IDC_PROGRESS_TIME,"msctls_progress32",
+                    WS_BORDER,20,42,166,8
+    LTEXT           "Num",IDC_STATIC_LEFT_SECOND,70,17,18,8
+    LTEXT           "コンピュータは",IDC_STATIC,16,17,61,8
+    LTEXT           "秒後に終了します。",IDC_STATIC,90,17,95,8
+    PUSHBUTTON      "キャンセル",IDC_BUTTON_CANCEL,135,62,50,14
+END
+
+IDD_SQUEEZE_IMAGE DIALOG DISCARDABLE  0, 0, 295, 176
+STYLE WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "イメージの履歴の結合"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "元のイメージ：",IDC_STATIC,14,17,93,11
+    EDITTEXT        IDC_EDIT_SOURCE_IMAGE,14,33,180,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_BUTTON_REFER_SOURCE,205,34,66,14
+    PUSHBUTTON      "参照",IDC_BUTTON_REFER_TARGET,205,80,66,14
+    LTEXT           "結合したイメージの保存先",IDC_STATIC,14,59,136,12
+    EDITTEXT        IDC_EDIT_TARGET_IMAGE,14,80,178,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "実行",IDC_BUTTON_SQUEEZE_IMAGE,205,121,66,14
+END
+
+IDD_EASY_WIZARD_2 DIALOG DISCARDABLE  0, 0, 213, 109
+STYLE WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "メールソフトを選んでください"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "下からメールソフトを選んでください",IDC_STATIC,29,16,
+                    139,8
+    CONTROL         "Outlook Express",IDC_RADIO_OUTLOOK_EXPRESS,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,29,35,95,10
+    CONTROL         "Outlook",IDC_RADIO_OUTLOOK,"Button",BS_AUTORADIOBUTTON,
+                    29,52,83,10
+    CONTROL         "The becky!",IDC_RADIO_THE_BECKY,"Button",
+                    BS_AUTORADIOBUTTON,29,69,86,10
+END
+
+IDD_EASY_WIZARD_3 DIALOG DISCARDABLE  0, 0, 260, 98
+STYLE WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "保存先の指定"
+FONT 9, "MS UI Gothic"
+BEGIN
+    EDITTEXT        IDC_EDIT_TARGET_FILE,18,38,213,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_BUTTON_REFER,179,63,52,14
+    LTEXT           "保存先を指定してください",IDC_STATIC,18,18,111,8
+END
+
+IDD_AMSETTING DIALOGEX 0, 0, 335, 203
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "設定"
+FONT 9, "MS UI Gothic", 0, 0, 0x1
+BEGIN
+    CONTROL         "List1",IDC_SETTING_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,14,18,118,175
+    GROUPBOX        "コメント",IDC_STATIC,147,145,163,46
+    PUSHBUTTON      "新規設定",IDC_SETTING_WIZ,147,20,72,14
+    PUSHBUTTON      "設定の削除",IDC_REMOVE,147,46,72,14
+    PUSHBUTTON      "設定を実行",IDC_EXECUTE,147,126,72,14
+    LTEXT           "コメント無し",IDC_COMMENT,160,159,142,25,0,
+                    WS_EX_CLIENTEDGE
+    PUSHBUTTON      "基本設定に変更",IDC_CURRENT_SETTING,237,46,72,14
+    GROUPBOX        "基本設定",IDC_STATIC,237,72,74,68
+    LTEXT           "無し",IDC_CURRENT,243,101,61,12,0,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "設定内容を表示",IDC_BUTTON_VIEW_SETTING,147,72,72,14
+    PUSHBUTTON      "簡易バックアップ",IDC_BUTTON_EASY_BACKUP,237,20,72,14
+    PUSHBUTTON      "スナップショット",IDC_BUTTON_SNAPSHOT,147,98,71,14
+END
+
+IDD_AMBACKUP DIALOG DISCARDABLE  0, 0, 318, 203
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "手動バックアップ"
+FONT 9, "MS UI Gothic"
+BEGIN
+    EDITTEXT        IDC_SOURCE_PATH,51,35,173,14,ES_AUTOHSCROLL
+    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | WS_BORDER | 
+                    WS_TABSTOP,13,56,211,75
+    PUSHBUTTON      "参照",IDC_REFER_SOURCE,241,36,56,14
+    PUSHBUTTON      "追加",IDC_ADD,241,57,56,14
+    PUSHBUTTON      "削除",IDC_REMOVE,241,78,56,14
+    PUSHBUTTON      "設定保存",IDC_SAVE_SETTING,241,99,56,14
+    PUSHBUTTON      "開始",IDC_START,241,120,56,14
+    EDITTEXT        IDC_TARGET_PATH,51,15,173,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_REFER_TARGET,241,15,56,14
+    LTEXT           "保存先",IDC_STATIC,12,17,22,8
+    LTEXT           "保存対象",IDC_STATIC,12,37,28,8
+    LTEXT           "コメント",IDC_STATIC,13,136,46,8
+    EDITTEXT        IDC_COMMENT,13,148,211,22,ES_AUTOHSCROLL
+    CONTROL         "失敗を記録",IDC_LOG_FAIL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,79,179,53,13
+    EDITTEXT        IDC_MINUTES,189,179,27,14,ES_AUTOHSCROLL | NOT 
+                    WS_VISIBLE | WS_DISABLED
+    LTEXT           "分後に実行",IDC_STATIC,219,180,51,11,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    CONTROL         "リトライを",IDC_RETRY,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_DISABLED | WS_TABSTOP,139,179,44,13
+    CONTROL         "自動継続",IDC_AUTO_SPAWN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,15,181,54,10
+END
+
+IDD_AMABOUT DIALOGEX 0, 0, 314, 202
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "データバックアップについて"
+FONT 9, "MS UI Gothic", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,6,17,302,1
+    CTEXT           "データバックアップ",IDC_STATIC,64,4,186,8
+    CTEXT           "データバックアップ 7.0",IDC_STATIC,98,41,117,15
+    CTEXT           "",IDC_INFORMATION,18,97,277,38,0,WS_EX_STATICEDGE
+    CTEXT           "Copyright(C) 2008  Frontline Inc. All rights reserved",
+                    IDC_STATIC,21,161,266,14
+    CTEXT           "登録情報",IDC_STATIC,30,72,238,12
+END
+
+IDD_AMTASK DIALOG DISCARDABLE  0, 0, 335, 204
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "タイマー設定"
+FONT 9, "MS UI Gothic"
+BEGIN
+    CONTROL         "月曜日",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,157,40,46,10
+    CONTROL         "火曜日",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,157,59,46,10
+    CONTROL         "水曜日",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,157,78,46,10
+    CONTROL         "木曜日",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,157,97,46,10
+    CONTROL         "金曜日",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,157,116,46,10
+    CONTROL         "土曜日",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,157,135,46,10
+    CONTROL         "日曜日",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,157,154,46,10
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER2,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,212,38,46,
+                    15
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER3,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,212,57,46,
+                    15
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER4,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,212,76,46,
+                    15
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER5,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,212,95,46,
+                    15
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER6,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,212,114,
+                    46,15
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER7,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,212,133,
+                    46,15
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER8,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,212,152,
+                    46,15
+    GROUPBOX        "実行ルール",IDC_STATIC,145,8,176,168
+    CONTROL         "List1",IDC_LIST_SETTING_NAME,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
+                    WS_TABSTOP,18,13,112,163
+    PUSHBUTTON      "スケジュールの変更を保存",IDC_BUTTON_SAVE_SCHEDULE,18,
+                    184,112,14
+    LTEXT           "曜日",IDC_STATIC,167,23,15,8
+    LTEXT           "時刻",IDC_STATIC,227,23,15,8
+    LTEXT           "完了後 PCを終了",IDC_STATIC,263,24,55,8
+    CONTROL         "",IDC_CHECK_SHUT_MONDAY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,42,16,8
+    CONTROL         "",IDC_CHECK_SHUT_TUESDAY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,61,16,8
+    CONTROL         "",IDC_CHECK_SHUT_WEDNESDAY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,80,16,8
+    CONTROL         "",IDC_CHECK_SHUT_THURSDAY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,99,16,8
+    CONTROL         "",IDC_CHECK_SHUT_FRIDAY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,118,16,8
+    CONTROL         "",IDC_CHECK_SHUT_SATURDAY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,137,16,8
+    CONTROL         "",IDC_CHECK_SHUT_SUNDAY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,156,16,8
+    PUSHBUTTON      "詳細スケジュールを設定",IDC_BUTTON_ADVANCED_SCHEDULE,
+                    146,184,175,14
+END
+
+IDD_WZSTEP4 DIALOG DISCARDABLE  0, 0, 318, 149
+STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "設定ウィザード"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "保存先のディレクトリを入力してください。フルパスを入力することも、参照ボタンで探すことも出来ます。",
+                    IDC_STATIC,22,8,273,18
+    EDITTEXT        IDC_EDIT1,22,55,221,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_REFER,255,55,40,14
+    LTEXT           "イメージファイルから継続してバックアップの場合は、パスは自動的に決定するので、変更は出来ません。",
+                    IDC_STATIC,22,32,273,19
+    GROUPBOX        "コメント",IDC_STATIC,22,74,220,45
+    EDITTEXT        IDC_COMMENT,27,87,199,23,ES_AUTOHSCROLL
+    PUSHBUTTON      "暗号化",IDC_ENCRYPT,255,87,40,14
+    CONTROL         "失敗をログ",IDC_LOG_FAIL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,86,128,51,10
+    EDITTEXT        IDC_MINUTES,193,128,30,12,ES_AUTOHSCROLL
+    LTEXT           "分",IDC_STATIC,231,130,32,10
+    CONTROL         "リトライ:",IDC_RETRY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,145,128,46,10
+    CONTROL         "自動継続",IDC_AUTO_SPAWN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,21,128,57,10
+END
+
+IDD_WZSTEP2 DIALOG DISCARDABLE  0, 0, 317, 151
+STYLE WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "設定ウィザード"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "3種類のバックアップ方法から選択できます。下から選択してください。",
+                    IDC_STATIC,29,11,273,8
+    LTEXT           "バックアップタイプ",IDC_STATIC,58,37,111,8
+    CONTROL         "個別のディレクトリを指定する",IDC_RADIO1,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,75,61,172,10
+    CONTROL         "メールデータのバックアップ",IDC_RADIO2,"Button",
+                    BS_AUTORADIOBUTTON,75,82,172,10
+    CONTROL         "イメージファイルから継続してバックアップ",IDC_RADIO3,
+                    "Button",BS_AUTORADIOBUTTON,75,104,172,10
+END
+
+IDD_WZSTEP3 DIALOG DISCARDABLE  0, 0, 317, 151
+STYLE WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "設定ウィザード"
+FONT 9, "MS UI Gothic"
+BEGIN
+    EDITTEXT        IDC_EDIT_DIRECTORY,25,22,198,14,ES_AUTOHSCROLL
+    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
+                    WS_TABSTOP,25,57,198,89
+    PUSHBUTTON      "参照",IDC_REFER,236,22,50,14
+    LTEXT           "個別ディレクトリ",IDC_TXT_INDIVALDIR,24,8,72,8
+    PUSHBUTTON      "追加",IDC_ADD,236,47,50,14
+    PUSHBUTTON      "削除",IDC_REMOVE,236,72,50,14
+    LTEXT           "バックアップ元のディレクトリリスト",IDC_TXT_SOURCE_DIR,
+                    24,42,92,8
+    CONTROL         "Outlook Express",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,93,56,103,10
+    CONTROL         "Outlook",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,93,81,
+                    103,10
+    CONTROL         "Becky!",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,93,106,
+                    103,10
+    LTEXT           "メールクライアントの指定",IDC_TXT_MAIL_CLIENT,78,27,101,
+                    8
+    EDITTEXT        IDC_IMAGE_PATH,35,97,192,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_REFER_IMAGE,236,97,50,14
+    LTEXT           "イメージファイルのパス",IDC_TXT_IMAGE,35,79,110,8
+END
+
+IDD_WZSTEP1 DIALOG DISCARDABLE  0, 0, 317, 151
+STYLE WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "設定ウィザード"
+FONT 9, "MS UI Gothic"
+BEGIN
+    EDITTEXT        IDC_SETTING_NAME,124,66,91,14,ES_AUTOHSCROLL
+    LTEXT           "設定には、名前が必要です。お好きな名前を入力してください。",
+                    IDC_STATIC,19,13,278,34
+    LTEXT           "設定名",IDC_STATIC,49,69,71,8
+    LTEXT           "たとえば、設定1",IDC_STATIC,124,89,122,8
+END
+
+IDD_MAKE_CDR DIALOG DISCARDABLE  0, 0, 313, 194
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "CD-R作成"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "キャンセル",IDCANCEL,126,162,60,15
+    LTEXT           "CD-Rに焼くためのイメージファイルを選択してください。",
+                    IDC_STATIC,24,18,269,31
+    PUSHBUTTON      "参照",IDC_BUTTON_FILE,24,80,49,13
+    EDITTEXT        IDC_IMAGE_FILE_NAME,24,62,269,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "開始",IDC_BUTTON_CREATE,216,113,77,14
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    24,135,269,11
+    LTEXT           "",IDC_STATE,27,119,120,8
+END
+
+IDD_SAVE_SETTING DIALOG DISCARDABLE  0, 0, 171, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "設定の保存"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,27,63,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,94,63,50,14
+    LTEXT           "設定名",IDC_STATIC,19,31,55,8
+    EDITTEXT        IDC_SETTING_NAME,83,28,70,14,ES_AUTOHSCROLL
+END
+
+IDD_BACKUP_STATE DIALOG DISCARDABLE  0, 0, 225, 131
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "バックアップ処理"
+FONT 9, "MS UI Gothic"
+BEGIN
+    PUSHBUTTON      "キャンセル",IDC_BUTTON_CANCEL,161,104,50,14
+    CONTROL         "Progress1",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,
+                    13,82,198,14
+    LTEXT           "処理中のファイル",IDC_STATIC,14,48,52,8
+    LTEXT           "",IDC_CURRENT_FILE,17,65,191,8
+    CONTROL         "Animate1",IDC_ANIMATE1,"SysAnimate32",ACS_CENTER | 
+                    ACS_TRANSPARENT | ACS_AUTOPLAY | WS_TABSTOP,15,14,196,28
+END
+
+IDD_VIEW_SETTING DIALOG DISCARDABLE  0, 0, 263, 195
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "設定の内容表示"
+FONT 9, "MS UI Gothic"
+BEGIN
+    PUSHBUTTON      "閉じる",IDC_BUTTON_EXIT,195,174,61,14
+    LTEXT           "設定名称：",IDC_STATIC_SETTING_NAME,12,13,50,13
+    EDITTEXT        IDC_EDIT_SETTING_NAME,63,14,101,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "名称変更",IDC_BUTTON_CHANGE_NAME,188,13,56,14
+    LTEXT           "バックアップ元：",IDC_STATIC,12,37,50,11
+    LTEXT           "バックアップ先：",IDC_STATIC,12,106,44,8
+    EDITTEXT        IDC_EDIT_TARGET,63,105,179,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    CONTROL         "List1",IDC_LIST_SOURCE_FILE,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,63,38,180,59
+    LTEXT           "暗号化:",IDC_STATIC,14,129,39,8,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    EDITTEXT        IDC_VIEW_SETTING_ENCRYPT,63,126,179,14,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_VISIBLE | WS_DISABLED
+    CONTROL         "失敗をログ",IDC_LOG_FAIL,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,83,152,45,10
+    EDITTEXT        IDC_MINUTES,181,152,27,12,ES_AUTOHSCROLL | NOT 
+                    WS_VISIBLE | WS_DISABLED
+    LTEXT           "分後に実行",IDC_STATIC,210,153,37,8,NOT WS_VISIBLE | 
+                    WS_DISABLED
+    CONTROL         "リトライを",IDC_RETRY,"Button",BS_AUTOCHECKBOX | NOT 
+                    WS_VISIBLE | WS_DISABLED | WS_TABSTOP,140,152,42,10
+    CONTROL         "自動継続",IDC_AUTO_SPAWN,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,15,152,59,10
+END
+
+IDD_EASY_WIZARD_1 DIALOG DISCARDABLE  0, 0, 225, 116
+STYLE WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "バックアップの種類"
+FONT 9, "MS UI Gothic"
+BEGIN
+    CONTROL         "マイドキュメント",IDC_RADIO_MY_DOCUMENT,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,30,45,85,10
+    CONTROL         "メール",IDC_RADIO_MY_MAIL,"Button",BS_AUTORADIOBUTTON,
+                    30,62,68,10
+    CONTROL         "マイドキュメントとメール",IDC_RADIO_DOCUMENT_MAIL,
+                    "Button",BS_AUTORADIOBUTTON,30,79,115,10
+    LTEXT           "下からバックアップの種類を選んでください",IDC_STATIC,30,
+                    22,173,8
+END
+
+IDD_SQUEEZE_STATE DIALOG DISCARDABLE  0, 0, 245, 157
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "イメージの履歴の結合"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "処理中：",IDC_STATIC,24,63,41,8
+    CONTROL         "Progress1",IDC_SQUEEZE_PROGRESS,"msctls_progress32",
+                    WS_BORDER,25,88,199,14
+    PUSHBUTTON      "キャンセル",IDC_BUTTON_CANCLE,174,121,50,14
+    CONTROL         "Animate1",IDC_ANIMATE_SQUEEZE_FILE,"SysAnimate32",
+                    ACS_CENTER | ACS_TRANSPARENT | ACS_AUTOPLAY | WS_TABSTOP,
+                    25,24,197,28
+    LTEXT           "現在のファイル",IDC_CURRENT_FILE,70,63,154,8
+END
+
+IDD_SCHEDULE_PAGE_1 DIALOG DISCARDABLE  0, 0, 227, 126
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "バックアップする周期の選択"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "バックアップの種類とスケジュールを実行する周期を選んでください",
+                    IDC_STATIC,12,8,200,20
+    GROUPBOX        "バックアップの種類",IDC_STATIC,11,39,204,34
+    CONTROL         "組合せ",IDC_BACKUP_TYPE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,18,55,38,10
+    CONTROL         "フルバックアップ",IDC_RADIO3,"Button",
+                    BS_AUTORADIOBUTTON,71,54,55,10
+    CONTROL         "差分バックアップ",IDC_RADIO4,"Button",
+                    BS_AUTORADIOBUTTON,142,54,63,10
+    GROUPBOX        "実行周期",IDC_STATIC,11,85,204,34
+    CONTROL         "毎週",IDC_BACKUP_PERIOD,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,18,102,70,10
+    CONTROL         "毎月",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,127,102,70,
+                    10
+END
+
+IDD_SCHEDULE_PAGE_2 DIALOG DISCARDABLE  0, 0, 227, 139
+STYLE WS_CHILD | WS_CAPTION
+CAPTION "バックアップを作成する曜日の選択"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "下からベースとなるフルバックアップを行う曜日を選んでください。",
+                    IDC_DATE_TITLE,18,18,193,16
+    COMBOBOX        IDC_COMBO_DATE,19,39,86,98,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+END
+
+IDD_SCHEDULE_PAGE_3 DIALOG DISCARDABLE  0, 0, 226, 108
+STYLE WS_CHILD | WS_CAPTION
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "フルバックアップを実行する時刻を指定してください",
+                    IDC_STATIC,25,18,183,17
+    CONTROL         "DateTimePicker1",IDC_BACKUP_TIME,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,25,41,67,
+                    15
+    CONTROL         "バックアップ作成後にPCを終了させる",IDC_SHUTDOWN_OPTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,68,119,10
+END
+
+IDD_SCHEDULE_RESULT DIALOG DISCARDABLE  0, 0, 227, 142
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "スケジュール内容"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "設定されたスケジュール内容は下記のとおりです：",
+                    IDC_STATIC,21,18,149,8
+    LTEXT           "フルバックアップの作成は、毎週　月曜日　18:00",
+                    IDC_STATIC_BASE_BACKUP,21,36,206,8
+    LTEXT           "差分バックアップの作成は、毎日　18:00",
+                    IDC_STATIC_DIFF_BACKUP,21,54,206,8
+    LTEXT           "バックアップ終了後にPCを終了させない",
+                    IDC_STATIC_SHUTDOWN_OPTION,21,72,203,8
+    LTEXT           "以上で、よろしいでしょうか？",IDC_STATIC,21,90,139,8
+    PUSHBUTTON      "はい",IDC_BUTTON_YES,19,113,50,14
+    PUSHBUTTON      "いいえ",IDC_BUTTON_NO,88,113,50,14
+    PUSHBUTTON      "キャンセル",IDC_BUTTON_CANCEL_SCHEDULE,157,113,50,14
+END
+
+IDD_SET_PASSWORD DIALOG DISCARDABLE  0, 0, 177, 101
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "パスワードの設定"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "パスワードを入力してください。",IDC_STATIC,21,17,127,10
+    EDITTEXT        IDC_PASSWORD,66,37,85,14,ES_PASSWORD | ES_AUTOHSCROLL
+    PUSHBUTTON      "キャンセル",IDCANCEL,21,77,50,14
+    PUSHBUTTON      "OK",IDOK,102,77,50,14
+    EDITTEXT        IDC_CONFIRM_PASSWORD,66,54,85,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    LTEXT           "パスワード: ",IDC_STATIC,17,40,42,8
+    LTEXT           "確認 :",IDC_STATIC,17,56,42,8
+END
+
+IDD_SCHEDULE_EDIT DIALOG DISCARDABLE  0, 0, 255, 162
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Schedule"
+FONT 9, "MS UI Gothic"
+BEGIN
+    CONTROL         "List1",IDC_SCHEDULE_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,8,7,240,129
+    PUSHBUTTON      "スケジュールを追加",IDC_ADD_SCHEDULE,7,141,72,14
+    PUSHBUTTON      "スケジュールを削除",IDC_DELETE_SCHEDULE,91,141,72,14
+    PUSHBUTTON      "閉じる",IDC_BUTTON_CLOSE,175,141,72,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "Main Icon"
+    BEGIN
+        MENUITEM "検索. . .",                   ID_SEARCH
+        MENUITEM "バックアップ実行後にシステムを自動終了", 
+                                                ID_BACKUP_SHUTDOWN
+        MENUITEM "バックアップの即時実行",      ID_REMBER_SETTING
+        MENUITEM "基本設定の変更",              ID_SET_CURRENT
+        MENUITEM "新規設定作成 . . .",          ID_NEW_BACKUP
+        MENUITEM "リストア . . . ",             ID_RESTORE
+        MENUITEM "終了",                        ID_CLOSE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_AMSETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 332
+        BOTTOMMARGIN, 201
+    END
+
+    IDD_AMBACKUP, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 314
+        BOTTOMMARGIN, 200
+    END
+
+    IDD_AMABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 310
+        BOTTOMMARGIN, 200
+    END
+
+    IDD_AMTASK, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 331
+        BOTTOMMARGIN, 198
+    END
+
+    IDD_MAKE_CDR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 306
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 187
+    END
+
+    IDD_SAVE_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 164
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 78
+    END
+
+    IDD_BACKUP_STATE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 218
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 124
+    END
+
+    IDD_VIEW_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 256
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 188
+    END
+
+    IDD_SET_PASSWORD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 170
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 93
+    END
+
+    IDD_SCHEDULE_EDIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 248
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 155
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 7,0,0,1
+ PRODUCTVERSION 7,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041103a4"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "FrontLine Inc.\0"
+            VALUE "FileDescription", "データバックアップ\0"
+            VALUE "FileVersion", "7, 0, 0, 1\0"
+            VALUE "InternalName", "データバックアップ\0"
+            VALUE "LegalCopyright", "Copyright 2008 Frontoline Inc.\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "FileBackup.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "データバックアップ\0"
+            VALUE "ProductVersion", "7, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 932
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_WATERMARK           BITMAP  DISCARDABLE     "..\\res\\baner.bmp"
+IDB_SPLASH              BITMAP  DISCARDABLE     "..\\res\\splash.bmp"
+IDB_STATEICONS          BITMAP  DISCARDABLE     "..\\res\\stateico.bmp"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "..\\resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""..\\res\\AM01.rc2""  // non-App Studio edited resources\r\n"
+    "\r\n"
+    "#include ""afxres.rc""  \t// Standard components\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_MAIN           ICON    DISCARDABLE     "..\\res\\LOGO3D.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_ARROW_NORMAL        CURSOR  DISCARDABLE     "..\\res\\cursor1.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AVI
+//
+
+IDR_FILE_COPY           AVI     DISCARDABLE     "..\\res\\filecopy.avi"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SETTING_NAME_TITLE  "設定名"
+    IDS_SETTING_NAME_SUBTITLE "設定名を入力"
+    IDS_BACKUP_TYPE_TITLE   "バックアップタイプ"
+    IDS_BACKUP_TYPE_SUBTITLE "バックアップタイプの選択"
+    IDS_BACKUP_SOURCE_TITLE "バックアップ元"
+    IDS_BACKUP_SOURCE_SUBTITLE "バックアップ元の参照"
+    IDS_BACKUP_DEST_TITLE   "バックアップ先"
+    IDS_BACKUP_DEST_SUBTITLE "バックアップ先の参照"
+    IDS_SETTING_WIZARD      "設定ウィザード"
+    IDS_SETUP               "メインコントロール"
+    IDS_SOURCE              "バックアップ元ディレクトリ"
+    IDS_SELECT_FILE         "ファイルを選択してください。"
+    IDS_TITLE               "安心ファイルバックアップ"
+    IDS_DISK_NOTREADY       "ディスクが準備中です。"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ERROR               "エラー"
+    IDS_BUILD_ISO9660       " ISO9660 イメージの作成"
+    IDS_CLOSE_SESSION       "セッションを閉じる"
+    IDS_RECORD_GAP          " GAPを記録"
+    IDS_RECORD_TRACK        "トラックを記録"
+    IDS_RECORD_USERDATA     "ユーザデータを記録"
+    IDS_NOT_WRITEABLE       "書けないディスクです"
+    IDS_NO_CDR              "ドライブにCDRがありません"
+    IDS_BUILDISO_FAIL       "ISOファイルの作成に失敗"
+    IDS_INSUFFER_SPACE      "空き領域不足"
+    IDS_FILE_NOTFOUND       "ファイルが見つかりません"
+    IDS_SETTING_TITLE       "設定名"
+    IDS_SETTING_NAME_EMPTY  "設定は、空ではいけません"
+    IDS_SOURCE_EMPTY        "バックアップ元ディレクトリのリストは空ではいけません。"
+    IDS_TARGET_EMPTY        "バックアップ先ディレクトリ欄は空ではいけません"
+    IDS_SOURCE_IMGEMPTY     "バックアップ元イメージが参照されていません。"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUT_NAME          "ユーザ名："
+    IDS_ABOUT_COMPANY       "所属："
+    IDS_ABOUT_SERIALNUM     "ライセンス番号："
+    IDS_INVALID_IMAGE       "イメージファイルのパスが正しくありません。"
+    IDS_FAILER_SET_CURRENT  "基本設定の変更に失敗しました。"
+    IDS_INVALID_SOURCE      "保存対象の設定が正しくありません。"
+    IDS_CONFLICT            "保存対象と保存先が重なっています。"
+    IDS_BACKUP_RUNING       "他のバックアップが実行中です。"
+    IDS_NOT_LAST_IMAGE      "分割されたイメージの最後のファイルを選択してください（これは最後のファイルではありません）。"
+    IDS_OPEN_IMAGE_FAIL     "イメージファイルを開くことが出来ませんでした。"
+    IDS_NOT_ENOUGH_SPACE    "CD-R書き込みに必要なバッファ領域を確保できませんでした（ディスクの空き容量不足）。"
+    IDS_RECORD_CDR_ERROR    "CD-Rへの書き込みに失敗しました。"
+    IDS_SETTING_NAME_EXIST  "その設定名は、既に存在しています。設定名は重複してはいけません。"
+    IDS_NEXT_CD             "メディアが一杯になりました。次のブランクメディアをドライブに入れてください。"
+    IDS_MAIL_DATA_NOT_READY "メールを開いている可能性があります。バックアップされていません。メールを閉じてやり直してください。"
+    IDS_NO_SETTING_SELECTED "設定が選択されていません。設定を選択してください。"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_MONDAY              "月曜日"
+    IDS_TUESDAY             "火曜日"
+    IDS_WEDNESDAY           "水曜日"
+    IDS_THURSDAY            "木曜日"
+    IDS_FRIDAY              "金曜日"
+    IDS_SATURDAY            "土曜日"
+    IDS_SUNDAY              "日曜日"
+    IDS_DAY_OF_WEEK         "毎週のフルバックアップを行う曜日を選択してください"
+    IDS_DATE_OF_MONTH       "毎月のフルバックアップを行う日を選択してください"
+    IDS_BASE_BACKUP         "フルバックアップの作成は"
+    IDS_EVERY_WEEK          "毎週"
+    IDS_EVERY_MONTH         "毎月"
+    IDS_ON                  "　"
+    IDS_AT                  "　"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_DIFF_BACKUP         "差分バックアップの作成は"
+    IDS_SHUTDOWN_COMPUTER   "バックアップ終了時にPCを終了させる"
+    IDS_DO_NOT_SHUTDOWN     "バックアップ終了時にPCを終了させない"
+    IDS_DATE                "日"
+    IDS_SAME_SETTING_NAME   "古い設定名と新しい設定名が同じです。"
+    IDS_CHANGE_SETTING_NAME "次の設定名に変更しますか："
+    IDS_ASK                 "　"
+    IDS_NO_CURRENT_SETTING  "現在の設定がありません。"
+    IDS_PASSWORD_NOT_MATCH  "入力するパスワードが一致しません"
+    IDS_MAX_PASSWORD        "パスワードの長さが16未満の文字をする必要があります"
+    IDS_YES                 "はい"
+    IDS_NO                  "いいえ"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_EXCUTE_TIME         "実行時刻"
+    IDS_EXCUTE_DATE         "実行日"
+    IDS_SHUTDOWN            "終了"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_DAY_OF_MONTH        "毎月 %d "
+    IDS_UNKNOW              "不明"
+    IDS_SELECT_SCHEDULE     "スケジュールの選択がありません!"
+    IDS_SCHEDULE_EXIST      "既に存在します!"
+    IDS_INVALID_TIME        "リトライの設定が正しくありません"
+    IDS_FULL_BACKUP         "フル"
+    IDS_INCREMENTAL_BACKUP  "差分"
+    IDS_COMBINATION_BACKUP  "組合せ"
+    IDS_WINDOWS_MAIL        "Windows メール"
+    IDS_OUTLOOK_EXPRESS     "Outlook Express"
+END
+
+#endif    // Japanese resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "..\res\AM01.rc2"  // non-App Studio edited resources
+
+#include "afxres.rc"  	// Standard components
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

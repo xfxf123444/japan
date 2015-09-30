@@ -1,0 +1,431 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Japanese resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "USB暗号化マスター"
+FONT 9, "MS UI Gothic"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "USB暗号化マスター",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "著作権 (C) 2008",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_ANTITYPE_DIALOG DIALOGEX 0, 0, 383, 255
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "USB暗号化マスター"
+FONT 9, "MS UI Gothic", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "終了",IDCANCEL,273,221,91,25
+    PUSHBUTTON      "マウント",IDC_BUTTON_MOUNT,15,189,91,25
+    PUSHBUTTON      "全てアンマウント",IDC_BUTTON_DISMOUNT_ALL,15,221,91,25
+    CONTROL         "List2",IDC_REMOVABLE_DRIVER_LIST,"SysListView32",
+                    LVS_REPORT | WS_BORDER | WS_TABSTOP,3,10,375,173,
+                    WS_EX_CLIENTEDGE
+    PUSHBUTTON      "暗号化...",IDC_ENCRYPT,144,189,91,25
+    PUSHBUTTON      "復号...",IDC_DECRYPT,144,221,91,25
+    PUSHBUTTON      "パスワードの変更...",IDC_BUTTON_CHANGE_PASSWORD,273,189,
+                    91,25,BS_MULTILINE
+END
+
+IDD_ENCRYPT_DIALOG DIALOG DISCARDABLE  0, 0, 213, 141
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "暗号化"
+FONT 9, "MS UI Gothic"
+BEGIN
+    EDITTEXT        IDC_ENCRYPT_PASSWORD,79,33,118,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_CONFIRM_PASSWORD,79,55,118,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "開始",IDC_START_ENCRYPT,14,113,50,14
+    PUSHBUTTON      "閉じる",IDCANCEL,150,113,50,14
+    CONTROL         "Progress1",IDC_ENCRYPT_PROGRESS,"msctls_progress32",
+                    PBS_SMOOTH | WS_BORDER,14,93,131,14
+    LTEXT           "パスワード：",IDC_STATIC,36,38,31,8
+    LTEXT           "パスワードの確認：",IDC_STATIC,16,58,51,8
+    LTEXT           "暗号化方式：",IDC_STATIC,28,13,39,8
+    COMBOBOX        IDC_SELECT_ENCRYPT_ALGORITHM,79,13,118,121,
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "処理の進捗状況",IDC_STATIC,14,77,53,8
+    PUSHBUTTON      "中断",IDC_ABORT_ENCRYPT,150,93,50,14
+END
+
+IDD_DECRYPT_DIALOG DIALOG DISCARDABLE  0, 0, 214, 135
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "復号"
+FONT 9, "MS UI Gothic"
+BEGIN
+    PUSHBUTTON      "閉じる",IDCANCEL,151,102,50,14
+    DEFPUSHBUTTON   "開始",IDC_START_DECRYPT,15,102,50,14
+    LTEXT           "パスワード：",IDC_STATIC,15,35,35,8
+    EDITTEXT        IDC_DECRYPT_PASSWORD,55,33,142,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    CONTROL         "Progress1",IDC_DECRYPT_PROGRESS,"msctls_progress32",
+                    PBS_SMOOTH | WS_BORDER,15,76,131,14
+    LTEXT           "処理の進捗状況",IDC_STATIC,15,61,53,8
+    PUSHBUTTON      "中断",IDC_ABORT_DECRYPT,151,76,50,14
+END
+
+IDD_AVAILABLE_DRIVER_DIALOG DIALOGEX 0, 0, 210, 147
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "利用可能なドライブレター"
+FONT 9, "MS UI Gothic", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,156,103,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,156,126,50,14
+    CONTROL         "List1",IDC_AVAILABLE_DRIVER_LIST,"SysListView32",
+                    LVS_REPORT | WS_BORDER | WS_TABSTOP,3,3,203,97,
+                    WS_EX_CLIENTEDGE
+    LTEXT           "パスワード：",IDC_STATIC,3,106,35,8
+    EDITTEXT        IDC_EDIT1,42,103,107,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "パスワードを入力し、ドライブを選択してください。",
+                    IDC_STATIC,3,132,145,8
+    CONTROL         "デフォルトのドライブに設定",
+                    IDC_CHECK_SET_DEFAULT_DRIVER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,42,121,94,10
+END
+
+IDD_CHANGE_PASSWORD_DIALOG DIALOG DISCARDABLE  0, 0, 213, 149
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "パスワードの変更"
+FONT 9, "MS UI Gothic"
+BEGIN
+    PUSHBUTTON      "閉じる",IDCANCEL,146,121,50,14
+    EDITTEXT        IDC_ORIGINAL_PASSWORD,81,32,115,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_NEW_PASSWORD,81,51,115,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_CONFIRM_CHANGED_PASSWORD,81,70,115,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    PUSHBUTTON      "開始",IDC_BUTTON_START_CHANGE,13,122,50,14
+    PUSHBUTTON      "中断",IDC_BUTTON_ABORT_CHANGE_PASSWORD,146,101,50,14
+    LTEXT           "オリジナルのパスワード",IDC_STATIC,15,35,60,8
+    LTEXT           "新しいパスワード",IDC_STATIC,29,54,46,8
+    LTEXT           "新しいパスワードの確認",IDC_STATIC,10,73,65,8
+    LTEXT           "処理の進捗状況",IDC_STATIC,13,89,52,8
+    CONTROL         "Progress1",IDC_PROGRESS_CHANGE_PASSWORD,
+                    "msctls_progress32",PBS_SMOOTH | WS_BORDER,13,101,129,14
+    LTEXT           "暗号化方式：",IDC_STATIC,13,16,60,8
+    COMBOBOX        IDC_CHANGE_ENCRYPT_ALGORITHM,81,15,115,127,CBS_DROPDOWN | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080004b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "USB暗号化マスター\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "USB暗号化\0"
+            VALUE "LegalCopyright", "(C) 2007\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "AntiType.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "USB暗号化マスター\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x800, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_ANTITYPE_DIALOG, DIALOG
+    BEGIN
+        VERTGUIDE, 332
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 253
+    END
+
+    IDD_ENCRYPT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 206
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 134
+    END
+
+    IDD_DECRYPT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 207
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 128
+    END
+
+    IDD_AVAILABLE_DRIVER_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 206
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 140
+    END
+
+    IDD_CHANGE_PASSWORD_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 206
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 142
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_TRAY_MENU MENU DISCARDABLE 
+BEGIN
+    POPUP "Main Icon"
+    BEGIN
+        MENUITEM "ウインドウ表示",              ID_ICON_SHOW_WINDOW
+        MENUITEM "終了",                        ID_ICON_EXIT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_ENCRYPT_DIALOG DLGINIT
+BEGIN
+    IDC_SELECT_ENCRYPT_ALGORITHM, 0x403, 4, 0
+0x4541, 0x0053, 
+    IDC_SELECT_ENCRYPT_ALGORITHM, 0x403, 4, 0
+0x4544, 0x0053, 
+    IDC_SELECT_ENCRYPT_ALGORITHM, 0x403, 8, 0
+0x4544, 0x4553, 0x4544, 0x0032, 
+    IDC_SELECT_ENCRYPT_ALGORITHM, 0x403, 8, 0
+0x4544, 0x4553, 0x4544, 0x0033, 
+    IDC_SELECT_ENCRYPT_ALGORITHM, 0x403, 8, 0
+0x4544, 0x5853, 0x5845, 0x0033, 
+    0
+END
+
+IDD_CHANGE_PASSWORD_DIALOG DLGINIT
+BEGIN
+    IDC_CHANGE_ENCRYPT_ALGORITHM, 0x403, 4, 0
+0x4541, 0x0053, 
+    IDC_CHANGE_ENCRYPT_ALGORITHM, 0x403, 4, 0
+0x4544, 0x0053, 
+    IDC_CHANGE_ENCRYPT_ALGORITHM, 0x403, 8, 0
+0x4544, 0x4553, 0x4544, 0x0032, 
+    IDC_CHANGE_ENCRYPT_ALGORITHM, 0x403, 8, 0
+0x4544, 0x4553, 0x4544, 0x0033, 
+    IDC_CHANGE_ENCRYPT_ALGORITHM, 0x403, 8, 0
+0x4544, 0x5853, 0x5845, 0x0033, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "USB暗号化について(&A)..."
+    IDS_REMOVABLE_DRIVE     "リムーバブルドライブ"
+    IDS_REMOVABLE_DRIVE_SIZE "サイズ"
+    IDS_REMOVABLE_DRIVE_TYPE "種類"
+    IDS_ABORT_ENCRYPT       "暗号化を中断しますか ?"
+    IDS_ABORT_DECRYPT       "復号を中断しますか?"
+    IDS_REMOVABLE_DRIVE_STATUS "状況"
+    IDS_AVAILABLE_DRIVE     "利用可能なドライブレター"
+    IDS_AVAILABLE_DRIVE_TYPE "種類"
+    IDS_ABORT_CHANGE_PASSWORD "パスワードの変更を中断しますか?"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_MOUSEMOVE_ON_TRY_ICON "USB暗号化マスター"
+    IDS_SELECT_DRIVER_FIRSTLY "ドライブを最初に選択してください。"
+    IDS_DRIVER_ENCRYPTED    "ドライブの暗号化は無事成功しました。"
+    IDS_DRIVER_NOT_ENCRYPTED "そのドライブは暗号化されていません。"
+    IDS_INPUT_EXCEED_THREE_TIMES 
+                            "パスワードの入力間違いが3回続きました。\n 安全性確保のため、これ以上の入力は出来ません。コンピュータを再起動してください。"
+    IDS_INPUT_PASSWORD      "パスワードを入力してください。"
+    IDS_PASSWORD_IS_INCORRECT "パスワードが正しくありません。"
+    IDS_CHANGE_PASSWORD_COMPLETE "パスワードの変更は完了しました。"
+    IDS_ANY_PASSWORD_CAN_NOT_BE_NULL "空白のパスワードは許されていません!"
+    IDS_ORIGINAL_PASSWORD_IS_INCORRECT 
+                            "オリジナルのパスワードに間違いがあります。"
+    IDS_TWO_PASSWORDS_ARE_NOT_SUITED "2つのパスワードが一致しません!"
+    IDS_ABORT_COMPLETE      "無事、中断できました。"
+    IDS_PASSWORD_CAN_NOT_BE_NULL "空白のパスワードは許されていません!"
+    IDS_ENCRYPT_COMPLETE    "暗号化は完了しました。"
+    IDS_DECRYPT_COMPLETE    "復号は完了しました。"
+    IDS_MAKE_MIRROR_DRIVE_FAILED "仮のドライブの作成に失敗しました。"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_NEED_ADMIN          "操作するには、管理者権限が必要です。"
+    IDS_DEFAULT_DRIVER_BE_USED 
+                            "デフォルトのドライブレターは使用されています。別のドライブレターを選択してください。"
+    IDS_PASSWORD_TOO_SHORT  "Password too short, password at least need 2 character."
+END
+
+#endif    // Japanese resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "..\\resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\AntiType.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\encrypted.ico"
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\AntiType.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

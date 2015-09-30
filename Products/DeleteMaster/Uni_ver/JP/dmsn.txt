@@ -1,0 +1,7 @@
+This is DeleteMaster4 older one.
+http://www.fli.co.jp//updates/dm4/dm4.zip
+license:FLAM-024-000006-MV2OBV
+
+This is DeleteMaster5 which is base of your modifications.
+http://www.fli.co.jp/updates/dm5/download/dm5.zip
+license:FLMS-018-000006-U5BQ7F

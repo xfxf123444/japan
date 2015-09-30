@@ -1,0 +1,14 @@
+TARGETNAME=Crypto
+TARGETTYPE=LIBRARY
+TARGETPATH=OBJ
+
+MSC_OPTIMIZATION=/GX
+
+SOURCES=..\Crypto.cpp \
+		..\des.cpp    \
+        ..\misc.cpp   \
+        ..\nn.cpp     \
+        ..\rsa.cpp    \
+        ..\md5c.cpp	\
+	..\rijndael.cpp
+

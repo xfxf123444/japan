@@ -1,0 +1,33 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\crypto.obj \
+    $(_OBJ_DIR)\i386\des.obj \
+    $(_OBJ_DIR)\i386\misc.obj \
+    $(_OBJ_DIR)\i386\nn.obj \
+    $(_OBJ_DIR)\i386\rsa.obj \
+    $(_OBJ_DIR)\i386\md5c.obj \
+    $(_OBJ_DIR)\i386\rijndael.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\crypto.obj \
+    $(_OBJ_DIR)\ia64\des.obj \
+    $(_OBJ_DIR)\ia64\misc.obj \
+    $(_OBJ_DIR)\ia64\nn.obj \
+    $(_OBJ_DIR)\ia64\rsa.obj \
+    $(_OBJ_DIR)\ia64\md5c.obj \
+    $(_OBJ_DIR)\ia64\rijndael.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\crypto.obj \
+    $(_OBJ_DIR)\amd64\des.obj \
+    $(_OBJ_DIR)\amd64\misc.obj \
+    $(_OBJ_DIR)\amd64\nn.obj \
+    $(_OBJ_DIR)\amd64\rsa.obj \
+    $(_OBJ_DIR)\amd64\md5c.obj \
+    $(_OBJ_DIR)\amd64\rijndael.obj
+
+PASS0_AMD64_OBJECTS=
+

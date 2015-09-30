@@ -1,0 +1,102 @@
+c:\winddk\2600\inc\ifs\ntifs.h(3107) : error C2061: syntax error : identifier 'InitializeListHead'
+c:\winddk\2600\inc\ifs\ntifs.h(3107) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(3108) : error C2059: syntax error : 'type'
+c:\winddk\2600\inc\ifs\ntifs.h(3128) : error C2061: syntax error : identifier 'RemoveEntryList'
+c:\winddk\2600\inc\ifs\ntifs.h(3128) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(3129) : error C2059: syntax error : 'type'
+c:\winddk\2600\inc\ifs\ntifs.h(3143) : error C2061: syntax error : identifier 'RemoveHeadList'
+c:\winddk\2600\inc\ifs\ntifs.h(3143) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(3144) : error C2059: syntax error : 'type'
+c:\winddk\2600\inc\ifs\ntifs.h(3161) : error C2061: syntax error : identifier 'RemoveTailList'
+c:\winddk\2600\inc\ifs\ntifs.h(3161) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(3162) : error C2059: syntax error : 'type'
+c:\winddk\2600\inc\ifs\ntifs.h(3178) : error C2061: syntax error : identifier 'InsertTailList'
+c:\winddk\2600\inc\ifs\ntifs.h(3178) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(3179) : error C2059: syntax error : 'type'
+c:\winddk\2600\inc\ifs\ntifs.h(3195) : error C2061: syntax error : identifier 'InsertHeadList'
+c:\winddk\2600\inc\ifs\ntifs.h(3195) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(3196) : error C2059: syntax error : 'type'
+c:\winddk\2600\inc\ifs\ntifs.h(4773) : error C2146: syntax error : missing ')' before identifier 'SourceString'
+c:\winddk\2600\inc\ifs\ntifs.h(4773) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+c:\winddk\2600\inc\ifs\ntifs.h(4773) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+c:\winddk\2600\inc\ifs\ntifs.h(4773) : error C2143: syntax error : missing ')' before 'identifier'
+c:\winddk\2600\inc\ifs\ntifs.h(4773) : error C2081: 'PCOEM_STRING' : name in formal parameter list illegal
+c:\winddk\2600\inc\ifs\ntifs.h(4773) : error C2061: syntax error : identifier 'SourceString'
+c:\winddk\2600\inc\ifs\ntifs.h(4773) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(4773) : error C2059: syntax error : ','
+c:\winddk\2600\inc\ifs\ntifs.h(4775) : error C2059: syntax error : ')'
+c:\winddk\2600\inc\ifs\ntifs.h(4800) : error C2146: syntax error : missing ')' before identifier 'SourceString'
+c:\winddk\2600\inc\ifs\ntifs.h(4800) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+c:\winddk\2600\inc\ifs\ntifs.h(4800) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+c:\winddk\2600\inc\ifs\ntifs.h(4800) : error C2143: syntax error : missing ')' before 'identifier'
+c:\winddk\2600\inc\ifs\ntifs.h(4800) : error C2081: 'PCOEM_STRING' : name in formal parameter list illegal
+c:\winddk\2600\inc\ifs\ntifs.h(4800) : error C2061: syntax error : identifier 'SourceString'
+c:\winddk\2600\inc\ifs\ntifs.h(4800) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(4800) : error C2059: syntax error : ','
+c:\winddk\2600\inc\ifs\ntifs.h(4802) : error C2059: syntax error : ')'
+c:\winddk\2600\inc\ifs\ntifs.h(5048) : error C2146: syntax error : missing ')' before identifier 'OemString'
+c:\winddk\2600\inc\ifs\ntifs.h(5048) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+c:\winddk\2600\inc\ifs\ntifs.h(5048) : error C2144: syntax error : '<Unknown>' should be preceded by '<Unknown>'
+c:\winddk\2600\inc\ifs\ntifs.h(5048) : error C2143: syntax error : missing ')' before 'identifier'
+c:\winddk\2600\inc\ifs\ntifs.h(5048) : error C2061: syntax error : identifier 'OemString'
+c:\winddk\2600\inc\ifs\ntifs.h(5048) : error C2059: syntax error : ';'
+c:\winddk\2600\inc\ifs\ntifs.h(5049) : error C2059: syntax error : ')'
+c:\winddk\2600\inc\ifs\ntifs.h(5865) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(5870) : error C2085: 'RtlLargeIntegerAdd' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(5870) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(5884) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(5889) : error C2085: 'RtlEnlargedIntegerMultiply' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(5889) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(5903) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(5908) : error C2085: 'RtlEnlargedUnsignedMultiply' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(5908) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(5922) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(5928) : error C2085: 'RtlEnlargedUnsignedDivide' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(5928) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(5946) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(5950) : error C2085: 'RtlLargeIntegerNegate' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(5950) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(5964) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(5969) : error C2085: 'RtlLargeIntegerSubtract' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(5969) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(6008) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6013) : error C2085: 'RtlExtendedMagicDivide' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(6094) : error C2061: syntax error : identifier 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6112) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6117) : error C2085: 'RtlLargeIntegerDivide' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(6124) : error C2061: syntax error : identifier 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6152) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6156) : error C2085: 'RtlConvertLongToLargeInteger' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(6156) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(6170) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6174) : error C2085: 'RtlConvertUlongToLargeInteger' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(6174) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(6188) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6193) : error C2085: 'RtlLargeIntegerShiftLeft' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(6193) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(6203) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6208) : error C2085: 'RtlLargeIntegerShiftRight' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(6208) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(6218) : error C2054: expected '(' to follow 'DECLSPEC_DEPRECATED_DDK'
+c:\winddk\2600\inc\ifs\ntifs.h(6223) : error C2085: 'RtlLargeIntegerArithmeticShift' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(6223) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(7146) : error C2054: expected '(' to follow 'FORCEINLINE'
+c:\winddk\2600\inc\ifs\ntifs.h(7150) : error C2085: 'RtlConvertLongToLuid' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(7150) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(7162) : error C2054: expected '(' to follow 'FORCEINLINE'
+c:\winddk\2600\inc\ifs\ntifs.h(7166) : error C2085: 'RtlConvertUlongToLuid' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(7166) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(12165) : error C2061: syntax error : identifier 'KAFFINITY'
+c:\winddk\2600\inc\ifs\ntifs.h(12171) : error C2059: syntax error : '}'
+c:\winddk\2600\inc\ifs\ntifs.h(12674) : error C2054: expected '(' to follow 'FORCEINLINE'
+c:\winddk\2600\inc\ifs\ntifs.h(12676) : error C2085: 'KeGetCurrentProcessorNumber' : not in formal parameter list
+c:\winddk\2600\inc\ifs\ntifs.h(12676) : error C2143: syntax error : missing ';' before '{'
+c:\winddk\2600\inc\ifs\ntifs.h(15197) : error C2061: syntax error : identifier 'KAFFINITY'
+c:\winddk\2600\inc\ifs\ntifs.h(15198) : error C2059: syntax error : '}'
+c:\winddk\2600\inc\ifs\ntifs.h(15252) : error C2059: syntax error : '}'
+c:\winddk\2600\inc\ifs\ntifs.h(15253) : error C2059: syntax error : '}'
+c:\winddk\2600\inc\ifs\ntifs.h(15271) : error C2061: syntax error : identifier 'CM_PARTIAL_RESOURCE_DESCRIPTOR'
+c:\winddk\2600\inc\ifs\ntifs.h(15272) : error C2059: syntax error : '}'
+c:\winddk\2600\inc\ifs\ntifs.h(15294) : error C2061: syntax error : identifier 'CM_PARTIAL_RESOURCE_LIST'
+c:\winddk\2600\inc\ifs\ntifs.h(15295) : error C2059: syntax error : '}'
+c:\winddk\2600\inc\ifs\ntifs.h(15295) : error C1003: error count exceeds 100; stopping compilation

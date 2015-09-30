@@ -1,0 +1,41 @@
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\INFBLOCK.C
+..\infblock.c
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\INFCODES.C
+..\infcodes.c
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\INFFAST.C
+..\inffast.c
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\INFLATE.C
+..\inflate.c
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\INFTREES.C
+..\inftrees.c
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\INFUTIL.C
+..\infutil.c
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\TREES.C
+..\trees.c
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\ZUTIL.C
+..\zutil.c
+	cl /nologo /f- /G2 /Zp1 /W3 /AM /Ox /D "NDEBUG" /FR /GA  /c ..\DEFLATE.C
+..\deflate.c
+	echo >NUL @ZLIB.CRF
+	if exist ZLIB.LIB del ZLIB.LIB
+	lib @ZLIB.CRF
+
+Microsoft (R) Library Manager  Version 3.40
+Copyright (C) Microsoft Corp 1983-1993.  All rights reserved.
+
+Library name: ZLIB.LIB /PAGESIZE:64
+Library does not exist.  Create? (y/n) y
+Operations: +INFBLOCK.OBJ &
+Operations: +INFCODES.OBJ &
+Operations: +INFFAST.OBJ &
+Operations: +INFLATE.OBJ &
+Operations: +INFTREES.OBJ &
+Operations: +INFUTIL.OBJ &
+Operations: +TREES.OBJ &
+Operations: +ZUTIL.OBJ &
+Operations: +DEFLATE.OBJ &
+Operations: ;
+	bscmake @C:\WINDOWS\TEMP\nm702743.
+Microsoft Browser Database Maintenance Utility Version 2.51     
+Copyright (c) Microsoft Corp 1990-1993. All rights reserved.
+

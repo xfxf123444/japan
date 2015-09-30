@@ -1,0 +1,17 @@
+@SET OLDTOOLS=%TOOLS%
+@SET OLDINIT=%INIT%
+@SET OLDPATH=%PATH%
+@SET OLDTMP=%TMP%
+@SET OLDINCLUDE=%INCLUDE%
+@SET OLDLIB=%LIB%
+
+@call lenv
+@nmake zlib.mak > log
+@copy ZLib.lib ..\..\Export\MSDOS
+
+@set TOOLS=%OLDTOOLS%
+@set INIT=%OLDINIT%
+@set PATH=%OLDPATH%
+@set TMP=%OLDTMP%
+@set INCLUDE=%OLDINCLUDE%
+@set LIB=%OLDLIB%

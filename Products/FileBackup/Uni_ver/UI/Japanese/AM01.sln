@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AM01", "AM01.vcxproj", "{7E20E059-1A70-4264-9A4C-573EEB642269}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AM01DLL", "..\..\AM01DLL\Japanese\AM01DLL.vcxproj", "{7A17966F-2FB9-46CF-9D2E-8ADBBDE6E2C1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AMFind", "..\..\AMFind\Japanese\AMFind.vcxproj", "{A2EDEE70-AD9C-4D1F-A9C5-33C72624EED9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AMRestor", "..\..\AMRestore\japanese\AMRestor.vcxproj", "{AED525B4-368B-4225-841B-203CED1B10B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E20E059-1A70-4264-9A4C-573EEB642269}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7E20E059-1A70-4264-9A4C-573EEB642269}.Debug|Win32.Build.0 = Debug|Win32
+		{7E20E059-1A70-4264-9A4C-573EEB642269}.Release|Win32.ActiveCfg = Release|Win32
+		{7E20E059-1A70-4264-9A4C-573EEB642269}.Release|Win32.Build.0 = Release|Win32
+		{7A17966F-2FB9-46CF-9D2E-8ADBBDE6E2C1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A17966F-2FB9-46CF-9D2E-8ADBBDE6E2C1}.Debug|Win32.Build.0 = Debug|Win32
+		{7A17966F-2FB9-46CF-9D2E-8ADBBDE6E2C1}.Release|Win32.ActiveCfg = Release|Win32
+		{7A17966F-2FB9-46CF-9D2E-8ADBBDE6E2C1}.Release|Win32.Build.0 = Release|Win32
+		{A2EDEE70-AD9C-4D1F-A9C5-33C72624EED9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A2EDEE70-AD9C-4D1F-A9C5-33C72624EED9}.Debug|Win32.Build.0 = Debug|Win32
+		{A2EDEE70-AD9C-4D1F-A9C5-33C72624EED9}.Release|Win32.ActiveCfg = Release|Win32
+		{A2EDEE70-AD9C-4D1F-A9C5-33C72624EED9}.Release|Win32.Build.0 = Release|Win32
+		{AED525B4-368B-4225-841B-203CED1B10B2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AED525B4-368B-4225-841B-203CED1B10B2}.Debug|Win32.Build.0 = Debug|Win32
+		{AED525B4-368B-4225-841B-203CED1B10B2}.Release|Win32.ActiveCfg = Release|Win32
+		{AED525B4-368B-4225-841B-203CED1B10B2}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
+EndGlobal

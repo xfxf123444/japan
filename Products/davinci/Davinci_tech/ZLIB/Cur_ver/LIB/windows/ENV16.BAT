@@ -1,0 +1,1 @@
+call %MSVC152%\bin\MSVCVARS.BAT

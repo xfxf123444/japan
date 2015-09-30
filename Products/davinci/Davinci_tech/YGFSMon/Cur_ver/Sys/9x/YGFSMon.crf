@@ -1,0 +1,5 @@
+	--machine:i386 -vxd -debug -pdb:.\obj\YGFSMon.PDB
+	-DEF:YGFSMon.def
+	-OUT:.\obj\YGFSMon.VXD
+	-MAP:.\obj\YGFSMon.MAP
+	X:\DDK\lib\vxdwraps.clb	  .\obj\SYSCTRL.obj .\obj\Shell.obj .\obj\YGFSMon.obj 

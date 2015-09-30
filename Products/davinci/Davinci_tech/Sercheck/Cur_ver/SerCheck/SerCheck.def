@@ -1,0 +1,12 @@
+; SerCheck.def : Declares the module parameters for the DLL.
+
+LIBRARY      "SerCheck"
+DESCRIPTION  'SerCheck Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+YGSCGenerateSerial     @1
+YGSCCheckSerial		   @2
+JudgeWin2K             @3
+JudgeWinXP             @4
+InstallXPDriver        @5

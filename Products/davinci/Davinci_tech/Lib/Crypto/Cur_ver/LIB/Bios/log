@@ -1,0 +1,1 @@
+	cl /nologo /Gs /G2 /Zp1 /W3 /AL /Ox /D "NDEBUG" /D "BIOS_LIB" /FR /Gw  /c ..\CRYPTO.CPP

@@ -1,0 +1,7 @@
+FLAM-006-000001-X58TGW
+C:\WINDOWS\IsUninst.exe -f"C:\Program Files\FileBackup\Uninst.isu" -c"C:\Program Files\FileBackup\Install.dll"
+
+KillProcDLL Manual -- 清除进程的插件，既然能检测出阻碍安装过程的进程当然少不了这个清除进程的东东啦。
+Processes plug-in -- 查找和清除进程(包括设备驱动)的插件。(适用：WinNT,Win2K,WinXP,Win2003 Server)
+C:\WINDOWS\IsUninst.exe -fC\Program Files\FileBackup\Uninst.isu -cC\Program Files\FileBackup\Install.dll
+C:\WINDOWS\IsUninst.exe -f"C:\Program Files\FileBackup\Uninst.isu" -c"C:\Program Files\FileBackup\Install.dll"

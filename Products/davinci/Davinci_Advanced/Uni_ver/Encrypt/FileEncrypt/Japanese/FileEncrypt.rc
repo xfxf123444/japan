@@ -1,0 +1,388 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "..\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\FileEncrypt.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ENCRYPT_STATUS DIALOG DISCARDABLE  0, 0, 243, 162
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "暗号化の進捗"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "",IDC_CURRENT_FILE,15,81,206,15
+    CONTROL         "Progress1",IDC_ENCRYPT_PROGRESS,"msctls_progress32",
+                    WS_BORDER,15,105,206,14
+    PUSHBUTTON      "キャンセル",IDC_BUTTON_CANCEL,161,132,59,14
+    CONTROL         "Animate1",IDC_ANIMATE_ENCRYPT_FILE,"SysAnimate32",
+                    ACS_CENTER | ACS_TRANSPARENT | ACS_AUTOPLAY | WS_TABSTOP,
+                    14,18,206,30
+    LTEXT           "処理中のファイル:",IDC_STATIC,14,60,56,12
+END
+
+IDD_DELETE_PROGRESS DIALOG DISCARDABLE  0, 0, 231, 92
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "消去の進捗"
+FONT 9, "MS UI Gothic"
+BEGIN
+    CONTROL         "Progress1",IDC_DELETE_PROGRESS,"msctls_progress32",
+                    WS_BORDER,18,21,189,14
+    PUSHBUTTON      "キャンセル",IDC_CANCEL_DELETE,158,53,50,14
+END
+
+IDD_DELETE_METHOD DIALOG DISCARDABLE  0, 0, 247, 154
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "消去方式"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "消去方式：",IDC_STATIC,17,17,73,11
+    CONTROL         "",IDC_DELETE_METHOD,"ComboBoxEx32",CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,17,39,135,99
+    PUSHBUTTON      "消去",IDC_BUTTON_DELETE,173,36,50,15
+    PUSHBUTTON      "キャンセル",IDC_BUTTON_CANCEL,172,71,50,15
+END
+
+IDD_ENCRYPT_WIZ_1 DIALOGEX 0, 0, 294, 157
+STYLE WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "暗号化するファイルの選択"
+FONT 9, "MS UI Gothic", 0, 0, 0x1
+BEGIN
+    LTEXT           "元データの選択",IDC_STATIC,13,13,188,11
+    PUSHBUTTON      "ファイルの追加",IDC_ADD_FILE,209,72,75,14
+    PUSHBUTTON      "ディレクトリの追加",IDC_ADD_DIRECTORY,208,30,76,14
+    CONTROL         "List2",IDC_SOURCE,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
+                    WS_TABSTOP,16,31,187,100
+    PUSHBUTTON      "削除",IDC_REMOVE,211,113,73,14
+END
+
+IDD_ENCRYPT_WIZ_2 DIALOG DISCARDABLE  0, 0, 271, 135
+STYLE WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "保存先の選択"
+FONT 9, "MS UI Gothic"
+BEGIN
+    EDITTEXT        IDC_TARGET,17,44,170,14,ES_AUTOHSCROLL
+    LTEXT           "保存先ファイル名の指定",IDC_STATIC,17,20,170,13
+    PUSHBUTTON      "参照",IDC_REFER,202,44,50,14
+END
+
+IDD_ENCRYPT_WIZ_3 DIALOG DISCARDABLE  0, 0, 233, 162
+STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "パスワードの設定"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "パスワードを入力ください",IDC_STATIC,16,18,111,8
+    EDITTEXT        IDC_PASSWORD,16,34,168,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "確認のためパスワードを再度入力ください",IDC_STATIC,16,
+                    60,119,8
+    EDITTEXT        IDC_REENTER_PASSWORD,16,76,167,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    CONTROL         "暗号化の後に完全消去する",IDC_DELETE_SOURCE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,127,135,10
+    CONTROL         "圧縮無し",IDC_COMPRESS_LEVEL,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,16,104,60,10
+    CONTROL         "速度優先圧縮",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,81,
+                    104,68,10
+    CONTROL         "圧縮率優先圧縮",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,
+                    154,104,68,10
+    PUSHBUTTON      "オプション",IDC_OPTION,165,125,50,14
+END
+
+IDD_ENCRYPT_OPTION DIALOG DISCARDABLE  0, 0, 174, 121
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "暗号化オプション"
+FONT 9, "MS UI Gothic"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,26,97,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,98,97,50,14
+    CONTROL         "復号有効期限",IDC_CHECK_TIME,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,21,35,61,10
+    CONTROL         "復号回数制限",IDC_CHECK_COUNT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,21,54,61,10
+    GROUPBOX        "オプション",IDC_STATIC,7,22,159,69
+    CONTROL         "DateTimePicker1",IDC_LIMIT_TIME,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | WS_TABSTOP,88,33,55,15
+    EDITTEXT        IDC_LIMIT_COUNT,88,53,54,14,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN_COUNT,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_ARROWKEYS,131,53,10,14
+    CONTROL         "オプションを有効",IDC_CHECK_OPTION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,9,7,63,10
+    CONTROL         "誤入力回数制限",IDC_ERROR_LIMITION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,21,73,65,10
+    EDITTEXT        IDC_MAX_INPUT_NUMBER,88,71,54,14,ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ENCRYPT_STATUS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 236
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 155
+    END
+
+    IDD_DELETE_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 224
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 85
+    END
+
+    IDD_DELETE_METHOD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 240
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_ENCRYPT_WIZ_1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 284
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 150
+    END
+
+    IDD_ENCRYPT_WIZ_2, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 264
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 128
+    END
+
+    IDD_ENCRYPT_WIZ_3, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 226
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 155
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 4,0,0,1
+ PRODUCTVERSION 4,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041103a4"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "FRONTLINE, Inc.\0"
+            VALUE "FileDescription", "暗号化マスター Application\0"
+            VALUE "FileVersion", "4, 0, 0, 1\0"
+            VALUE "InternalName", "暗号化マスター\0"
+            VALUE "LegalCopyright", "Copyright (C) 2007\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "暗号化マスター\0"
+            VALUE "ProductVersion", "4, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 932
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AVI
+//
+
+IDR_FILE_COPY           AVI     DISCARDABLE     "res\\filecopy.avi"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_SOURCE_DESCRIPTION  "すべてのファイル"
+    IDS_PASSWORD_NOT_MATCH  "パスワードが一致しません"
+    IDS_OPEN_SOURCE_FAILED  "次の元ファイルを開けません： %s"
+    IDS_EMPTY_SOURCE        "空のファイルは元ファイルとして選べません。"
+    IDS_OPEN_TARGET_FAILED  "次の保存先ファイルが開けません: %s"
+    IDS_EMPTY_PASSWORD      "パスワードは必ず設定してください。"
+    IDS_ASK_FOR_OVERWRITE   "%s は既に存在します。既存ファイルを上書きしますか?"
+    IDS_SOURCE_FILE         "元ファイル"
+    IDS_NO_ITEM_SELECTED    "項目が選択されていません。"
+    IDS_NO_ITEM_TO_REMOVE   "削除する項目がありません。"
+    IDS_IMAGE_DESCRIPTION   "暗号化ファイル"
+    IDS_EMPTY_TARGET        "保存先は空ではいけません。"
+    IDS_INVALID_TARGET      "保存先ファイルが不正です。"
+    IDS_ENCRYPT             "暗号化"
+    IDS_CLOSE               "閉じる"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ENCRYPT_FAILED      "暗号化に失敗しました"
+    IDS_ENCRYPT_FINISHED    "暗号化が完了しました。"
+    PASSWORD_TOO_LONG       "パスワードが長過ぎます。"
+    IDS_CREATE_IMAGE_ERROR  "イメージの作成に失敗しました。"
+    IDS_ENCRYPT_FILE_ERROR  "暗号化ファイル %s エラー"
+    IDS_NOT_ENOUGH_MEMORY   "メモリ不足です。"
+    IDS_CONFLICT            "元データと保存先が混乱しています。"
+    IDS_00_METHOD           "0を1回書き込み"
+    IDS_FF_METHOD           "1を1回書き込み"
+    IDS_RANDOM_METHOD       "乱数書き込み"
+    IDS_NSA_METHOD          "NSA 方式"
+    IDS_OLD_NSA_METHOD      "旧NSA 方式"
+    IDS_DOD_STD_METHOD      "DoD 標準"
+    IDS_NATO_METHOD         "NATO 方式"
+    IDS_GUTMANN_METHOD      "Gutmann 方式"
+    IDS_CONFIRM_DELETE_FILE "元データを完全に消去しますか?"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PRODUCT_NAME        "暗号化マスター2"
+    IDS_APP_NAME            "ファイル暗号化"
+    IDS_REACH_LIMIT_COUNT   "この暗号化イメージは %d 回だけ復号できるように設定されています。既に、復号可能な回数を超えたため、復号できません。"
+    IDS_LIMIT_TIME          "このイメージは、 %4.4d/%2.2d%2.2d 以降は、復号できません。"
+    IDS_LIMIT_ERROR         "制限された回数 %d を越えています!"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 中国語 (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "..\\resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\FileEncrypt.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中国語 (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\FileEncrypt.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

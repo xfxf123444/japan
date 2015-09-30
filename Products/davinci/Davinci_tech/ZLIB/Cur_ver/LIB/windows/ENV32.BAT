@@ -1,0 +1,1 @@
+@call %VC42COMM%\VCVARS32.BAT x86

@@ -1,0 +1,28 @@
+MUI_386_OBJECTS= \
+    $(_OBJ_DIR)\i386\ygfsmon.res
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\ygfsmon.res \
+    $(_OBJ_DIR)\i386\ygfsmon.obj
+
+MUI_IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\ygfsmon.res
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\ygfsmon.res \
+    $(_OBJ_DIR)\ia64\ygfsmon.obj
+
+MUI_AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\ygfsmon.res
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\ygfsmon.res \
+    $(_OBJ_DIR)\amd64\ygfsmon.obj
+
+MUI_ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\ygfsmon.res
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\ygfsmon.res \
+    $(_OBJ_DIR)\arm\ygfsmon.obj
+

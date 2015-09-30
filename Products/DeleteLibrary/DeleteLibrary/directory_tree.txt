@@ -1,0 +1,11 @@
+Root
+©À©¤DeleteLibrary		// source code and project cofiguration directory 
+©À©¤export			// win32 export directory
+©¦  ©À©¤debug
+©¦  ©¸©¤release
+©À©¤include			// header directory
+©À©¤TestDeleteLibrary		// sample project directory
+©¦  ©¸©¤res
+©¸©¤x64				// x64 export directory
+    ©À©¤Debug
+    ©¸©¤Release
