@@ -1,6 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{3bcf7ae4-bc42-4d58-9771-4d8e9f69176a}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{a03439c8-a781-4a6d-994b-528d3f92e7a3}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{0e6b1da4-af6b-4afa-ac20-5a8c5db300be}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\..\DavinciFunction\DavinciFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -31,18 +45,23 @@
     <ClCompile Include="..\EncryptWiz_3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\StdAfx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\DavinciFunction\SecureDelete.cpp">
+    <ClCompile Include="..\FileEncrypt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\EncryptFunction\FileStatisticInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\FileEncrypt.cpp">
+    <ClCompile Include="..\..\..\DavinciFunction\SecureDelete.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FileEncrypt.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\DavinciFunction\DavinciFunction.h">
@@ -72,10 +91,10 @@
     <ClInclude Include="..\EncryptWiz_1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\EncryptWiz_3.h">
+    <ClInclude Include="..\EncryptWiz_2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\EncryptWiz_2.h">
+    <ClInclude Include="..\EncryptWiz_3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\FileEncrypt.h">
@@ -95,33 +114,17 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="res\filecopy.avi">
+    <Image Include="res\FileEncrypt.ico">
       <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\FileEncrypt.ico">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="res\FileEncrypt.rc2">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ReadMe.txt">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{96f1aa91-9951-47af-86d1-07be5f660198}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{60baecbe-cb0c-4cc8-a6b0-151eba98f2c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{735ed416-f121-4e8b-a70b-1c88035ac248}</UniqueIdentifier>
-    </Filter>
+    <None Include="res\FileEncrypt.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\filecopy.avi" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="FileEncrypt.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>
