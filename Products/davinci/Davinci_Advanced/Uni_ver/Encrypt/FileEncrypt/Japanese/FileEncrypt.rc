@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "..\resource.h"
 
@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 擔杮岅 resources
+// 日语(日本) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
-#ifdef _WIN32
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -28,52 +26,47 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON    DISCARDABLE     "res\\FileEncrypt.ico"
+IDR_MAINFRAME           ICON                    "res\\FileEncrypt.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_ENCRYPT_STATUS DIALOG DISCARDABLE  0, 0, 243, 162
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ENCRYPT_STATUS DIALOG 0, 0, 243, 162
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "埫崋壔偺恑捇"
 FONT 9, "MS UI Gothic"
 BEGIN
     LTEXT           "",IDC_CURRENT_FILE,15,81,206,15
-    CONTROL         "Progress1",IDC_ENCRYPT_PROGRESS,"msctls_progress32",
-                    WS_BORDER,15,105,206,14
+    CONTROL         "Progress1",IDC_ENCRYPT_PROGRESS,"msctls_progress32",WS_BORDER,15,105,206,14
     PUSHBUTTON      "僉儍儞僙儖",IDC_BUTTON_CANCEL,161,132,59,14
-    CONTROL         "Animate1",IDC_ANIMATE_ENCRYPT_FILE,"SysAnimate32",
-                    ACS_CENTER | ACS_TRANSPARENT | ACS_AUTOPLAY | WS_TABSTOP,
-                    14,18,206,30
+    CONTROL         "Animate1",IDC_ANIMATE_ENCRYPT_FILE,"SysAnimate32",ACS_CENTER | ACS_TRANSPARENT | ACS_AUTOPLAY | WS_TABSTOP,14,18,206,30
     LTEXT           "張棟拞偺僼傽僀儖:",IDC_STATIC,14,60,56,12
 END
 
-IDD_DELETE_PROGRESS DIALOG DISCARDABLE  0, 0, 231, 92
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_DELETE_PROGRESS DIALOG 0, 0, 231, 92
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "徚嫀偺恑捇"
 FONT 9, "MS UI Gothic"
 BEGIN
-    CONTROL         "Progress1",IDC_DELETE_PROGRESS,"msctls_progress32",
-                    WS_BORDER,18,21,189,14
+    CONTROL         "Progress1",IDC_DELETE_PROGRESS,"msctls_progress32",WS_BORDER,18,21,189,14
     PUSHBUTTON      "僉儍儞僙儖",IDC_CANCEL_DELETE,158,53,50,14
 END
 
-IDD_DELETE_METHOD DIALOG DISCARDABLE  0, 0, 247, 154
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_DELETE_METHOD DIALOG 0, 0, 247, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "徚嫀曽幃"
 FONT 9, "MS UI Gothic"
 BEGIN
     LTEXT           "徚嫀曽幃丗",IDC_STATIC,17,17,73,11
-    CONTROL         "",IDC_DELETE_METHOD,"ComboBoxEx32",CBS_DROPDOWNLIST | 
-                    CBS_SORT | WS_VSCROLL | WS_TABSTOP,17,39,135,99
+    CONTROL         "",IDC_DELETE_METHOD,"ComboBoxEx32",CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP,17,39,135,99
     PUSHBUTTON      "徚嫀",IDC_BUTTON_DELETE,173,36,50,15
     PUSHBUTTON      "僉儍儞僙儖",IDC_BUTTON_CANCEL,172,71,50,15
 END
 
 IDD_ENCRYPT_WIZ_1 DIALOGEX 0, 0, 294, 157
-STYLE WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "埫崋壔偡傞僼傽僀儖偺慖戰"
 FONT 9, "MS UI Gothic", 0, 0, 0x1
@@ -81,65 +74,53 @@ BEGIN
     LTEXT           "尦僨乕僞偺慖戰",IDC_STATIC,13,13,188,11
     PUSHBUTTON      "僼傽僀儖偺捛壛",IDC_ADD_FILE,209,72,75,14
     PUSHBUTTON      "僨傿儗僋僩儕偺捛壛",IDC_ADD_DIRECTORY,208,30,76,14
-    CONTROL         "List2",IDC_SOURCE,"SysListView32",LVS_REPORT | 
-                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
-                    WS_TABSTOP,16,31,187,100
+    CONTROL         "List2",IDC_SOURCE,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,16,31,187,100
     PUSHBUTTON      "嶍彍",IDC_REMOVE,211,113,73,14
 END
 
-IDD_ENCRYPT_WIZ_2 DIALOG DISCARDABLE  0, 0, 271, 135
-STYLE WS_CHILD | WS_CAPTION | WS_SYSMENU
+IDD_ENCRYPT_WIZ_2 DIALOGEX 0, 0, 271, 135
+STYLE DS_SETFONT | WS_CHILD | WS_CAPTION | WS_SYSMENU
 CAPTION "曐懚愭偺慖戰"
-FONT 9, "MS UI Gothic"
+FONT 9, "MS UI Gothic", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_TARGET,17,44,170,14,ES_AUTOHSCROLL
     LTEXT           "曐懚愭僼傽僀儖柤偺巜掕",IDC_STATIC,17,20,170,13
     PUSHBUTTON      "嶲徠",IDC_REFER,202,44,50,14
+    CONTROL         "Create self extracting file",IDC_CHECK_SELF_EXTRACT_CHECKBOX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,74,92,19
 END
 
-IDD_ENCRYPT_WIZ_3 DIALOG DISCARDABLE  0, 0, 233, 162
-STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
+IDD_ENCRYPT_WIZ_3 DIALOG 0, 0, 233, 162
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
 CAPTION "僷僗儚乕僪偺愝掕"
 FONT 9, "MS UI Gothic"
 BEGIN
     LTEXT           "僷僗儚乕僪傪擖椡偔偩偝偄",IDC_STATIC,16,18,111,8
     EDITTEXT        IDC_PASSWORD,16,34,168,14,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "妋擣偺偨傔僷僗儚乕僪傪嵞搙擖椡偔偩偝偄",IDC_STATIC,16,
-                    60,119,8
-    EDITTEXT        IDC_REENTER_PASSWORD,16,76,167,14,ES_PASSWORD | 
-                    ES_AUTOHSCROLL
-    CONTROL         "埫崋壔偺屻偵姰慡徚嫀偡傞",IDC_DELETE_SOURCE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,16,127,135,10
-    CONTROL         "埑弅柍偟",IDC_COMPRESS_LEVEL,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,16,104,60,10
-    CONTROL         "懍搙桪愭埑弅",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,81,
-                    104,68,10
-    CONTROL         "埑弅棪桪愭埑弅",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,
-                    154,104,68,10
+    LTEXT           "妋擣偺偨傔僷僗儚乕僪傪嵞搙擖椡偔偩偝偄",IDC_STATIC,16,60,119,8
+    EDITTEXT        IDC_REENTER_PASSWORD,16,76,167,14,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "埫崋壔偺屻偵姰慡徚嫀偡傞",IDC_DELETE_SOURCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,127,135,10
+    CONTROL         "埑弅柍偟",IDC_COMPRESS_LEVEL,"Button",BS_AUTORADIOBUTTON | WS_GROUP,16,104,60,10
+    CONTROL         "懍搙桪愭埑弅",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,81,104,68,10
+    CONTROL         "埑弅棪桪愭埑弅",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,154,104,68,10
     PUSHBUTTON      "僆僾僔儑儞",IDC_OPTION,165,125,50,14
 END
 
-IDD_ENCRYPT_OPTION DIALOG DISCARDABLE  0, 0, 174, 121
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ENCRYPT_OPTION DIALOG 0, 0, 174, 121
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "埫崋壔僆僾僔儑儞"
 FONT 9, "MS UI Gothic"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,26,97,50,14
     PUSHBUTTON      "僉儍儞僙儖",IDCANCEL,98,97,50,14
-    CONTROL         "暅崋桳岠婜尷",IDC_CHECK_TIME,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,21,35,61,10
-    CONTROL         "暅崋夞悢惂尷",IDC_CHECK_COUNT,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,21,54,61,10
+    CONTROL         "暅崋桳岠婜尷",IDC_CHECK_TIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,35,61,10
+    CONTROL         "暅崋夞悢惂尷",IDC_CHECK_COUNT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,54,61,10
     GROUPBOX        "僆僾僔儑儞",IDC_STATIC,7,22,159,69
-    CONTROL         "DateTimePicker1",IDC_LIMIT_TIME,"SysDateTimePick32",
-                    DTS_RIGHTALIGN | WS_TABSTOP,88,33,55,15
+    CONTROL         "DateTimePicker1",IDC_LIMIT_TIME,"SysDateTimePick32",DTS_RIGHTALIGN | WS_TABSTOP,88,33,55,15
     EDITTEXT        IDC_LIMIT_COUNT,88,53,54,14,ES_AUTOHSCROLL
-    CONTROL         "Spin1",IDC_SPIN_COUNT,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_ARROWKEYS,131,53,10,14
-    CONTROL         "僆僾僔儑儞傪桳岠",IDC_CHECK_OPTION,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,9,7,63,10
-    CONTROL         "岆擖椡夞悢惂尷",IDC_ERROR_LIMITION,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,21,73,65,10
+    CONTROL         "Spin1",IDC_SPIN_COUNT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS,131,53,10,14
+    CONTROL         "僆僾僔儑儞傪桳岠",IDC_CHECK_OPTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,7,63,10
+    CONTROL         "岆擖椡夞悢惂尷",IDC_ERROR_LIMITION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,73,65,10
     EDITTEXT        IDC_MAX_INPUT_NUMBER,88,71,54,14,ES_AUTOHSCROLL
 END
 
@@ -150,7 +131,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ENCRYPT_STATUS, DIALOG
     BEGIN
@@ -199,11 +180,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 155
     END
+
+    IDD_ENCRYPT_OPTION, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -226,18 +210,13 @@ BEGIN
     BEGIN
         BLOCK "041103a4"
         BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "FRONTLINE, Inc.\0"
-            VALUE "FileDescription", "埫崋壔儅僗僞乕 Application\0"
-            VALUE "FileVersion", "4, 0, 0, 1\0"
-            VALUE "InternalName", "埫崋壔儅僗僞乕\0"
-            VALUE "LegalCopyright", "Copyright (C) 2007\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "埫崋壔儅僗僞乕\0"
-            VALUE "ProductVersion", "4, 0, 0, 1\0"
-            VALUE "SpecialBuild", "\0"
+            VALUE "CompanyName", "FRONTLINE, Inc."
+            VALUE "FileDescription", "埫崋壔儅僗僞乕 Application"
+            VALUE "FileVersion", "4, 0, 0, 1"
+            VALUE "InternalName", "埫崋壔儅僗僞乕"
+            VALUE "LegalCopyright", "Copyright (C) 2007"
+            VALUE "ProductName", "埫崋壔儅僗僞乕"
+            VALUE "ProductVersion", "4, 0, 0, 1"
         END
     END
     BLOCK "VarFileInfo"
@@ -246,22 +225,20 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // AVI
 //
 
-IDR_FILE_COPY           AVI     DISCARDABLE     "res\\filecopy.avi"
+IDR_FILE_COPY           AVI                     "res\\filecopy.avi"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // String Table
 //
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_SOURCE_DESCRIPTION  "偡傋偰偺僼傽僀儖"
     IDS_PASSWORD_NOT_MATCH  "僷僗儚乕僪偑堦抳偟傑偣傫"
@@ -280,7 +257,7 @@ BEGIN
     IDS_CLOSE               "暵偠傞"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_ENCRYPT_FAILED      "埫崋壔偵幐攕偟傑偟偨"
     IDS_ENCRYPT_FINISHED    "埫崋壔偑姰椆偟傑偟偨丅"
@@ -300,7 +277,7 @@ BEGIN
     IDS_CONFIRM_DELETE_FILE "尦僨乕僞傪姰慡偵徚嫀偟傑偡偐?"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_PRODUCT_NAME        "埫崋壔儅僗僞乕2"
     IDS_APP_NAME            "僼傽僀儖埫崋壔"
@@ -309,18 +286,16 @@ BEGIN
     IDS_LIMIT_ERROR         "惂尷偝傟偨夞悢 %d 傪墇偊偰偄傑偡!"
 END
 
-#endif    // 擔杮岅 resources
+#endif    // 日语(日本) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 拞崙岅 (P.R.C.) resources
+// 中文(简体，中国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
-#ifdef _WIN32
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 #pragma code_page(936)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -328,18 +303,18 @@ LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "..\\resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -359,7 +334,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // 拞崙岅 (P.R.C.) resources
+#endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
