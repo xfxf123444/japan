@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\japan\Products\davinci\Davinci_Advanced\Uni_ver\Encrypt\FileEncrypt\Japanese\FileEncrypt.rc
+// Used by d:\source_20090108\Products\davinci\Davinci_Advanced\Uni_ver\Encrypt\FileEncrypt\Japanese\FileEncrypt.rc
 //
 #define IDS_FILE_DESCRIPTION            1
 #define IDS_SOURCE_DESCRIPTION          1
@@ -83,8 +83,6 @@
 #define IDC_SPIN_COUNT                  1027
 #define IDC_CHECK_OPTION                1028
 #define IDC_ERROR_LIMITION              1029
-#define IDC_CHECK1                      1031
-#define IDC_CHECK_SELF_EXTRACT_CHECKBOX 1031
 #define IDC_BUTTON_DELETE               1064
 #define IDC_DELETE_METHOD               1090
 #define IDC_DELETE_PROGRESS             1091
@@ -97,7 +95,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        139
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1032
+#define _APS_NEXT_CONTROL_VALUE         1031
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
