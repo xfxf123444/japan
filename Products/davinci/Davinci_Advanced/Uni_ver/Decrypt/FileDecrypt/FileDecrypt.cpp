@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "FileDecrypt.h"
-
+#include "..\DecryptFunction\DecryptFunction.h"
 #include "DecryptWiz_1.h"
 #include "DecryptWiz_2.h"
 #include "DecryptWiz_3.h"
@@ -21,13 +21,6 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 #define CREATE_SELF_EXTRACTING_FILE
-
-ULARGE_INTEGER g_selfExtractingFileAddress;
-ULARGE_INTEGER g_selfExtractingFileSize;
-BOOL g_isSelfExtractingFile;
-BOOL g_checkSelfExtraingFileValid;
-CString g_selfExtractingFilePath;
-extern DECRYPT_INFO g_DecryptInfo;
 /////////////////////////////////////////////////////////////////////////////
 // CFileDecryptApp
 
@@ -73,9 +66,18 @@ BOOL CFileDecryptApp::InitInstance()
 	// int nResponse = dlg.DoModal();
 
 #ifdef CREATE_SELF_EXTRACTING_FILE
-	CheckIsSelfExtractingFile();
+	TCHAR buf[MAX_PATH];
+	memset(buf,0,sizeof(buf));
+	GetModuleFileName(NULL,buf,MAX_PATH);
+	GetLongPathName(buf, buf, MAX_PATH);
+	CString modulePath = buf;
+	BOOL isValid = FALSE;
+	BOOL isSelfExtractingFile = FALSE;
+	LARGE_INTEGER address;
+	LARGE_INTEGER size;
+	isSelfExtractingFile = CheckIsSelfExtractingFile(modulePath, address, size, isValid);
 
-	if (!g_isSelfExtractingFile || !g_checkSelfExtraingFileValid || g_selfExtractingFilePath.GetLength() >= MAX_PATH) {
+	if (!isSelfExtractingFile || !isValid || modulePath.GetLength() >= MAX_PATH) {
 			CString strText;
 			CString strTitle;
 			strText.LoadString(IDS_INVALID_IMAGE_FILE);
@@ -83,7 +85,70 @@ BOOL CFileDecryptApp::InitInstance()
 			MessageBox(0, strText, strTitle, MB_OK | MB_ICONWARNING);
 	}
 	else {
-		wcsncpy(g_DecryptInfo.szImageFile,(LPCTSTR)g_selfExtractingFilePath,MAX_PATH-1);
+		BOOL openationResult = FALSE;
+		CString tempFilePath = modulePath + SELF_EXTRACTING_TEMP_EXTENSION;
+		do {
+			HANDLE hTempFile = CreateFile(tempFilePath,GENERIC_WRITE, NULL,
+				NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_HIDDEN,NULL);
+			if (hTempFile == INVALID_HANDLE_VALUE) {
+				break;
+			}
+			HANDLE hModule = CreateFile(modulePath, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+			if (hModule == INVALID_HANDLE_VALUE) {
+				break;
+			}
+			if (!SetFilePointerEx(hModule, address, 0, FILE_BEGIN)) {
+				break;
+			}
+			char chBuf[1024*1024];
+			ZeroMemory(chBuf, sizeof(chBuf));
+			DWORD dwRead = 0;
+			DWORD dwWrite = 0;
+			LARGE_INTEGER remainToRead;
+			remainToRead.QuadPart = size.QuadPart;
+			LARGE_INTEGER totalRead;
+			DWORD dwToRead = 0;
+			if (remainToRead.QuadPart > sizeof(chBuf)) {
+				dwToRead = sizeof(chBuf);
+			}
+			else {
+				dwToRead = remainToRead.QuadPart;
+			} 
+			while (dwToRead != 0
+				&& ReadFile(hModule, chBuf, dwToRead, &dwRead, 0)
+				&& dwToRead == dwRead){
+				totalRead.QuadPart += dwRead;
+				remainToRead.QuadPart -= dwRead;
+				if (WriteFile(hTempFile, chBuf, dwToRead, &dwWrite, 0)
+					&& dwWrite == dwToRead) {
+					if (remainToRead.QuadPart > sizeof(chBuf)) {
+						dwToRead = sizeof(chBuf);
+					}
+					else {
+						dwToRead = remainToRead.QuadPart;
+					} 
+					dwRead = dwWrite = 0;
+					ZeroMemory(chBuf, sizeof(chBuf));
+				}
+				else {
+					break;
+				}
+			}
+			if (dwToRead == 0) {
+				openationResult = TRUE;
+			}
+			CloseHandle(hTempFile);
+			CloseHandle(hModule);
+		} while (0);
+		if (!openationResult) {
+			CString strText;
+			CString strTitle;
+			strText.LoadString(IDS_INVALID_IMAGE_FILE);
+			strTitle.LoadString(IDS_APP_NAME);
+			MessageBox(0, strText, strTitle, MB_OK | MB_ICONWARNING);
+			return FALSE;
+		}
+
 		CPropertySheet DecryptWizard;
 		CDecryptWiz_2 DecryptWiz_2;
 		CDecryptWiz_3 DecryptWiz_3;
@@ -97,7 +162,10 @@ BOOL CFileDecryptApp::InitInstance()
 
 		DecryptWizard.SetWizardMode();
 
-		DecryptWizard.DoModal();
+		int nResponse =  DecryptWizard.DoModal();
+		if (nResponse == IDOK) {
+
+		}
 	}
 #else
 	CPropertySheet DecryptWizard;
@@ -120,46 +188,4 @@ BOOL CFileDecryptApp::InitInstance()
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
 	return FALSE;
-}
-
-void CFileDecryptApp::CheckIsSelfExtractingFile()
-{
-	g_isSelfExtractingFile = FALSE;
-	g_checkSelfExtraingFileValid = FALSE;
-	TCHAR buf[MAX_PATH];
-	memset(buf,0,sizeof(buf));
-	GetModuleFileName(NULL,buf,MAX_PATH);
-	GetLongPathName(buf, buf, MAX_PATH);
-	g_selfExtractingFilePath = buf;
-	
-	ULARGE_INTEGER fileSize;
-	fileSize.QuadPart = 0;
-	HANDLE hFile = CreateFile(g_selfExtractingFilePath,
-		GENERIC_READ | GENERIC_WRITE,
-		FILE_SHARE_READ | FILE_SHARE_WRITE,
-		NULL,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-	if (hFile != INVALID_HANDLE_VALUE) {
-		fileSize.LowPart = GetFileSize(hFile, &fileSize.HighPart);
-		if (SetFilePointer(hFile, sizeof(SELF_EXTRACTING_IDENTITY) + sizeof(ULARGE_INTEGER), 0, FILE_END) != INVALID_SET_FILE_POINTER) {
-			WCHAR identityBuf[IMAGE_IDENTITY_SIZE];
-			ZeroMemory(identityBuf, sizeof(identityBuf));
-			DWORD dwRead = 0;
-			if (ReadFile(hFile, identityBuf, sizeof(identityBuf), &dwRead, 0) && dwRead == sizeof(identityBuf)) {
-				if (wcscmp(identityBuf, SELF_EXTRACTING_IDENTITY) == 0) {
-					g_isSelfExtractingFile = TRUE;
-					if (ReadFile(hFile, &g_selfExtractingFileAddress, sizeof(g_selfExtractingFileAddress), &dwRead, 0) 
-						&& dwRead == sizeof(ULARGE_INTEGER)
-						&& ReadFile(hFile, &g_selfExtractingFileSize, sizeof(g_selfExtractingFileSize), &dwRead, 0) 
-						&& dwRead == sizeof(ULARGE_INTEGER)) {
-						if (g_selfExtractingFileAddress.QuadPart + g_selfExtractingFileSize.QuadPart <= fileSize.QuadPart){
-							g_checkSelfExtraingFileValid = TRUE;
-						}
-					}
-				}
-			}
-		} 
-	}
 }

@@ -12,7 +12,9 @@
 
 #define CURRENT_FILE_VERSION  0x300
 
+const  WCHAR  SELF_EXTRACTING_FILE_EXTENSION[12]= L"exe";
 const  WCHAR  FILE_ENCRYPT_EXTENSION[12]= L"chy";
+const  WCHAR  SELF_EXTRACTING_TEMP_EXTENSION[12]= L"xtfemp";
 
 const  int   IMAGE_IDENTITY_SIZE=32;
 const  int   IMAGE_RESERVED_SIZE=128;
@@ -118,8 +120,6 @@ typedef struct
 	WCHAR szTargetPath[MAX_PATH];
 	ULONG ulCompressLevel;
 	ENCRYPTOPTION EncryptOption;
-	BOOL isSelfExtractingFile;
-	ULARGE_INTEGER selfExtractingFileAddress;
 }DECRYPT_INFO;
 
 // file handle for encrypt
