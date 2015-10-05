@@ -118,6 +118,8 @@ typedef struct
 	WCHAR szTargetPath[MAX_PATH];
 	ULONG ulCompressLevel;
 	ENCRYPTOPTION EncryptOption;
+	BOOL isSelfExtractingFile;
+	ULARGE_INTEGER selfExtractingFileAddress;
 }DECRYPT_INFO;
 
 // file handle for encrypt

@@ -1,3 +1,154 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\DavinciFunction\DavinciFunction.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DecryptFunction\DecryptFunction.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DecryptStatus.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DecryptWiz_1.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DecryptWiz_2.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DecryptWiz_3.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DecryptWiz_4.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DecryptWiz_5.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\DavinciFunction\deletemethoddlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\DavinciFunction\DeleteProgressDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EraseDirectory.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FileDecrypt.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StdAfx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\DavinciFunction\SecureDelete.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NewRestoreTreeCtrl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OleDropSourcePro.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OleDataSourcePro.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\DavinciFunction\DavinciFunction.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\DavinciFunction\DeleteProgressDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DecryptFunction\DecryptFunction.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DecryptStatus.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DecryptWiz_1.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DecryptWiz_2.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DecryptWiz_3.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DecryptWiz_4.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DecryptWiz_5.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\DavinciFunction\deletemethoddlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\EncryptToolStruct\EncryptToolStruct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EraseDirectory.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NewRestoreTreeCtrl.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OleDataSourcePro.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OleDropSourcePro.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\resource.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\DavinciFunction\SecureDelete.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StdAfx.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TRACEWIN.H">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FileDecrypt.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Drives.bmp">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="ReadMe.txt">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\File.bmp">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\filecopy.avi">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\FileDecrypt.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\FileDecrypt.rc2">
+      <Filter>Resource</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{da028344-e109-4e36-81d8-cb6d1d912ff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{28834c07-d2f9-49a2-ab21-b7c9308754f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{a4c5d9d5-7500-425a-bb25-6a4a1a01f65c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FileDecrypt.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
 </Project>
