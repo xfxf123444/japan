@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\DavinciFunction\DavinciFunction.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\DavinciFunction\deletemethoddlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\DavinciFunction\DeleteProgressDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\EncryptFunction\EncryptFunction.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\EncryptFunction\EncryptInfo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EncryptOption.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EncryptStatus.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EncryptWiz_1.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EncryptWiz_2.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EncryptWiz_3.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FileEncrypt.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\EncryptFunction\FileStatisticInfo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\DavinciFunction\SecureDelete.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StdAfx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\DavinciFunction\DavinciFunction.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EncryptWiz_3.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\DavinciFunction\deletemethoddlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\DavinciFunction\DeleteProgressDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\EncryptFunction\EncryptFunction.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\EncryptFunction\EncryptInfo.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EncryptOption.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EncryptStatus.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\EncryptToolStruct\EncryptToolStruct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EncryptWiz_1.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EncryptWiz_2.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\resource.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StdAfx.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\DavinciFunction\SecureDelete.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FileEncrypt.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\EncryptFunction\FileStatisticInfo.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\filecopy.avi">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ReadMe.txt">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="res\FileEncrypt.ico">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="res\FileEncrypt.rc2">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{91f2a2ac-abc1-4a9a-8d42-0904996e536a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{34a57196-20ef-4cae-be66-f4711ae27e1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{d7841f01-d1e6-445b-a79a-19f00b094f1d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FileEncrypt.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
