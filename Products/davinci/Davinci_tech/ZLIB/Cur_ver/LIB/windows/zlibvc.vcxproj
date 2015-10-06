@@ -36,7 +36,7 @@
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseAxp|Win32'" Label="Configuration">
@@ -44,7 +44,7 @@
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -134,7 +134,7 @@
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <OutputFile>.\Release\zlib.dll</OutputFile>
       <ImportLibrary>.\Release\zlib.lib</ImportLibrary>
-      <AdditionalDependencies>LIBC.LIB;LIBCMT.LIB;MSVCRT.LIB;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LIBCMT.LIB;MSVCRT.LIB;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>..\zlibvc.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>

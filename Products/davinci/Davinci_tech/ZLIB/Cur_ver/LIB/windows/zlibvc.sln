@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibvc", "zlibvc.vcxproj", "{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibvc", "zlibvc.vcxproj", "{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,16 +12,16 @@ Global
 		ReleaseWithoutCrtdll|Win32 = ReleaseWithoutCrtdll|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.Debug|Win32.ActiveCfg = Debug|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.Debug|Win32.Build.0 = Debug|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.Release|Win32.ActiveCfg = Release|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.Release|Win32.Build.0 = Release|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.ReleaseAxp|Win32.ActiveCfg = ReleaseAxp|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.ReleaseAxp|Win32.Build.0 = ReleaseAxp|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.ReleaseWithoutAsm|Win32.ActiveCfg = ReleaseWithoutAsm|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.ReleaseWithoutAsm|Win32.Build.0 = ReleaseWithoutAsm|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.ReleaseWithoutCrtdll|Win32.ActiveCfg = ReleaseWithoutCrtdll|Win32
-		{CECFB2C5-D523-58A7-8A49-8DC03AC46A16}.ReleaseWithoutCrtdll|Win32.Build.0 = ReleaseWithoutCrtdll|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.Debug|Win32.Build.0 = Debug|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.Release|Win32.ActiveCfg = Release|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.Release|Win32.Build.0 = Release|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.ReleaseAxp|Win32.ActiveCfg = ReleaseAxp|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.ReleaseAxp|Win32.Build.0 = ReleaseAxp|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.ReleaseWithoutAsm|Win32.ActiveCfg = ReleaseWithoutAsm|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.ReleaseWithoutAsm|Win32.Build.0 = ReleaseWithoutAsm|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.ReleaseWithoutCrtdll|Win32.ActiveCfg = ReleaseWithoutCrtdll|Win32
+		{A11A58F7-8F40-CED0-9D68-FE50BEBB11D9}.ReleaseWithoutCrtdll|Win32.Build.0 = ReleaseWithoutCrtdll|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

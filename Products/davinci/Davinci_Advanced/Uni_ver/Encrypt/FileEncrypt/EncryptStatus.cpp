@@ -169,10 +169,8 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
 	   g_bEncryptSucceed = FALSE;
 	   return FALSE;
    }
-   else
+   else if (g_bCreateSelfExtractFile)
    {
-	   g_bEncryptSucceed = TRUE;
-
 	   // copy file
 	   TCHAR buf[MAX_PATH];
 	   memset(buf,0,sizeof(buf));
@@ -206,7 +204,7 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
 		   address.LowPart = GetFileSize(hTempFile, &dwTemp);
 		   address.HighPart = dwTemp;
 
-		   char chBuf[1024*1024];
+		   char chBuf[1024];
 		   ZeroMemory(chBuf, sizeof(chBuf));
 		   DWORD dwRead = 0;
 		   DWORD dwWrite = 0;
@@ -244,10 +242,10 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
 				   }
 		   }
 		   if (dwToRead == 0) {
-			   if (WriteFile(hTempFile, SELF_EXTRACTING_IDENTITY, IMAGE_IDENTITY_SIZE, &dwTemp, 0)
+			   if (WriteFile(hTempFile, SELF_EXTRACTING_IDENTITY, sizeof(SELF_EXTRACTING_IDENTITY), &dwTemp, 0)
 				   && WriteFile(hTempFile, &address.QuadPart, sizeof(LARGE_INTEGER), &dwTemp, 0)
 				   && WriteFile(hTempFile, &size.QuadPart, sizeof(LARGE_INTEGER), &dwTemp, 0)
-				   && WriteFile(hTempFile, SELF_EXTRACTING_IDENTITY, IMAGE_IDENTITY_SIZE, &dwTemp, 0)) {
+				   && WriteFile(hTempFile, SELF_EXTRACTING_IDENTITY, sizeof(SELF_EXTRACTING_IDENTITY), &dwTemp, 0)) {
 					   operationResult = TRUE;
 			   }
 			   else {
@@ -260,6 +258,7 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
 
 	   if (operationResult) {
 		   DeleteFile(targetPath);
+		   SetFileAttributes(tempExePath, FILE_ATTRIBUTE_NORMAL);
 		   MoveFile(tempExePath, targetPath);
 		   g_bEncryptSucceed = TRUE;
 	   }
@@ -272,6 +271,9 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
 		   g_bEncryptSucceed = FALSE;
 		   return FALSE;
 	   }
+   }
+   else {
+	   g_bEncryptSucceed = TRUE;
    }
 
     PostMessage(pThreadParam->hParentWnd,WM_CLOSE,0,0);

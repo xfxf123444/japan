@@ -68,7 +68,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>I:\w2kprov2_prog\Microsoft Platform SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;ZLIB_DLL;FILE_DECRYPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;FILE_DECRYPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <StructMemberAlignment>1Byte</StructMemberAlignment>
@@ -86,7 +86,7 @@
       <Culture>0x0804</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>..\..\..\..\..\Davinci_tech\lib\Crypto\Cur_ver\Export\User\Crypto.lib;..\..\..\..\..\Davinci_tech\ZLib\Cur_ver\Export\Windows\ZLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\..\..\..\Davinci_tech\lib\Crypto\Cur_ver\Export\User\Crypto.lib;..\..\..\..\..\Davinci_tech\ZLib\Cur_ver\Export\lib\zlib_s_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Release/FileDecrypt.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>I:\w2kprov2_prog\Microsoft Platform SDK\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -100,6 +100,9 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Release/FileDecrypt.bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>copy .\\Release\\FileDecrypt.exe ..\\..\\..\\Encrypt\\FileEncrypt\\Japanese\\Release\\sefb.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -113,7 +116,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;ZLIB_DLL;FILE_DECRYPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;FILE_DECRYPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -132,7 +135,7 @@
       <Culture>0x0804</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>..\..\..\..\..\Davinci_tech\lib\Crypto\Cur_ver\Export\User\Crypto.lib;..\..\..\..\..\Davinci_tech\ZLib\Cur_ver\Export\Windows\ZLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\..\..\..\Davinci_tech\lib\Crypto\Cur_ver\Export\User\Crypto.lib;..\..\..\..\..\Davinci_tech\ZLib\Cur_ver\Export\lib\zlib_s_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/FileDecrypt.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -147,6 +150,9 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/FileDecrypt.bsc</OutputFile>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>copy .\\debug\\FileDecrypt.exe ..\\..\\..\\Encrypt\\FileEncrypt\\Japanese\\Debug\\sefb.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\DavinciFunction\DavinciFunction.cpp">

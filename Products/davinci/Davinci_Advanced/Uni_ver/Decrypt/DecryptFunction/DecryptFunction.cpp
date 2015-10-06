@@ -2107,13 +2107,14 @@ BOOL GetTempInfoFilePath( CString& strPath )
 
 BOOL CheckIsSelfExtractingFile( const CString& path, LARGE_INTEGER& address, LARGE_INTEGER& size, BOOL& isValid )
 {
+	CString temp;
 	BOOL isSelfExtractingFile = FALSE;
 	isValid = FALSE;
 	ULARGE_INTEGER fileSize;
 	fileSize.QuadPart = 0;
 	HANDLE hFile = CreateFile(path,
-		GENERIC_READ | GENERIC_WRITE,
-		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		GENERIC_READ,
+		FILE_SHARE_READ,
 		NULL,
 		OPEN_EXISTING,
 		FILE_ATTRIBUTE_NORMAL,
@@ -2121,19 +2122,23 @@ BOOL CheckIsSelfExtractingFile( const CString& path, LARGE_INTEGER& address, LAR
 	if (hFile != INVALID_HANDLE_VALUE) {
 		fileSize.LowPart = GetFileSize(hFile, &fileSize.HighPart);
 		if (SetFilePointer(hFile, -(int(sizeof(SELF_EXTRACTING_IDENTITY)) * 2 + int(sizeof(LARGE_INTEGER)) * 2), 0, FILE_END) != INVALID_SET_FILE_POINTER) {
+			LARGE_INTEGER p;
+			p.QuadPart = 0;
+			SetFilePointerEx(hFile, p, &p, FILE_CURRENT);
 			WCHAR identityBuf[IMAGE_IDENTITY_SIZE];
 			ZeroMemory(identityBuf, sizeof(identityBuf));
 			DWORD dwRead = 0;
-			if (ReadFile(hFile, identityBuf, IMAGE_IDENTITY_SIZE, &dwRead, 0) && dwRead == IMAGE_IDENTITY_SIZE) {
+			if (ReadFile(hFile, identityBuf, sizeof(SELF_EXTRACTING_IDENTITY), &dwRead, 0) && dwRead == sizeof(SELF_EXTRACTING_IDENTITY)) {
 				if (wcscmp(identityBuf, SELF_EXTRACTING_IDENTITY) == 0) {
 					isSelfExtractingFile = TRUE;
 					if (ReadFile(hFile, &address.QuadPart, sizeof(address), &dwRead, 0) 
 						&& dwRead == sizeof(LARGE_INTEGER)
 						&& ReadFile(hFile, &size.QuadPart, sizeof(size), &dwRead, 0) 
 						&& dwRead == sizeof(LARGE_INTEGER)
-						&& ReadFile(hFile, identityBuf, IMAGE_IDENTITY_SIZE, &dwRead, 0)
-						&& dwRead == IMAGE_IDENTITY_SIZE) {
-							if (address.QuadPart + size.QuadPart <= fileSize.QuadPart){
+						&& ReadFile(hFile, identityBuf, sizeof(SELF_EXTRACTING_IDENTITY), &dwRead, 0)
+						&& dwRead == sizeof(SELF_EXTRACTING_IDENTITY)) {
+							if (wcscmp(identityBuf, SELF_EXTRACTING_IDENTITY) == 0
+								&& address.QuadPart + size.QuadPart <= fileSize.QuadPart){
 								isValid = TRUE;
 							}
 					}

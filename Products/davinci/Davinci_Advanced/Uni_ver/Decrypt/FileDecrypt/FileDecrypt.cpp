@@ -23,7 +23,6 @@ static char THIS_FILE[] = __FILE__;
 #define TEST_SELF_EXTRACTING_FILE
 #define CREATE_SELF_EXTRACTING_FILE
 BOOL g_isSelfExtractingFile;
-CString g_selfExtractingImageFilePath;
 extern DECRYPT_INFO g_DecryptInfo;
 /////////////////////////////////////////////////////////////////////////////
 // CFileDecryptApp
@@ -75,25 +74,30 @@ BOOL CFileDecryptApp::InitInstance()
 	GetModuleFileName(NULL,buf,MAX_PATH);
 	GetLongPathName(buf, buf, MAX_PATH);
 	CString modulePath = buf;
+	//memset(buf,0,sizeof(buf));
+	//::GetTempPath(MAX_PATH, buf);
+	//GetLongPathName(buf, buf, MAX_PATH);
+	//CString tempDirPath = buf;
 	BOOL isValid = FALSE;
 	BOOL isSelfExtractingFile = FALSE;
 	LARGE_INTEGER address;
 	LARGE_INTEGER size;
 	isSelfExtractingFile = CheckIsSelfExtractingFile(modulePath, address, size, isValid);
-	
 	if (!isSelfExtractingFile || !isValid || modulePath.GetLength() >= MAX_PATH) {
-			CString strText;
-			CString strTitle;
-			strText.LoadString(IDS_INVALID_IMAGE_FILE);
-			strTitle.LoadString(IDS_APP_NAME);
-			MessageBox(0, strText, strTitle, MB_OK | MB_ICONWARNING);
+		CString strText;
+		CString strTitle;
+		strText.LoadString(IDS_INVALID_IMAGE_FILE);
+		strTitle.LoadString(IDS_APP_NAME);
+		MessageBox(0, strText, strTitle, MB_OK | MB_ICONWARNING);
 	}
 	else {
 		BOOL openationResult = FALSE;
-		g_selfExtractingImageFilePath = modulePath + SELF_EXTRACTING_TEMP_EXTENSION;
+		//CString tempFilePath = tempDirPath + modulePath.Mid(modulePath.ReverseFind(L'\\') + 1) + SELF_EXTRACTING_TEMP_EXTENSION;
+		CString tempFilePath = modulePath + SELF_EXTRACTING_TEMP_EXTENSION;
 		do {
-			HANDLE hTempFile = CreateFile(g_selfExtractingImageFilePath,GENERIC_WRITE, NULL,
+			HANDLE hTempFile = CreateFile(tempFilePath,GENERIC_WRITE, NULL,
 				NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_HIDDEN,NULL);
+			SetFileAttributes(tempFilePath, FILE_ATTRIBUTE_HIDDEN);
 			if (hTempFile == INVALID_HANDLE_VALUE) {
 				break;
 			}
@@ -104,7 +108,7 @@ BOOL CFileDecryptApp::InitInstance()
 			if (!SetFilePointerEx(hModule, address, 0, FILE_BEGIN)) {
 				break;
 			}
-			char chBuf[1024*1024];
+			char chBuf[1024];
 			ZeroMemory(chBuf, sizeof(chBuf));
 			DWORD dwRead = 0;
 			DWORD dwWrite = 0;
@@ -122,22 +126,22 @@ BOOL CFileDecryptApp::InitInstance()
 			while (dwToRead != 0
 				&& ReadFile(hModule, chBuf, dwToRead, &dwRead, 0)
 				&& dwToRead == dwRead){
-				totalRead.QuadPart += dwRead;
-				remainToRead.QuadPart -= dwRead;
-				if (WriteFile(hTempFile, chBuf, dwToRead, &dwWrite, 0)
-					&& dwWrite == dwToRead) {
-					if (remainToRead.QuadPart > sizeof(chBuf)) {
-						dwToRead = sizeof(chBuf);
+					totalRead.QuadPart += dwRead;
+					remainToRead.QuadPart -= dwRead;
+					if (WriteFile(hTempFile, chBuf, dwToRead, &dwWrite, 0)
+						&& dwWrite == dwToRead) {
+							if (remainToRead.QuadPart > sizeof(chBuf)) {
+								dwToRead = sizeof(chBuf);
+							}
+							else {
+								dwToRead = remainToRead.QuadPart;
+							} 
+							dwRead = dwWrite = 0;
+							ZeroMemory(chBuf, sizeof(chBuf));
 					}
 					else {
-						dwToRead = remainToRead.QuadPart;
-					} 
-					dwRead = dwWrite = 0;
-					ZeroMemory(chBuf, sizeof(chBuf));
-				}
-				else {
-					break;
-				}
+						break;
+					}
 			}
 			if (dwToRead == 0) {
 				openationResult = TRUE;
@@ -155,7 +159,7 @@ BOOL CFileDecryptApp::InitInstance()
 		}
 
 		g_isSelfExtractingFile = TRUE;
-		wcsncpy(g_DecryptInfo.szImageFile,(LPCTSTR)g_selfExtractingImageFilePath,MAX_PATH-1);
+		wcsncpy(g_DecryptInfo.szImageFile,(LPCTSTR)tempFilePath,MAX_PATH-1);
 		CPropertySheet DecryptWizard;
 		CDecryptWiz_2 DecryptWiz_2;
 		CDecryptWiz_3 DecryptWiz_3;
@@ -170,7 +174,7 @@ BOOL CFileDecryptApp::InitInstance()
 		DecryptWizard.SetWizardMode();
 
 		DecryptWizard.DoModal();
-		DeleteFile(g_selfExtractingImageFilePath);
+		DeleteFile(tempFilePath);
 	}
 #else
 	CPropertySheet DecryptWizard;

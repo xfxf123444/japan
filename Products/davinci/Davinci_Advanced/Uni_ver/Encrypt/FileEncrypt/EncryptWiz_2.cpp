@@ -71,14 +71,37 @@ void CEncryptWiz_2::OnRefer()
 	// TODO: Add your control notification handler code here
 	WCHAR szTargetFile[MAX_PATH];
 
-	CString strTargetDescription;
-	strTargetDescription.LoadString(IDS_IMAGE_DESCRIPTION);
-
-	if( SelectFilePro(FILE_ENCRYPT_EXTENSION,(LPCTSTR)strTargetDescription,szTargetFile) )
+	CString strChyDescription;
+	strChyDescription.LoadString(IDS_IMAGE_DESCRIPTION);
+	CString strExeDescription;
+	strExeDescription.LoadString(IDS_SELF_EXTRACTING_DESCRIPTION);
+	CString strFilter;
+	strFilter.Format(L"%s (*.%s)|*.%s|%s (*.%s)|*.%s||", strChyDescription, FILE_ENCRYPT_EXTENSION, FILE_ENCRYPT_EXTENSION, 
+		strExeDescription, SELF_EXTRACTING_FILE_EXTENSION, SELF_EXTRACTING_FILE_EXTENSION);
+	CString defaultExetension = FILE_ENCRYPT_EXTENSION;
+	if (g_bCreateSelfExtractFile) {
+		defaultExetension = SELF_EXTRACTING_FILE_EXTENSION;
+	}
+	CFileDialog dlg (FALSE, defaultExetension, NULL, OFN_HIDEREADONLY, strFilter);
+	if (IDOK == dlg.DoModal())
 	{
-		m_strTarget = szTargetFile;
+		m_strTarget = dlg.GetPathName();
+		CString suffix = m_strTarget.Mid(m_strTarget.ReverseFind(L'.') + 1);
+		if (suffix == FILE_ENCRYPT_EXTENSION) {
+			g_bCreateSelfExtractFile = FALSE;
+			m_btnCheck.SetCheck(FALSE);
+		}
+		else if (suffix == SELF_EXTRACTING_FILE_EXTENSION) {
+			g_bCreateSelfExtractFile = TRUE;
+			m_btnCheck.SetCheck(TRUE);
+		}
 		UpdateData(FALSE);
-	}	
+	}
+	//if( SelectFilePro(FILE_ENCRYPT_EXTENSION,(LPCTSTR)strTargetDescription,szTargetFile) )
+	//{
+	//	m_strTarget = szTargetFile;
+	//	UpdateData(FALSE);
+	//}	
 }
 
 LRESULT CEncryptWiz_2::OnWizardNext() 
