@@ -16,6 +16,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 CEncryptInfo g_EncryptInfo;
+BOOL g_bCreateSelfExtractFile;
 
 /////////////////////////////////////////////////////////////////////////////
 // CEncryptWiz_1 property page

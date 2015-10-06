@@ -25,6 +25,7 @@ BOOL g_bThreadFinished;
 
 BOOL g_bEncryptSucceed;
 
+extern BOOL g_bCreateSelfExtractFile;
 DWORD WINAPI ThreadEncryptFile(LPVOID pIn);
 
 extern CEncryptInfo g_EncryptInfo;
@@ -133,7 +134,12 @@ void CEncryptStatus::OnTimer(UINT nIDEvent)
 	GetWorkState(WorkState);
 	
 	m_strCurrentFile=WorkState.szCurrentFile;
-	m_Progress.SetPos(WorkState.nPercent);
+	if (g_bCreateSelfExtractFile && WorkState.nPercent >= 100) {
+		m_Progress.SetPos(99);
+	}
+	else {
+		m_Progress.SetPos(WorkState.nPercent);
+	}
 
 	UpdateData(FALSE);
 
@@ -166,6 +172,106 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
    else
    {
 	   g_bEncryptSucceed = TRUE;
+
+	   // copy file
+	   TCHAR buf[MAX_PATH];
+	   memset(buf,0,sizeof(buf));
+	   GetModuleFileName(NULL,buf,MAX_PATH);
+	   GetLongPathName(buf, buf, MAX_PATH);
+	   CString modulePath = buf;
+	   CString sourceExePath = modulePath.Left(modulePath.ReverseFind(L'\\')) + L"\\sefb.dll";
+	   CString targetPath = g_EncryptInfo.m_strTarget;
+	   CString tempExePath = targetPath + SELF_EXTRACTING_TEMP_EXTENSION;
+	   BOOL operationResult = FALSE;
+	   HANDLE hTempFile;
+	   HANDLE hImage;
+	   do {
+		   if (!CopyFile(sourceExePath, tempExePath, FALSE)) {
+			   break;
+		   }
+		   SetFileAttributes(tempExePath, FILE_ATTRIBUTE_HIDDEN);
+		   hTempFile = CreateFile(tempExePath,GENERIC_WRITE, NULL, NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
+		   if (hTempFile == INVALID_HANDLE_VALUE) {
+			   break;
+		   }
+		   hImage = CreateFile(targetPath, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+		   if (hImage == INVALID_HANDLE_VALUE) {
+			   break;
+		   }
+		   LARGE_INTEGER address;
+		   LARGE_INTEGER size;
+		   DWORD dwTemp;
+		   size.LowPart = GetFileSize(hImage, &dwTemp);
+		   size.HighPart = dwTemp;
+		   address.LowPart = GetFileSize(hTempFile, &dwTemp);
+		   address.HighPart = dwTemp;
+
+		   char chBuf[1024*1024];
+		   ZeroMemory(chBuf, sizeof(chBuf));
+		   DWORD dwRead = 0;
+		   DWORD dwWrite = 0;
+		   LARGE_INTEGER remainToRead;
+		   remainToRead.QuadPart = size.QuadPart;
+		   LARGE_INTEGER totalRead;
+		   totalRead.QuadPart = 0;
+		   DWORD dwToRead = 0;
+		   if (remainToRead.QuadPart > sizeof(chBuf)) {
+			   dwToRead = sizeof(chBuf);
+		   }
+		   else {
+			   dwToRead = remainToRead.QuadPart;
+		   } 
+		   SetFilePointer(hImage, 0, 0, FILE_BEGIN);
+		   SetFilePointer(hTempFile, 0, 0, FILE_END);
+		   while (dwToRead != 0
+			   && ReadFile(hImage, chBuf, dwToRead, &dwRead, 0)
+			   && dwToRead == dwRead){
+				   totalRead.QuadPart += dwRead;
+				   remainToRead.QuadPart -= dwRead;
+				   if (WriteFile(hTempFile, chBuf, dwToRead, &dwWrite, 0)
+					   && dwWrite == dwToRead) {
+						   if (remainToRead.QuadPart > sizeof(chBuf)) {
+							   dwToRead = sizeof(chBuf);
+						   }
+						   else {
+							   dwToRead = remainToRead.QuadPart;
+						   } 
+						   dwRead = dwWrite = 0;
+						   ZeroMemory(chBuf, sizeof(chBuf));
+				   }
+				   else {
+					   break;
+				   }
+		   }
+		   if (dwToRead == 0) {
+			   if (WriteFile(hTempFile, SELF_EXTRACTING_IDENTITY, IMAGE_IDENTITY_SIZE, &dwTemp, 0)
+				   && WriteFile(hTempFile, &address.QuadPart, sizeof(LARGE_INTEGER), &dwTemp, 0)
+				   && WriteFile(hTempFile, &size.QuadPart, sizeof(LARGE_INTEGER), &dwTemp, 0)
+				   && WriteFile(hTempFile, SELF_EXTRACTING_IDENTITY, IMAGE_IDENTITY_SIZE, &dwTemp, 0)) {
+					   operationResult = TRUE;
+			   }
+			   else {
+				   operationResult = FALSE;
+			   }
+		   }
+	   } while (0);
+	   CloseHandle(hTempFile);
+	   CloseHandle(hImage);
+
+	   if (operationResult) {
+		   DeleteFile(targetPath);
+		   MoveFile(tempExePath, targetPath);
+		   g_bEncryptSucceed = TRUE;
+	   }
+	   else {
+		   DeleteFile(tempExePath);
+		   DeleteFile(targetPath);
+		   TRACE(L"\nEncryptSelection error in ThreadEncryptFile.");
+		   PostMessage(pThreadParam->hParentWnd,WM_CLOSE,0,0);
+		   g_bThreadFinished = TRUE;
+		   g_bEncryptSucceed = FALSE;
+		   return FALSE;
+	   }
    }
 
     PostMessage(pThreadParam->hParentWnd,WM_CLOSE,0,0);

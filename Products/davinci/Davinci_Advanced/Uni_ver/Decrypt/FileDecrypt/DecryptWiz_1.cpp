@@ -1,4 +1,4 @@
-// DecryptWiz_1.cpp : implementation file
+ // DecryptWiz_1.cpp : implementation file
 //
 
 #include "stdafx.h"

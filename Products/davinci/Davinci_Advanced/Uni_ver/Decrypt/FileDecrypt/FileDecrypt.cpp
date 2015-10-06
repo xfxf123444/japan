@@ -20,7 +20,11 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+#define TEST_SELF_EXTRACTING_FILE
 #define CREATE_SELF_EXTRACTING_FILE
+BOOL g_isSelfExtractingFile;
+CString g_selfExtractingImageFilePath;
+extern DECRYPT_INFO g_DecryptInfo;
 /////////////////////////////////////////////////////////////////////////////
 // CFileDecryptApp
 
@@ -76,7 +80,7 @@ BOOL CFileDecryptApp::InitInstance()
 	LARGE_INTEGER address;
 	LARGE_INTEGER size;
 	isSelfExtractingFile = CheckIsSelfExtractingFile(modulePath, address, size, isValid);
-
+	
 	if (!isSelfExtractingFile || !isValid || modulePath.GetLength() >= MAX_PATH) {
 			CString strText;
 			CString strTitle;
@@ -86,9 +90,9 @@ BOOL CFileDecryptApp::InitInstance()
 	}
 	else {
 		BOOL openationResult = FALSE;
-		CString tempFilePath = modulePath + SELF_EXTRACTING_TEMP_EXTENSION;
+		g_selfExtractingImageFilePath = modulePath + SELF_EXTRACTING_TEMP_EXTENSION;
 		do {
-			HANDLE hTempFile = CreateFile(tempFilePath,GENERIC_WRITE, NULL,
+			HANDLE hTempFile = CreateFile(g_selfExtractingImageFilePath,GENERIC_WRITE, NULL,
 				NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_HIDDEN,NULL);
 			if (hTempFile == INVALID_HANDLE_VALUE) {
 				break;
@@ -107,6 +111,7 @@ BOOL CFileDecryptApp::InitInstance()
 			LARGE_INTEGER remainToRead;
 			remainToRead.QuadPart = size.QuadPart;
 			LARGE_INTEGER totalRead;
+			totalRead.QuadPart = 0;
 			DWORD dwToRead = 0;
 			if (remainToRead.QuadPart > sizeof(chBuf)) {
 				dwToRead = sizeof(chBuf);
@@ -149,6 +154,8 @@ BOOL CFileDecryptApp::InitInstance()
 			return FALSE;
 		}
 
+		g_isSelfExtractingFile = TRUE;
+		wcsncpy(g_DecryptInfo.szImageFile,(LPCTSTR)g_selfExtractingImageFilePath,MAX_PATH-1);
 		CPropertySheet DecryptWizard;
 		CDecryptWiz_2 DecryptWiz_2;
 		CDecryptWiz_3 DecryptWiz_3;
@@ -162,10 +169,8 @@ BOOL CFileDecryptApp::InitInstance()
 
 		DecryptWizard.SetWizardMode();
 
-		int nResponse =  DecryptWizard.DoModal();
-		if (nResponse == IDOK) {
-
-		}
+		DecryptWizard.DoModal();
+		DeleteFile(g_selfExtractingImageFilePath);
 	}
 #else
 	CPropertySheet DecryptWizard;

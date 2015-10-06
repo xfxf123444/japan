@@ -19,6 +19,7 @@ static char THIS_FILE[] = __FILE__;
 // CEncryptWiz_2 property page
 
 extern CEncryptInfo g_EncryptInfo;
+extern BOOL g_bCreateSelfExtractFile;
 
 IMPLEMENT_DYNCREATE(CEncryptWiz_2, CPropertyPage)
 
@@ -39,6 +40,7 @@ void CEncryptWiz_2::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(CEncryptWiz_2)
 	DDX_Text(pDX, IDC_TARGET, m_strTarget);
 	//}}AFX_DATA_MAP
+	DDX_Control(pDX, IDC_CHECK_SELF_EXTRACT, m_btnCheck);
 }
 
 
@@ -46,6 +48,7 @@ BEGIN_MESSAGE_MAP(CEncryptWiz_2, CPropertyPage)
 	//{{AFX_MSG_MAP(CEncryptWiz_2)
 	ON_BN_CLICKED(IDC_REFER, OnRefer)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_CHECK_SELF_EXTRACT, &CEncryptWiz_2::OnBnClickedCheckSelfExtract)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -57,7 +60,9 @@ BOOL CEncryptWiz_2::OnSetActive()
 	CPropertySheet* pSheet = (CPropertySheet*)GetParent();
 	ASSERT_KINDOF(CPropertySheet, pSheet);
 	pSheet->SetWizardButtons( PSWIZB_BACK | PSWIZB_NEXT);
-	
+	if (g_bCreateSelfExtractFile) {
+		m_btnCheck.SetCheck(TRUE);
+	}
 	return CPropertyPage::OnSetActive();
 }
 
@@ -68,6 +73,7 @@ void CEncryptWiz_2::OnRefer()
 
 	CString strTargetDescription;
 	strTargetDescription.LoadString(IDS_IMAGE_DESCRIPTION);
+
 	if( SelectFilePro(FILE_ENCRYPT_EXTENSION,(LPCTSTR)strTargetDescription,szTargetFile) )
 	{
 		m_strTarget = szTargetFile;
@@ -90,7 +96,12 @@ LRESULT CEncryptWiz_2::OnWizardNext()
 
 	CString strFileEncryptSuffix;
 	strFileEncryptSuffix.Empty();
-	strFileEncryptSuffix = strFileEncryptSuffix + L"." + FILE_ENCRYPT_EXTENSION;
+	if (g_bCreateSelfExtractFile){
+		strFileEncryptSuffix = strFileEncryptSuffix + L"." + SELF_EXTRACTING_FILE_EXTENSION;
+	} 
+	else{
+		strFileEncryptSuffix = strFileEncryptSuffix + L"." + FILE_ENCRYPT_EXTENSION;
+	}
 
 	if(
 		( 0 != m_strTarget.Right(4).CompareNoCase(strFileEncryptSuffix) ) ||
@@ -131,4 +142,26 @@ LRESULT CEncryptWiz_2::OnWizardNext()
 	g_EncryptInfo.m_strTarget = m_strTarget;
 
 	return CPropertyPage::OnWizardNext();
+}
+
+
+void CEncryptWiz_2::OnBnClickedCheckSelfExtract()
+{
+	int pos = m_strTarget.ReverseFind(L'.');
+	if (g_bCreateSelfExtractFile) {
+		g_bCreateSelfExtractFile = FALSE;
+		if (pos != -1 && m_strTarget.Mid(pos + 1, wcslen(SELF_EXTRACTING_FILE_EXTENSION)) == SELF_EXTRACTING_FILE_EXTENSION) {
+			m_strTarget = m_strTarget.Left(pos + 1);
+			m_strTarget += FILE_ENCRYPT_EXTENSION;
+		}
+		UpdateData(FALSE);
+	}
+	else {
+		g_bCreateSelfExtractFile = TRUE;
+		if (pos != -1 && m_strTarget.Mid(pos + 1, wcslen(FILE_ENCRYPT_EXTENSION)) == FILE_ENCRYPT_EXTENSION) {
+			m_strTarget = m_strTarget.Left(pos + 1);
+			m_strTarget += SELF_EXTRACTING_FILE_EXTENSION;
+		}
+		UpdateData(FALSE);
+	}
 }

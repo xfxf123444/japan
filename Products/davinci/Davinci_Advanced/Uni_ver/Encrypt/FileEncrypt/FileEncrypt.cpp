@@ -17,6 +17,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+extern BOOL g_bCreateSelfExtractFile;
 /////////////////////////////////////////////////////////////////////////////
 // CFileEncryptApp
 
@@ -56,6 +57,7 @@ BOOL CFileEncryptApp::InitInstance()
 	CMfxTrace::Init();
 #endif
 
+	g_bCreateSelfExtractFile = FALSE;
 	CPropertySheet EncryptWizard;
 	CEncryptWiz_1 EncryptWiz_1;
 	CEncryptWiz_2 EncryptWiz_2;

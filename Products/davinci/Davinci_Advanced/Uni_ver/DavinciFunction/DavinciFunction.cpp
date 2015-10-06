@@ -55,12 +55,9 @@ BOOL UpdateDecryptOption(HANDLE hImageFile,LPCTSTR szPassword,ENCRYPTOPTION *pEn
 	return TRUE;
 }
 
-ULONG GetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD &FileEncryptHead, BOOL isSelfExtractingFile = FALSE, const ULARGE_INTEGER* address = 0)
+ULONG GetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD &FileEncryptHead)
 {
     LARGE_INTEGER liFilePointer;
-	if (isSelfExtractingFile && address) {
-		liFilePointer.QuadPart = address->QuadPart;
-	}
 	ULONG ulImageVersion = 0;
 	DWORD dwReadBytes;
 	
@@ -124,13 +121,10 @@ ULONG GetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD 
 	return 0;
 }
 
-BOOL SetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD &FileEncryptHead,BOOL bOptionOnly, const ULARGE_INTEGER* address = 0)
+BOOL SetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD &FileEncryptHead,BOOL bOptionOnly)
 {
 	FILE_ENCRYPT_HEAD FileEncryptHeadTemp;
     LARGE_INTEGER liFilePointer;
-	if (address){
-		liFilePointer.QuadPart = address->QuadPart;
-	}
 	DWORD dwWriteBytes;
 	char chPassward[MAX_PATH];
 	ZeroMemory(chPassward, sizeof(chPassward));

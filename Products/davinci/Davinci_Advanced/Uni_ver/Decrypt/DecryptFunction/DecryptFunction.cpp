@@ -2120,17 +2120,19 @@ BOOL CheckIsSelfExtractingFile( const CString& path, LARGE_INTEGER& address, LAR
 		NULL);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		fileSize.LowPart = GetFileSize(hFile, &fileSize.HighPart);
-		if (SetFilePointer(hFile, sizeof(SELF_EXTRACTING_IDENTITY) + sizeof(LARGE_INTEGER) * 2, 0, FILE_END) != INVALID_SET_FILE_POINTER) {
+		if (SetFilePointer(hFile, -(int(sizeof(SELF_EXTRACTING_IDENTITY)) * 2 + int(sizeof(LARGE_INTEGER)) * 2), 0, FILE_END) != INVALID_SET_FILE_POINTER) {
 			WCHAR identityBuf[IMAGE_IDENTITY_SIZE];
 			ZeroMemory(identityBuf, sizeof(identityBuf));
 			DWORD dwRead = 0;
-			if (ReadFile(hFile, identityBuf, sizeof(identityBuf), &dwRead, 0) && dwRead == sizeof(identityBuf)) {
+			if (ReadFile(hFile, identityBuf, IMAGE_IDENTITY_SIZE, &dwRead, 0) && dwRead == IMAGE_IDENTITY_SIZE) {
 				if (wcscmp(identityBuf, SELF_EXTRACTING_IDENTITY) == 0) {
 					isSelfExtractingFile = TRUE;
-					if (ReadFile(hFile, &address, sizeof(address), &dwRead, 0) 
+					if (ReadFile(hFile, &address.QuadPart, sizeof(address), &dwRead, 0) 
 						&& dwRead == sizeof(LARGE_INTEGER)
-						&& ReadFile(hFile, &size, sizeof(size), &dwRead, 0) 
-						&& dwRead == sizeof(LARGE_INTEGER)) {
+						&& ReadFile(hFile, &size.QuadPart, sizeof(size), &dwRead, 0) 
+						&& dwRead == sizeof(LARGE_INTEGER)
+						&& ReadFile(hFile, identityBuf, IMAGE_IDENTITY_SIZE, &dwRead, 0)
+						&& dwRead == IMAGE_IDENTITY_SIZE) {
 							if (address.QuadPart + size.QuadPart <= fileSize.QuadPart){
 								isValid = TRUE;
 							}
@@ -2141,48 +2143,4 @@ BOOL CheckIsSelfExtractingFile( const CString& path, LARGE_INTEGER& address, LAR
 		CloseHandle(hFile);
 	}
 	return isSelfExtractingFile;
-}
-
-BOOL WriteImageFileData( HANDLE target, LARGE_INTEGER& targetAddress, HANDLE source, LARGE_INTEGER& sourceAddress, LARGE_INTEGER& size )
-{
-	if (!SetFilePointerEx(hModule, address, 0, FILE_BEGIN)) {
-		break;
-	}
-	char chBuf[1024*1024];
-	ZeroMemory(chBuf, sizeof(chBuf));
-	DWORD dwRead = 0;
-	DWORD dwWrite = 0;
-	LARGE_INTEGER remainToRead;
-	remainToRead.QuadPart = size.QuadPart;
-	LARGE_INTEGER totalRead;
-	DWORD dwToRead = 0;
-	if (remainToRead.QuadPart > sizeof(chBuf)) {
-		dwToRead = sizeof(chBuf);
-	}
-	else {
-		dwToRead = remainToRead.QuadPart;
-	} 
-	while (dwToRead != 0
-		&& ReadFile(hModule, chBuf, dwToRead, &dwRead, 0)
-		&& dwToRead == dwRead){
-			totalRead.QuadPart += dwRead;
-			remainToRead.QuadPart -= dwRead;
-			if (WriteFile(hTempFile, chBuf, dwToRead, &dwWrite, 0)
-				&& dwWrite == dwToRead) {
-					if (remainToRead.QuadPart > sizeof(chBuf)) {
-						dwToRead = sizeof(chBuf);
-					}
-					else {
-						dwToRead = remainToRead.QuadPart;
-					} 
-					dwRead = dwWrite = 0;
-					ZeroMemory(chBuf, sizeof(chBuf));
-			}
-			else {
-				break;
-			}
-	}
-	if (dwToRead == 0) {
-		openationResult = TRUE;
-	}
 }

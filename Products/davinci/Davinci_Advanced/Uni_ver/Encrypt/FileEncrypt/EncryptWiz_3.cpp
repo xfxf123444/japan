@@ -22,6 +22,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 extern CEncryptInfo g_EncryptInfo;
+extern BOOL g_bCreateSelfExtractFile;
 
 /////////////////////////////////////////////////////////////////////////////
 // CEncryptWiz_3 property page
@@ -51,6 +52,7 @@ void CEncryptWiz_3::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_DELETE_SOURCE, m_bDeleteSource);
 	DDX_Radio(pDX, IDC_COMPRESS_LEVEL, m_CompressLevel);
 	//}}AFX_DATA_MAP
+	DDX_Control(pDX, IDC_OPTION, m_btnOption);
 }
 
 
@@ -83,6 +85,9 @@ BOOL CEncryptWiz_3::OnSetActive()
 
 	(pSheet->GetDlgItem(IDHELP))->ShowWindow(FALSE);
 
+	if (g_bCreateSelfExtractFile) {
+		m_btnOption.EnableWindow(FALSE);
+	}
 	return CPropertyPage::OnSetActive();
 }
 

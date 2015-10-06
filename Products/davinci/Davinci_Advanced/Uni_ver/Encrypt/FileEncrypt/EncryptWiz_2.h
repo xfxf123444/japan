@@ -1,3 +1,4 @@
+#include "afxwin.h"
 #if !defined(AFX_ENCRYPTWIZ_2_H__8455CA24_8796_4502_81BD_4E73E038B881__INCLUDED_)
 #define AFX_ENCRYPTWIZ_2_H__8455CA24_8796_4502_81BD_4E73E038B881__INCLUDED_
 
@@ -44,6 +45,10 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
+public:
+	afx_msg void OnBnClickedCheckSelfExtract();
+protected:
+	CButton m_btnCheck;
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -87,5 +87,4 @@ BOOL RecordDataInfo(WCHAR* szPath, HANDLE hFile);
 FILETIME GetLastModifyTime(HANDLE hFile);
 
 BOOL CheckIsSelfExtractingFile( const CString& path, LARGE_INTEGER& address, LARGE_INTEGER& size, BOOL& isValid );
-BOOL WriteImageFileData(HANDLE target, LARGE_INTEGER& targetAddress, HANDLE source, LARGE_INTEGER& sourceAddress, LARGE_INTEGER& size);
 #endif

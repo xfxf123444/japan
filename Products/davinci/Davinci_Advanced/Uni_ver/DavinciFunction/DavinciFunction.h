@@ -3,8 +3,8 @@
 
 #include "..\EncryptToolStruct\EncryptToolStruct.h"
 
-ULONG GetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD &FileEncryptHead, BOOL isSelfExtractingFile = FALSE, const ULARGE_INTEGER* address = 0);
-BOOL  SetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD &FileEncryptHead,BOOL bOptionOnly, const ULARGE_INTEGER* address = 0);
+ULONG GetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD &FileEncryptHead);
+BOOL  SetFileEncryptHead(HANDLE hImageFile,LPCTSTR szPassword,FILE_ENCRYPT_HEAD &FileEncryptHead,BOOL bOptionOnly);
 
 // 2005.01.07 added begin
 BOOL YGSetFilePointer(HANDLE hFile, __int64 linDistance, DWORD dwMoveMethod, __int64 &linTargetFilePointer);
