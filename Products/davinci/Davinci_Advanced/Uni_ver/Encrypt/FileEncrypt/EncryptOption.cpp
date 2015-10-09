@@ -14,6 +14,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CEncryptOption dialog
 
+extern BOOL g_bCreateSelfExtractFile;
 
 CEncryptOption::CEncryptOption(CWnd* pParent /*=NULL*/)
 	: CDialog(CEncryptOption::IDD, pParent)
@@ -73,13 +74,24 @@ BOOL CEncryptOption::OnInitDialog()
 
 void CEncryptOption::InitCtrlData()
 {
-	GetDlgItem(IDC_CHECK_TIME)->EnableWindow(m_bOptionOn);
-	GetDlgItem(IDC_LIMIT_TIME)->EnableWindow(m_bOptionOn);
-	GetDlgItem(IDC_CHECK_COUNT)->EnableWindow(m_bOptionOn);
-	GetDlgItem(IDC_LIMIT_COUNT)->EnableWindow(m_bOptionOn);
-	GetDlgItem(IDC_SPIN_COUNT)->EnableWindow(m_bOptionOn);
-	GetDlgItem(IDC_ERROR_LIMITION)->EnableWindow(m_bOptionOn);
-	GetDlgItem(IDC_MAX_INPUT_NUMBER)->EnableWindow(m_bOptionOn);
+	if (g_bCreateSelfExtractFile){
+		GetDlgItem(IDC_CHECK_TIME)->EnableWindow(m_bOptionOn);
+		GetDlgItem(IDC_LIMIT_TIME)->EnableWindow(m_bOptionOn);
+		GetDlgItem(IDC_CHECK_COUNT)->EnableWindow(FALSE);
+		GetDlgItem(IDC_LIMIT_COUNT)->EnableWindow(FALSE);
+		GetDlgItem(IDC_SPIN_COUNT)->EnableWindow(FALSE);
+		GetDlgItem(IDC_ERROR_LIMITION)->EnableWindow(FALSE);
+		GetDlgItem(IDC_MAX_INPUT_NUMBER)->EnableWindow(FALSE);
+	} 
+	else{
+		GetDlgItem(IDC_CHECK_TIME)->EnableWindow(m_bOptionOn);
+		GetDlgItem(IDC_LIMIT_TIME)->EnableWindow(m_bOptionOn);
+		GetDlgItem(IDC_CHECK_COUNT)->EnableWindow(m_bOptionOn);
+		GetDlgItem(IDC_LIMIT_COUNT)->EnableWindow(m_bOptionOn);
+		GetDlgItem(IDC_SPIN_COUNT)->EnableWindow(m_bOptionOn);
+		GetDlgItem(IDC_ERROR_LIMITION)->EnableWindow(m_bOptionOn);
+		GetDlgItem(IDC_MAX_INPUT_NUMBER)->EnableWindow(m_bOptionOn);
+	}
 }
 
 void CEncryptOption::OnCheckOption() 

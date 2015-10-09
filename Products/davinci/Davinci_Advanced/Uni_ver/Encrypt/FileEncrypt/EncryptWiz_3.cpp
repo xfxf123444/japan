@@ -85,9 +85,9 @@ BOOL CEncryptWiz_3::OnSetActive()
 
 	(pSheet->GetDlgItem(IDHELP))->ShowWindow(FALSE);
 
-	if (g_bCreateSelfExtractFile) {
-		m_btnOption.EnableWindow(FALSE);
-	}
+	//if (g_bCreateSelfExtractFile) {
+	//	m_btnOption.EnableWindow(FALSE);
+	//}
 	return CPropertyPage::OnSetActive();
 }
 
@@ -170,19 +170,25 @@ void CEncryptWiz_3::OnOption()
 	CEncryptOption  OptionDialog;
 	OptionDialog.m_bOptionOn = (BOOL)g_EncryptInfo.m_EncryptOption.bOptionOn;
 	OptionDialog.m_bCheckTime = (BOOL)g_EncryptInfo.m_EncryptOption.bLimitTime;
-	OptionDialog.m_bCheckCount = (BOOL)g_EncryptInfo.m_EncryptOption.bLimitCount;
-	OptionDialog.m_dwLimitCount = g_EncryptInfo.m_EncryptOption.ulMaxCount;
 	OptionDialog.m_LimitTime = g_EncryptInfo.m_EncryptOption.LimitTime;
-	OptionDialog.m_nMaxInputNumber = g_EncryptInfo.m_EncryptOption.ulErrorLimit;
-	OptionDialog.m_bErrorLimition = g_EncryptInfo.m_EncryptOption.bErrorLimit;
+	if (!g_bCreateSelfExtractFile) {
+		OptionDialog.m_bCheckCount = (BOOL)g_EncryptInfo.m_EncryptOption.bLimitCount;
+		OptionDialog.m_dwLimitCount = g_EncryptInfo.m_EncryptOption.ulMaxCount;
+		OptionDialog.m_nMaxInputNumber = g_EncryptInfo.m_EncryptOption.ulErrorLimit;
+		OptionDialog.m_bErrorLimition = g_EncryptInfo.m_EncryptOption.bErrorLimit;
+	}
+	else {
+		OptionDialog.m_bCheckCount = FALSE;
+		OptionDialog.m_bErrorLimition = FALSE;
+	}
 
 	if (IDOK == OptionDialog.DoModal())
 	{
 		g_EncryptInfo.m_EncryptOption.bOptionOn = OptionDialog.m_bOptionOn;
 		g_EncryptInfo.m_EncryptOption.bLimitTime = OptionDialog.m_bCheckTime;
+		g_EncryptInfo.m_EncryptOption.LimitTime = OptionDialog.m_LimitTime;
 		g_EncryptInfo.m_EncryptOption.bLimitCount = OptionDialog.m_bCheckCount;
 		g_EncryptInfo.m_EncryptOption.ulMaxCount = OptionDialog.m_dwLimitCount;
-		g_EncryptInfo.m_EncryptOption.LimitTime = OptionDialog.m_LimitTime;
 		g_EncryptInfo.m_EncryptOption.ulErrorLimit = OptionDialog.m_nMaxInputNumber;
 		g_EncryptInfo.m_EncryptOption.bErrorLimit = OptionDialog.m_bErrorLimition;
 	}
