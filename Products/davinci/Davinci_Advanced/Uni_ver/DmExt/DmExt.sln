@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DmExt", "DmExt.vcxproj", "{78BC1D59-9FD3-BA4B-7FC6-606033C266F7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DmExt", "DmExt.vcxproj", "{B073CA92-3CCB-9934-802B-524519ECA7E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{78BC1D59-9FD3-BA4B-7FC6-606033C266F7}.Debug|Win32.ActiveCfg = Debug|Win32
-		{78BC1D59-9FD3-BA4B-7FC6-606033C266F7}.Debug|Win32.Build.0 = Debug|Win32
-		{78BC1D59-9FD3-BA4B-7FC6-606033C266F7}.Release|Win32.ActiveCfg = Release|Win32
-		{78BC1D59-9FD3-BA4B-7FC6-606033C266F7}.Release|Win32.Build.0 = Release|Win32
+		{B073CA92-3CCB-9934-802B-524519ECA7E7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B073CA92-3CCB-9934-802B-524519ECA7E7}.Debug|Win32.Build.0 = Debug|Win32
+		{B073CA92-3CCB-9934-802B-524519ECA7E7}.Release|Win32.ActiveCfg = Release|Win32
+		{B073CA92-3CCB-9934-802B-524519ECA7E7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
