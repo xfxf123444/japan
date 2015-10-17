@@ -175,20 +175,20 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
 	   TCHAR buf[MAX_PATH];
 	   memset(buf,0,sizeof(buf));
 	   GetModuleFileName(NULL,buf,MAX_PATH);
-	   GetLongPathName(buf, buf, MAX_PATH);
+	   //GetLongPathName(buf, buf, MAX_PATH);
 	   CString modulePath = buf;
 	   CString sourceExePath = modulePath.Left(modulePath.ReverseFind(L'\\')) + L"\\sefb.dll";
 	   CString targetPath = g_EncryptInfo.m_strTarget;
 	   CString tempExePath = targetPath + SELF_EXTRACTING_TEMP_EXTENSION;
 	   BOOL operationResult = FALSE;
-	   HANDLE hTempFile;
-	   HANDLE hImage;
+	   HANDLE hTempFile = 0;
+	   HANDLE hImage = 0;
 	   do {
 		   if (!CopyFile(sourceExePath, tempExePath, FALSE)) {
 			   break;
 		   }
 		   SetFileAttributes(tempExePath, FILE_ATTRIBUTE_HIDDEN);
-		   hTempFile = CreateFile(tempExePath,GENERIC_WRITE, NULL, NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
+		   hTempFile = CreateFile(tempExePath,GENERIC_WRITE, NULL, NULL,OPEN_EXISTING,FILE_ATTRIBUTE_HIDDEN,NULL);
 		   if (hTempFile == INVALID_HANDLE_VALUE) {
 			   break;
 		   }
@@ -255,7 +255,6 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
 	   } while (0);
 	   CloseHandle(hTempFile);
 	   CloseHandle(hImage);
-
 	   if (operationResult) {
 		   DeleteFile(targetPath);
 		   SetFileAttributes(tempExePath, FILE_ATTRIBUTE_NORMAL);
@@ -275,7 +274,6 @@ DWORD WINAPI ThreadEncryptFile(LPVOID pIn)
    else {
 	   g_bEncryptSucceed = TRUE;
    }
-
     PostMessage(pThreadParam->hParentWnd,WM_CLOSE,0,0);
     g_bThreadFinished = TRUE;
     return TRUE;
