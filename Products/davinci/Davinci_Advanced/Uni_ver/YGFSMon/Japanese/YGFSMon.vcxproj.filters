@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\AddPath.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DavinciFunction\DavinciFunction.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Decrypt\DecryptFunction\DecryptFunction.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DavinciFunction\DeleteProgressDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Encrypt\EncryptFunction\EncryptFunction.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Encrypt\EncryptFunction\EncryptInfo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Encrypt\EncryptFunction\FileStatisticInfo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Function.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MainWnd.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Protect.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\RemoveFolder.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DavinciFunction\SecureDelete.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Setup.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Traynot.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\YGFSMon.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AddPath.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DavinciFunction\DavinciFunction.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Decrypt\DecryptFunction\DecryptFunction.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DavinciFunction\DeleteProgressDlg.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Encrypt\EncryptFunction\EncryptFunction.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Encrypt\EncryptFunction\EncryptInfo.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\EncryptToolStruct\EncryptToolStruct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Encrypt\EncryptFunction\FileStatisticInfo.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Function.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MainWnd.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Protect.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\RemoveFolder.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\resource.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DavinciFunction\SecureDelete.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Setup.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TRACEWIN.H">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Stdafx.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Traynot.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YGFSMonConst.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\YGFSMon.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Res\baner.bmp">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Res\LOGO3D.ico">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Res\cursor1.cur">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\cursor1.cur">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Res\Eagle.bmp">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\LOGO3D.ico">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Res\stateico.bmp">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Res\stateico.bmp">
+      <Filter>Resource</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{e28ebe87-4aa5-4a76-8b24-4e94cffdf287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{8f35977c-aa73-4532-ad80-a4566a54ae3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{ad15a98a-b455-40ae-a67b-8381e0750a51}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="YGFSMon.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

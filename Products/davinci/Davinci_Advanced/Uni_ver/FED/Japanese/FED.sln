@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FED", "FED.vcxproj", "{1A226C99-5053-072F-7908-F40BEFE87294}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FED", "FED.vcxproj", "{C6F1ED04-BF57-95DC-F4B7-D1CA6620F717}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1A226C99-5053-072F-7908-F40BEFE87294}.Debug|Win32.ActiveCfg = Debug|Win32
-		{1A226C99-5053-072F-7908-F40BEFE87294}.Debug|Win32.Build.0 = Debug|Win32
-		{1A226C99-5053-072F-7908-F40BEFE87294}.Release|Win32.ActiveCfg = Release|Win32
-		{1A226C99-5053-072F-7908-F40BEFE87294}.Release|Win32.Build.0 = Release|Win32
+		{C6F1ED04-BF57-95DC-F4B7-D1CA6620F717}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C6F1ED04-BF57-95DC-F4B7-D1CA6620F717}.Debug|Win32.Build.0 = Debug|Win32
+		{C6F1ED04-BF57-95DC-F4B7-D1CA6620F717}.Release|Win32.ActiveCfg = Release|Win32
+		{C6F1ED04-BF57-95DC-F4B7-D1CA6620F717}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
