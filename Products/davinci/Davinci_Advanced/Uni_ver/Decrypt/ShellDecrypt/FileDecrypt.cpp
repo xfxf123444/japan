@@ -127,8 +127,8 @@ BOOL CFileDecryptApp::InitInstance()
 	}
 	//MessageBox(0, LPCTSTR(strFileName), LPCTSTR(strFileName), 0);
 #else
-	bAutoDecrypt = true;
-	CString strFileName = L"C:\\abc\\DataBack_spec.txt.chy";
+	bAutoDecrypt = FALSE;
+	CString strFileName = L"C:\\abc\\mail1.txt.chy";
 #endif
 	CShellDecryptDlg ShellDecryptDlg;
 	ShellDecryptDlg.m_strImageFile = strFileName;

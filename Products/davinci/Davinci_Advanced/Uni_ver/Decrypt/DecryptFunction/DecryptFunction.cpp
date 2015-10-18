@@ -616,9 +616,6 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 	if( FALSE == YGSetFilePointer(hImageFile,ArrayData.qwFileOffset.QuadPart,FILE_BEGIN,linTargetFilePointer) )
 	{
 		TRACE(L"\nYGSetFilePointer error in RestoreOneFile.");
-#ifdef NO_DRIVER_MODE
-		RecordDataInfo(ArrayData.szFileName, hTargetFile);
-#endif
 		CloseHandle(hTargetFile);
 		return FALSE;
 	}
@@ -646,9 +643,6 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 		if(DataNode.dwOrigSize > ENCRYPT_BUFFER_SIZE || DataNode.dwPacketSize > ENCRYPT_BUFFER_SIZE+ENCRYPT_BUFFER_SIZE/5)
 		{
 			TRACE(L"\nDataNode error.");
-#ifdef NO_DRIVER_MODE
-			RecordDataInfo(ArrayData.szFileName, hTargetFile);
-#endif
 			CloseHandle(hTargetFile);
 			return FALSE;
 		}
@@ -656,9 +650,6 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 		if( FALSE == ReadFile(hImageFile,g_byBuffer,DataNode.dwPacketSize,&dwReadBytes,NULL))
 		{
 			TRACE(L"\nReadFile error in RestoreOneFile.");
-#ifdef NO_DRIVER_MODE
-			RecordDataInfo(ArrayData.szFileName, hTargetFile);
-#endif
 			CloseHandle(hTargetFile);
 			return FALSE;
 		}
@@ -666,9 +657,6 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 		if(dwReadBytes != DataNode.dwPacketSize)
 		{
 			TRACE(L"\nReadFile error in RestoreOneFile.");
-#ifdef NO_DRIVER_MODE
-			RecordDataInfo(ArrayData.szFileName, hTargetFile);
-#endif
 			CloseHandle(hTargetFile);
 			return FALSE;
 		}
@@ -679,9 +667,6 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 		if( FALSE == YGAESDecryptData((unsigned char *)chPassword,strlen(chPassword),g_byBuffer,g_byBuffer,dwReadBytes) )
 		{
 			TRACE(L"\nYGAESDecryptData error in RestoreOneFile.");
-#ifdef NO_DRIVER_MODE
-			RecordDataInfo(ArrayData.szFileName, hTargetFile);
-#endif
 			CloseHandle(hTargetFile);
 			return FALSE;
 		}
@@ -695,9 +680,6 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 			if (Z_OK != uncompress(g_byBufferUnCompress,&dwReadBytes,g_byBuffer,DataNode.dwPacketSize))
 			{
 				TRACE(L"\nYGAES uncompress Data error in RestoreOneFile.");
-#ifdef NO_DRIVER_MODE
-				RecordDataInfo(ArrayData.szFileName, hTargetFile);
-#endif
 				CloseHandle(hTargetFile);
 				return FALSE;
 			}
@@ -2088,9 +2070,10 @@ BOOL RecordDataInfo( WCHAR* szPath, HANDLE hFile )
 		wcsncpy(temp.strFilePath, szPath, MAX_PATH);
 		temp.dwLastModifyTime = GetLastModifyTime(hFile);
 		DWORD w = 0;
+		SetFilePointer(h, 0, 0, SEEK_END);
 		WriteFile(h, &temp, sizeof(ExcludeFileInfo), &w, 0);
+		CloseHandle(h);
 	}
-	CloseHandle(h);
 
 	return TRUE;
 #else
