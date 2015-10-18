@@ -8,3 +8,6 @@ Products/davinci/Davinci_tech/ZLIB/Cur_ver/LIB/windows/Debug/
 Products/davinci/Davinci_Advanced/Uni_ver/Decrypt/FileDecrypt/Japanese/Release/
 Products/davinci/Davinci_Advanced/Uni_ver/YGFSMon/Japanese/Debug/
 Products/davinci/Davinci_Advanced/Uni_ver/FED/Japanese/Debug/
+*.tmp
+~$japan.xlsx
+~$lease list.docx

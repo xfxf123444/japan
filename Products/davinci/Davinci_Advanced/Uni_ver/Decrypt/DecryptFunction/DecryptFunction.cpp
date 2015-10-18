@@ -310,7 +310,17 @@ BOOL GetDecryptTailFile(LPCTSTR szTargetFile, CString &strTailFile)
 		TRACE(L"\nGetLongMainName error in GetDecryptTailFile.");
 	}
 
-	strTailFile = strTempDir + L"\\" + szMainName + L".ary";
+	CString strLeafPath = szTargetFile;
+	int index = strLeafPath.ReverseFind(L'\\');
+	strLeafPath = strLeafPath.Left(index + 1);
+	if (strLeafPath.GetLength() + strTempDir.GetLength() + wcslen(szMainName) + 5 < MAX_PATH - 1){
+		strLeafPath.Replace(L'\\', L'#');
+		strLeafPath.Replace(L':', L'#');
+		strTailFile = strTempDir + L"\\" + strLeafPath + szMainName + L".ary";
+	}
+	else {
+		strTailFile = strTempDir + L"\\" + szMainName + L".ary";
+	}
 
     return TRUE;
 }
@@ -1196,8 +1206,37 @@ BOOL AdjustOnePathString(ARRAY_DATA &ArrayData, DECRYPT_INFO DecryptInfo)
 			{
 				int nIndex;
 				nIndex=strSelectedPath.ReverseFind(L'\\');
-				OnePathString=strTargetDir+L"\\"
-							  +OnePathString.Mid(nIndex+1);
+
+				BOOL ajustWithTempDir = FALSE;
+				WCHAR szTemp[MAX_PATH];
+				memset(szTemp,0,sizeof(szTemp));
+				if( GetTempDir(szTemp) ) {
+					GetLongPathName(szTemp, szTemp, MAX_PATH);
+					WCHAR szTemp2[MAX_PATH];
+					memset(szTemp2,0,sizeof(szTemp2));
+					GetLongPathName(strTargetDir, szTemp2, MAX_PATH);
+					ajustWithTempDir = (wcscmp(szTemp, szTemp2) == 0);
+				}
+
+				if (ajustWithTempDir) {
+					CString strLeafPath = strSelectedPath;
+					int index = strLeafPath.ReverseFind(L'\\');
+					strLeafPath = strLeafPath.Left(index + 1);
+					if (strLeafPath.GetLength() + strTargetDir.GetLength() + OnePathString.GetLength() + 5 < MAX_PATH - 1){
+						strLeafPath.Replace(L'\\', L'#');
+						strLeafPath.Replace(L':', L'#');
+						OnePathString=strTargetDir+L"\\"
+							+strLeafPath + OnePathString.Mid(nIndex+1);
+					}
+					else {
+						OnePathString=strTargetDir+L"\\"
+							+OnePathString.Mid(nIndex+1);
+					}
+				}
+				else {
+					OnePathString=strTargetDir+L"\\"
+						+OnePathString.Mid(nIndex+1);
+				}
 			}
 			break;
 		default:
