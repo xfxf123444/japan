@@ -617,6 +617,8 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 	{
 		TRACE(L"\nYGSetFilePointer error in RestoreOneFile.");
 		CloseHandle(hTargetFile);
+		SetFileAttributes(ArrayData.szFileName,FILE_ATTRIBUTE_NORMAL);
+		DeleteFile(ArrayData.szFileName);
 		return FALSE;
 	}
 
@@ -644,6 +646,8 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 		{
 			TRACE(L"\nDataNode error.");
 			CloseHandle(hTargetFile);
+			SetFileAttributes(ArrayData.szFileName,FILE_ATTRIBUTE_NORMAL);
+			DeleteFile(ArrayData.szFileName);
 			return FALSE;
 		}
 
@@ -651,6 +655,8 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 		{
 			TRACE(L"\nReadFile error in RestoreOneFile.");
 			CloseHandle(hTargetFile);
+			SetFileAttributes(ArrayData.szFileName,FILE_ATTRIBUTE_NORMAL);
+			DeleteFile(ArrayData.szFileName);
 			return FALSE;
 		}
 
@@ -658,6 +664,8 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 		{
 			TRACE(L"\nReadFile error in RestoreOneFile.");
 			CloseHandle(hTargetFile);
+			SetFileAttributes(ArrayData.szFileName,FILE_ATTRIBUTE_NORMAL);
+			DeleteFile(ArrayData.szFileName);
 			return FALSE;
 		}
 
@@ -668,6 +676,8 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 		{
 			TRACE(L"\nYGAESDecryptData error in RestoreOneFile.");
 			CloseHandle(hTargetFile);
+			SetFileAttributes(ArrayData.szFileName,FILE_ATTRIBUTE_NORMAL);
+			DeleteFile(ArrayData.szFileName);
 			return FALSE;
 		}
 
@@ -681,6 +691,8 @@ BOOL RestoreOneFile(HANDLE hImageFile, DECRYPT_INFO DecryptInfo,ARRAY_DATA Array
 			{
 				TRACE(L"\nYGAES uncompress Data error in RestoreOneFile.");
 				CloseHandle(hTargetFile);
+				SetFileAttributes(ArrayData.szFileName,FILE_ATTRIBUTE_NORMAL);
+				DeleteFile(ArrayData.szFileName);
 				return FALSE;
 			}
 			break;

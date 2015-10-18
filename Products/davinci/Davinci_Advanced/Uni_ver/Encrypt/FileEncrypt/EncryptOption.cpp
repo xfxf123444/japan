@@ -68,6 +68,14 @@ BOOL CEncryptOption::OnInitDialog()
 	InitCtrlData();
 	// TODO: Add extra initialization here
 	
+	if (g_bCreateSelfExtractFile) {
+		GetDlgItem(IDC_CHECK_COUNT)->ShowWindow(FALSE);
+		GetDlgItem(IDC_LIMIT_COUNT)->ShowWindow(FALSE);
+		GetDlgItem(IDC_SPIN_COUNT)->ShowWindow(FALSE);
+		GetDlgItem(IDC_ERROR_LIMITION)->ShowWindow(FALSE);
+		GetDlgItem(IDC_MAX_INPUT_NUMBER)->ShowWindow(FALSE);
+	}
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -77,11 +85,6 @@ void CEncryptOption::InitCtrlData()
 	if (g_bCreateSelfExtractFile){
 		GetDlgItem(IDC_CHECK_TIME)->EnableWindow(m_bOptionOn);
 		GetDlgItem(IDC_LIMIT_TIME)->EnableWindow(m_bOptionOn);
-		GetDlgItem(IDC_CHECK_COUNT)->EnableWindow(FALSE);
-		GetDlgItem(IDC_LIMIT_COUNT)->EnableWindow(FALSE);
-		GetDlgItem(IDC_SPIN_COUNT)->EnableWindow(FALSE);
-		GetDlgItem(IDC_ERROR_LIMITION)->EnableWindow(FALSE);
-		GetDlgItem(IDC_MAX_INPUT_NUMBER)->EnableWindow(FALSE);
 	} 
 	else{
 		GetDlgItem(IDC_CHECK_TIME)->EnableWindow(m_bOptionOn);
