@@ -17,6 +17,7 @@ typedef unsigned (__stdcall *PTHREAD_START) (void *);
 
 static BOOL g_bThreadFinished = FALSE;
 extern DECRYPT_INFO g_DecryptInfo;
+extern BOOL g_bDecryptSelectedFolderOnly;
 BOOL g_bDecryptSucceed;
 
 DWORD WINAPI ThreadDecryptFile(LPVOID pIn);
@@ -32,6 +33,7 @@ CDecryptStatus::CDecryptStatus(CWnd* pParent /*=NULL*/)
 	m_strCurrentFile = _T("");
 	//}}AFX_DATA_INIT
 	m_bConcisePrompt = FALSE;
+	m_bDecryptSelectedFolderOnly = FALSE;
 }
 
 void CDecryptStatus::DoDataExchange(CDataExchange* pDX)
@@ -71,6 +73,7 @@ BOOL CDecryptStatus::OnInitDialog()
 	DWORD dwThreadID;
 	m_ThreadParam.hParentWnd = m_hWnd;
 	m_ThreadParam.DecryptInfo = m_DecryptInfo;
+	m_ThreadParam.bDecryptSelectedFolderOnly = m_bDecryptSelectedFolderOnly;
 
 	// A call to SetWindowPos forces the window to re-read its style
 	m_Progress.SetRange(0,100);
@@ -99,7 +102,7 @@ DWORD WINAPI ThreadDecryptFile(LPVOID pIn)
 
    pThreadParam = (THREAD_PARAM *)pIn;
 
-   if( FALSE == DecryptSelectionFile(pThreadParam->DecryptInfo) )
+   if( FALSE == DecryptSelectionFile(pThreadParam->DecryptInfo, pThreadParam->bDecryptSelectedFolderOnly) )
    {
 	   TRACE(L"\nDecryptSelection error in ThreadDecryptFile.");
        PostMessage(pThreadParam->hParentWnd,WM_CLOSE,0,0);

@@ -5,7 +5,7 @@
 #include "..\..\..\..\Davinci_tech\lib\Crypto\Cur_ver\Export\Crypto.h"
 #include "..\..\..\..\Davinci_tech\ZLib\Cur_ver\Export\ZLib.h"
 
-BOOL DecryptSelectionFile(DECRYPT_INFO DecryptInfo);
+BOOL DecryptSelectionFile(DECRYPT_INFO DecryptInfo, BOOL bDecryptSelectedFolderOnly);
 
 BOOL GetDecryptTailFile(LPCTSTR szTargetFile, CString &strTailFile);
 
@@ -40,7 +40,7 @@ BOOL GetTempDir(WCHAR *szTempDir);
 
 BOOL GetLongMainName(LPCTSTR szImageFile,WCHAR *szLongMainName);
 
-BOOL bIsFileSelected(LPCTSTR szOnePath, DECRYPT_INFO DecryptInfo);
+BOOL bIsFileSelected(LPCTSTR szOnePath, DECRYPT_INFO DecryptInfo, BOOL bDecryptSelectedFolderOnly, BOOL isDirectory);
 
 BOOL AdjustOnePathString(ARRAY_DATA &ArrayData, DECRYPT_INFO DecryptInfo);
 
@@ -52,7 +52,7 @@ void SetDecryptCancel();
 
 void GetWorkState(DA_WORK_STATE &WorkState);
 
-BOOL GetDecryptFileSize(DECRYPT_INFO DecryptInfo);
+BOOL GetDecryptFileSize(DECRYPT_INFO DecryptInfo, BOOL bDecryptSelectedFolderOnly);
 
 // 2004.08.27 added end
 

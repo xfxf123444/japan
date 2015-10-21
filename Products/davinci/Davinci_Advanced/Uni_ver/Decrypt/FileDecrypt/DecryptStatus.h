@@ -13,6 +13,7 @@ typedef struct
 {
 	HWND hParentWnd;
 	DECRYPT_INFO DecryptInfo;
+	BOOL bDecryptSelectedFolderOnly;
 }THREAD_PARAM;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -58,6 +59,7 @@ protected:
 	int    m_nTimer;
 public:
 	DECRYPT_INFO m_DecryptInfo;
+	BOOL m_bDecryptSelectedFolderOnly;
 	BOOL         m_bConcisePrompt; // if decrypt to temp dir, show concise prompt
 
 };

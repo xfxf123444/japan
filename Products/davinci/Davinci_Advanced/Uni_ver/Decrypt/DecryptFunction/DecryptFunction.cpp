@@ -31,7 +31,7 @@ extern BYTE g_byBufferUnCompress[ENCRYPT_BUFFER_SIZE];
 
 #include <vector>
 using namespace std;
-BOOL DecryptSelectionFile(DECRYPT_INFO DecryptInfo)
+BOOL DecryptSelectionFile(DECRYPT_INFO DecryptInfo, BOOL bDecryptSelectedFolderOnly)
 {
 	g_bCancel = FALSE;
 	g_bUserCancel = FALSE;
@@ -48,7 +48,7 @@ BOOL DecryptSelectionFile(DECRYPT_INFO DecryptInfo)
 		return FALSE;
 	}
 
-	if( FALSE == GetDecryptFileSize(DecryptInfo) )
+	if( FALSE == GetDecryptFileSize(DecryptInfo, bDecryptSelectedFolderOnly) )
 	{
 		// perhaps create tail file error.
 		TRACE(L"\nGetDecryptFileSize error in DecryptSelectionFile.");
@@ -104,7 +104,7 @@ BOOL DecryptSelectionFile(DECRYPT_INFO DecryptInfo)
 		// for debug temp comment end
 
 		BOOL bSelectedPath;
-		bSelectedPath=bIsFileSelected(ArrayData.szFileName,DecryptInfo);
+		bSelectedPath=bIsFileSelected(ArrayData.szFileName,DecryptInfo, bDecryptSelectedFolderOnly, (ArrayData.dwFileAttribute & FILE_ATTRIBUTE_DIRECTORY));
 
 		if(bSelectedPath)
 		{
@@ -984,7 +984,7 @@ BOOL GetLongMainName(LPCTSTR szImageFile,WCHAR *szLongMainName)
 }
 
 
-BOOL bIsFileSelected(LPCTSTR szOnePath, DECRYPT_INFO DecryptInfo)
+BOOL bIsFileSelected(LPCTSTR szOnePath, DECRYPT_INFO DecryptInfo, BOOL bDecryptSelectedFolderOnly, BOOL isDirectory)
 {
 	// if it is restore entire, all path should be considered
 	// as selected
@@ -1015,10 +1015,31 @@ BOOL bIsFileSelected(LPCTSTR szOnePath, DECRYPT_INFO DecryptInfo)
 	// if a string is longer then SelectedPath, and the left is the same
 	// if should be restored.
 
-	OnePathString = OnePathString.Left( SelectedPath.GetLength() );
+	CString tempOnePathString = OnePathString;
+	OnePathString = OnePathString.Left( SelectedPath.GetLength());
+
 	if( 0 == OnePathString.Compare(SelectedPath) )
 	{
+		if (bDecryptSelectedFolderOnly) {
+			if (tempOnePathString.GetLength() == SelectedPath.GetLength()) {
+				return TRUE;
+			}
+			else if (!isDirectory) {
+				int index1 = tempOnePathString.Find(L'\\', SelectedPath.GetLength());
+				if (index1 == tempOnePathString.GetLength() - 1) {
+					return TRUE;
+				}
+				else {
+					return FALSE;
+				}
+			}
+			else {
+				return FALSE;
+			}
+		}
+		else {
 			return TRUE;
+		}
 	}
 
 	// if restore to original place
@@ -1250,7 +1271,7 @@ void SetDecryptCancel()
 	g_bUserCancel = TRUE;
 }
 
-BOOL GetDecryptFileSize(DECRYPT_INFO DecryptInfo)
+BOOL GetDecryptFileSize(DECRYPT_INFO DecryptInfo, BOOL bDecryptSelectedFolderOnly)
 {
 	g_WorkState.qwTotalFileSize = 0;
 
@@ -1303,7 +1324,7 @@ BOOL GetDecryptFileSize(DECRYPT_INFO DecryptInfo)
 		// for debug temp comment end
 
 		BOOL bSelectedPath;
-		bSelectedPath=bIsFileSelected(ArrayData.szFileName,DecryptInfo);
+		bSelectedPath=bIsFileSelected(ArrayData.szFileName,DecryptInfo, bDecryptSelectedFolderOnly, (ArrayData.dwFileAttribute & FILE_ATTRIBUTE_DIRECTORY));
 
 		if(bSelectedPath)
 		{
@@ -1943,7 +1964,7 @@ BOOL DecryptOneDirSeparately(LPCTSTR szSourceDirectory,LPCTSTR szPassword,BOOL b
 						DecryptInfo.nTargetType = DECRYPT_RELATIVE_PLACE;
 						memset(DecryptInfo.szSelectedPath,0,sizeof(DecryptInfo.szSelectedPath));
 						wcsncpy(DecryptInfo.szSelectedPath,(LPCTSTR)strOneFileName,MAX_PATH-1);
-						DecryptSelectionFile(DecryptInfo);
+						DecryptSelectionFile(DecryptInfo, FALSE);
 						if (bDeleteSource)
 						{
 							SetFileAttributes(DecryptInfo.szImageFile,FILE_ATTRIBUTE_NORMAL);

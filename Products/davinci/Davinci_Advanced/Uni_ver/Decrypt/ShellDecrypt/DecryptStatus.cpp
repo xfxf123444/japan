@@ -99,7 +99,7 @@ DWORD WINAPI ThreadDecryptFile(LPVOID pIn)
 
    pThreadParam = (THREAD_PARAM *)pIn;
 
-   if( FALSE == DecryptSelectionFile(pThreadParam->DecryptInfo) )
+   if( FALSE == DecryptSelectionFile(pThreadParam->DecryptInfo, FALSE) )
    {
 	   TRACE(L"\nDecryptSelection error in ThreadDecryptFile.");
        PostMessage(pThreadParam->hParentWnd,WM_CLOSE,0,0);

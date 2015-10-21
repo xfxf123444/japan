@@ -16,6 +16,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 extern DECRYPT_INFO g_DecryptInfo;
+extern BOOL g_bDecryptSelectedFolderOnly;
 extern BOOL bSecureDeleteSource;
 extern BOOL g_bDecryptSucceed;
 
@@ -25,6 +26,7 @@ extern BOOL g_bDecryptSucceed;
 IMPLEMENT_DYNCREATE(CDecryptWiz_5, CPropertyPage)
 
 CDecryptWiz_5::CDecryptWiz_5() : CPropertyPage(CDecryptWiz_5::IDD)
+, m_bDecryptSelectedFolderOnly(FALSE)
 {
 	//{{AFX_DATA_INIT(CDecryptWiz_5)
 		// NOTE: the ClassWizard will add member initialization here
@@ -41,6 +43,8 @@ void CDecryptWiz_5::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(CDecryptWiz_5)
 	DDX_Control(pDX, IDC_DIR_TREE, m_DirTree);
 	//}}AFX_DATA_MAP
+	DDX_Check(pDX, IDC_CHECK_CURRENT_FOLDER_ONLY, m_bDecryptSelectedFolderOnly);
+	DDX_Control(pDX, IDC_CHECK_CURRENT_FOLDER_ONLY, m_checkDecryptCurrentFolderOnly);
 }
 
 
@@ -72,6 +76,7 @@ BOOL CDecryptWiz_5::OnWizardFinish()
 	// TODO: Add your specialized code here and/or call the base class
 
 	UpdateData(TRUE);
+	g_bDecryptSelectedFolderOnly = m_bDecryptSelectedFolderOnly;
 
 	if( FALSE == GetUIInfo() )
 	{
@@ -82,6 +87,7 @@ BOOL CDecryptWiz_5::OnWizardFinish()
 
 	CDecryptStatus DecryptStatusDlg;
 	DecryptStatusDlg.m_DecryptInfo = g_DecryptInfo;
+	DecryptStatusDlg.m_bDecryptSelectedFolderOnly = g_bDecryptSelectedFolderOnly;
 	DecryptStatusDlg.DoModal();
 
 	if (g_bDecryptSucceed)
@@ -149,10 +155,14 @@ void CDecryptWiz_5::InitDialogItem()
 	if( DECRYPT_ENTIRE == g_DecryptInfo.nRestoreType )
 	{
 		m_DirTree.EnableWindow(FALSE);
+		m_bDecryptSelectedFolderOnly = FALSE;
+		m_checkDecryptCurrentFolderOnly.SetCheck(FALSE);
+		m_checkDecryptCurrentFolderOnly.ShowWindow(SW_HIDE);
 	}
 	else if( DECRYPT_PART == g_DecryptInfo.nRestoreType )
 	{
 		m_DirTree.EnableWindow(TRUE);
+		m_checkDecryptCurrentFolderOnly.ShowWindow(SW_SHOW);
 		// load tree
 		m_DirTree.SetImageList(&m_ImageList,TVSIL_NORMAL);
 		m_DirTree.LoadTreeFromFile(g_DecryptInfo.szImageFile);
