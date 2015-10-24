@@ -89,5 +89,5 @@ BOOL CheckPlacement(LPCTSTR szSourceDir, LPCTSTR szTargetImage);
 // 2004.09.03 added begin
 void AddDelMethod(CComboBoxEx* pBox);
 // 2004.09.03 added end
-
+BOOL CheckSpeicalFile(LPCTSTR p);
 #endif

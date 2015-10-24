@@ -367,7 +367,7 @@ BOOL CheckExcludeFolder(LPCTSTR szAddPath,BOOL &bExcludeFolder)
 
 	CString strAddPath;
 	strAddPath = szAddPath;
-	if(strAddPath.GetLength() <= (int)( wcslen(L"C:\\") ) )
+ 	if(strAddPath.GetLength() <= (int)( wcslen(L"C:\\") ) )
 	{
 		TRACE(L"\nCan not add root dir as monitor folder.");
 		bExcludeFolder = TRUE;
@@ -442,7 +442,7 @@ BOOL CheckExcludeFolder(LPCTSTR szAddPath,BOOL &bExcludeFolder)
 		return TRUE;
 	}
 
-	// the "Documents and settings" directory and it's subdirectory will not be added as monitor folder
+	// the "Documents and settings" directory and it's subdirectory can be added as monitor folder
 
 	WCHAR szDocPath[MAX_PATH];
 	memset(szDocPath,0,sizeof(szDocPath));
@@ -468,13 +468,14 @@ BOOL CheckExcludeFolder(LPCTSTR szAddPath,BOOL &bExcludeFolder)
 
 	if(bEqualDir || bSubDir)
 	{
-		bExcludeFolder = TRUE;
-		TRACE(L"\nCan not add document and setting directory:%s as monitor folder",szAddPath);
+		bExcludeFolder = FALSE;
+		TRACE(L"\ndocument and setting directory:%s can be set as monitor folder",szAddPath);
 		return TRUE;
 	}
 
 	return TRUE;
 }
+
 
 BOOL CheckEqualOrSubDir(LPCTSTR szFirstDir,LPCTSTR szSecondDir,BOOL &bEqualDir, BOOL &bSubDir)
 {

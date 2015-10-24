@@ -509,7 +509,7 @@ BOOL EncryptDirectory(LPCTSTR szSourceDir,ENCRYPT_FILE_HANDLE FileHandle,LPCTSTR
 		CString strSubPath;
 		strSubPath=strSubPath + szSourceDir +L"\\"+ FindFileData.cFileName;
 
-		if( 0 == ( FILE_ATTRIBUTE_DIRECTORY & FindFileData.dwFileAttributes ) )
+		if( 0 == ( FILE_ATTRIBUTE_DIRECTORY & FindFileData.dwFileAttributes )  && !CheckSpeicalFile(strSubPath) )
 		{
 			// this is the output
 			// TRACE("\nFile Name:%s",(LPCTSTR)strSubPath);
@@ -1132,7 +1132,7 @@ BOOL EncryptOneDirSeparately(LPCTSTR szSourceDirectory,LPCTSTR szPassword,BOOL b
 			CString strFileExtension;
 			strFileExtension = strFileExtension + L"." + FILE_ENCRYPT_EXTENSION;
 
-			if( 0 != strSourceFile.Right(4).CompareNoCase(strFileExtension) )
+			if( 0 != strSourceFile.Right(4).CompareNoCase(strFileExtension) && !CheckSpeicalFile(strSourceFile) )
 			{
 				CString strTargetFile;
 				strTargetFile = strSourceFile + L"." + FILE_ENCRYPT_EXTENSION;
@@ -1361,5 +1361,34 @@ void AddDelMethod(CComboBoxEx* pBox)
 		pBox->SetItemData(cbItem.iItem,i);
 	}
 	pBox->SetCurSel(3);
+}
+
+
+BOOL CheckSpeicalFile(LPCTSTR p) {
+	BOOL skip = FALSE;
+	CString path = p;
+	path.MakeLower();
+	CString fileName = path.Mid(path.ReverseFind(L'\\') + 1);
+	if (!fileName.IsEmpty()) {
+		CString suffix = L"";
+		int index = fileName.ReverseFind(L'.');
+		if (index != 0 && index != -1) {
+			suffix = fileName.Mid(index + 1);
+		}
+		if (fileName.GetAt(0) == L'.') {
+			skip = TRUE;
+		}
+		else if (path.Find(L"onedrive")) {
+			if (suffix == L"url" || fileName == L"desktop.ini") {
+				skip = TRUE;
+			}
+		}
+		else if (path.Find(L"dropbox")) {
+			if (fileName == L"desktop.ini") {
+				skip = TRUE;
+			}
+		}
+	}
+	return skip;
 }
 

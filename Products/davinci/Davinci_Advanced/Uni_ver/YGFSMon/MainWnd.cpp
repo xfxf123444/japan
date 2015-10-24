@@ -224,7 +224,9 @@ void GetAllFilePath( CString root, vector<CString>& filePathSet )
 		}
 		else
 		{
-			filePathSet.push_back(finder.GetFilePath());
+			if (!CheckSpeicalFile(finder.GetFilePath())) {
+				filePathSet.push_back(finder.GetFilePath());
+			}
 		}
 	}
 
