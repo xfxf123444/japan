@@ -83,7 +83,7 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 		case OPERATION_DECRYPTION:
 			if (DecryptCheckValidParam(&g_DecryptInfo))
 			{
-				if(DecryptSelectionFile(g_DecryptInfo))
+				if(DecryptSelectionFile(g_DecryptInfo, FALSE))
 				{
 					strText.LoadString(IDS_DECRYPT_FINISHED);
 					wcout << (LPCTSTR)strText << endl;

@@ -13,6 +13,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 DECRYPT_INFO g_DecryptInfo;
+BOOL g_bDecryptSelectedFolderOnly;
 int nMaxInputNumber;
 BOOL bSecureDeleteSource = FALSE;
 

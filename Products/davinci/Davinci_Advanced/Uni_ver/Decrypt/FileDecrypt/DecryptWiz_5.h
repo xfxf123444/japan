@@ -8,6 +8,7 @@
 //
 
 #include "NewRestoreTreeCtrl.h"
+#include "afxwin.h"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -54,6 +55,8 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
+	BOOL m_bDecryptSelectedFolderOnly;
+	CButton m_checkDecryptCurrentFolderOnly;
 };
 
 //{{AFX_INSERT_LOCATION}}
