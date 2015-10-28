@@ -1,4 +1,0 @@
-1. 当用户执行DelFile.exe后立即退出时, log会记录失败. 修复该bug.
-2. dm.log的路径从DelFile.exe所在目录的路径修改为, C:\Users\{Current User Name}\AppData\Local\FrontLine\AngoukaMaster, 保证non-admin用户操作后也可以正常记录log.
-3. 修改AngoukaMaster安装脚本, 保证YGFSMon.exe开机后会自动运行.
-4. AngoukaMaster安装脚本中缺少校验sn的页面, 修复该bug.
