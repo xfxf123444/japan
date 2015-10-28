@@ -20,7 +20,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//#define CREATE_SELF_EXTRACTING_FILE
+#define CREATE_SELF_EXTRACTING_FILE
 BOOL g_isSelfExtractingFile;
 extern DECRYPT_INFO g_DecryptInfo;
 /////////////////////////////////////////////////////////////////////////////
