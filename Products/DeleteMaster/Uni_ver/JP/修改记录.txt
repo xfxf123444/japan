@@ -1,5 +1,0 @@
-1. 将配置文件， log文件的路径修改为C:\Users\{Current User Name}\AppData\Local\FrontLine\DeleteMaster
-2. DelFile.exe可以在非admin账户下使用，但是只能删除User目录下面的东西， 例如桌面上的文件。删除其他路径下的文件时，不会弹出对话框要求管理员权限，但是同时会删除失败。
-3. 其他exe文件，运行时会要求管理员权限，否则无法运行。
-4. 修改DMFSrv.exe， 使其自动读取当前用户的配置文件，执行schedule。
-5. 修改DMFSrv.exe无法正确读取多个配置文件的bug.

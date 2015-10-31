@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DMFSrv", "DMFSrv\DMFSrv.vcxproj", "{3C8D685F-1CFC-4D3C-8E2F-386D59A2DB3B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{97F4D575-CFA7-150F-DCEF-BA06DDBF8D7B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{57E75EFA-AF7F-8B91-DEAA-3C3A9B59F38A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,10 @@ Global
 		{3C8D685F-1CFC-4D3C-8E2F-386D59A2DB3B}.Debug|Win32.Build.0 = Debug|Win32
 		{3C8D685F-1CFC-4D3C-8E2F-386D59A2DB3B}.Release|Win32.ActiveCfg = Release|Win32
 		{3C8D685F-1CFC-4D3C-8E2F-386D59A2DB3B}.Release|Win32.Build.0 = Release|Win32
-		{97F4D575-CFA7-150F-DCEF-BA06DDBF8D7B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{97F4D575-CFA7-150F-DCEF-BA06DDBF8D7B}.Debug|Win32.Build.0 = Debug|Win32
-		{97F4D575-CFA7-150F-DCEF-BA06DDBF8D7B}.Release|Win32.ActiveCfg = Release|Win32
-		{97F4D575-CFA7-150F-DCEF-BA06DDBF8D7B}.Release|Win32.Build.0 = Release|Win32
+		{57E75EFA-AF7F-8B91-DEAA-3C3A9B59F38A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{57E75EFA-AF7F-8B91-DEAA-3C3A9B59F38A}.Debug|Win32.Build.0 = Debug|Win32
+		{57E75EFA-AF7F-8B91-DEAA-3C3A9B59F38A}.Release|Win32.ActiveCfg = Release|Win32
+		{57E75EFA-AF7F-8B91-DEAA-3C3A9B59F38A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

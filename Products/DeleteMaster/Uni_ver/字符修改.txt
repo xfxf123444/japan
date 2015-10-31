@@ -1,9 +1,0 @@
-FLAM-013-000001-O0Q6J0
-
-修改语言
-registration.ini
-LANGUAGE.nsh
-
-两个个文件内的字符
-
-ParInfo.dll InstallYGDiskRWFilter

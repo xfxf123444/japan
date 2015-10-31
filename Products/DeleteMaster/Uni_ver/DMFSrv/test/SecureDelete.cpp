@@ -5,9 +5,9 @@
 #include <tchar.h>
 #include <time.h>
 #include "SecureDelete.h"
-#include "Service.h"
 #include <Wtsapi32.h>
 #include <shlobj.h>
+#include "service.h"
 //#include "Tlhelp32.h"
 
 #define MAX_KEY_LENGTH 255
