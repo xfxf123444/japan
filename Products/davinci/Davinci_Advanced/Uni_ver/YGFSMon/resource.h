@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by C:\Documents and Settings\hengsu.DELL2400\My Documents\AmbersonProjectsPlanning\2006Upgrade_New_Products\EM4(daVinci20070630)\Resources\20071218\Davinci_rc_J_20071218\YGFSMon\Japanese\YGFSMon.rc
+// Microsoft Visual C++ generated include file.
+// Used by C:\japan\Products\davinci\Davinci_Advanced\Uni_ver\YGFSMon\Japanese\YGFSMon.rc
 //
 #define IDS_SETUP                       1
 #define IDS_INVALID_PASSWORD            2

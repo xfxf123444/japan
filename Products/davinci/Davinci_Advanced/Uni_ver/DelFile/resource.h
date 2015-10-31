@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by E:\Products\DeleteMaster\Cur_ver\DelFile\Japanese\DelFile.rc
+// Microsoft Visual C++ generated include file.
+// Used by C:\japan\Products\davinci\Davinci_Advanced\Uni_ver\DelFile\Japanese\DelFile.rc
 //
 #define IDC_BACKUP_DELTE                3
 #define ID_DEL_ITEM                     3
