@@ -72,8 +72,10 @@ int CMain::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pDiskView		= new CDiskView();
 	m_pWipeFree		= new CWipeFree();
 	
+#ifndef WIPE_ONLY
 	m_pPropSht->AddPage(m_pDelete);
 	m_pPropSht->AddPage(m_pDiskView);
+#endif
 	m_pPropSht->AddPage(m_pWipeFree);
 	m_pPropSht->Create(this,WS_CHILD|WS_VISIBLE );
 	m_pPropSht->GetClientRect(&rWork);

@@ -286,6 +286,7 @@ BOOL	WriteFDSector(DWORD dwStartSec,WORD wSectors,PBYTE pBuf,BYTE btUnit,PBIOS_D
 BOOL	ReadFDSector(DWORD dwStartSec,WORD wSectors,PBYTE pBuf,BYTE btUnit,PBIOS_DRIVE_PARAM pDriveParam);
 BOOL	HasMedia(TCHAR szDrive);
 TCHAR * strrchrpro(TCHAR* szSource,TCHAR chChar);
+CString GetUserPath();
 
 #ifndef	WIN_9X
 BOOL	GetRemovableDiskSize(int nDisk, LPTSTR pszDrv,DWORD *pdwSize);

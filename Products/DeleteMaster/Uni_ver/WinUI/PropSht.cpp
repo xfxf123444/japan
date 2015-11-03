@@ -54,8 +54,9 @@ BOOL CPropSht::OnInitDialog()
 	m_pTab  = GetTabControl();
     m_pPage = GetActivePage ();
 	m_imageTab.Create(IDB_TAB_IMAGE_LIST,TAB_IMAGE_WEDITH,0,RGB(0,255,255));
+#ifndef WIPE_ONLY
 	m_pTab->SetImageList(&m_imageTab);
-
+#endif
 	tcItem.mask = TCIF_IMAGE;
 
 	for(nPage=0;nPage<PAGE_COUNT;nPage++)
@@ -69,7 +70,6 @@ BOOL CPropSht::OnInitDialog()
     ScreenToClient (&rect);
 	rect.top += 38;
     m_pPage->MoveWindow (&rect);
-
 
 	UpdateData(FALSE);
 	return bResult;

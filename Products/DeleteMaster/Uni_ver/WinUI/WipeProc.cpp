@@ -176,13 +176,24 @@ BOOL CWipeProc::WipeFiles( TCHAR szDriveLetter,int nFileNum,BYTE *pBuf )
 	DWORD		dwWrited;
     TCHAR        TempFileName[MAX_PATH] ;
 
+	BOOL usingUserPath = FALSE;
+	CString userPath = GetUserPath();
+	if (szDriveLetter == _T('c') || szDriveLetter == _T('C')) {
+		usingUserPath = TRUE;
+	}
 	for(nFiles=0;nFiles<nFileNum;nFiles++)
 	{
-		TempFileName[0] = szDriveLetter ;
-		TempFileName[1] = TempFileName[2]= STRING_END_CHAR ;
-		_tcscat( TempFileName,_T(":\\"));
+		if (!usingUserPath) {
+			TempFileName[0] = szDriveLetter ;
+			TempFileName[1] = TempFileName[2]= STRING_END_CHAR ;
+			_tcscat( TempFileName,_T(":\\"));
+		}
+		else {
+			memset(TempFileName, 0, sizeof(TempFileName));
+			_tcscat(TempFileName, userPath);
+			_tcscat(TempFileName, _T("\\"));
+		}
 		_tcscat( TempFileName,TEMP_DATA_FILE_NAME ) ;
-
 		if (nFiles)
 		{
 			_stprintf(TempFileName,_T("%s%d.dat"),TempFileName,nFiles);

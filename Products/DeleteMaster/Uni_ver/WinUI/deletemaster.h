@@ -7,6 +7,9 @@
 #include "StdAfx.h"
 #include "resource.h"       // main symbols
 
+
+//#define WIPE_ONLY
+
 #ifndef WIN_9X
 BOOL IsUserAdmin(VOID) ;
 #endif

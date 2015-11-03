@@ -1234,6 +1234,11 @@ BOOL  CreateTmpFileInSou( TCHAR szDriveLetter,int *nFileNum,BOOL *bHaveFile,__in
 	dwFreeSecs = dwTotalSecs - dwUsedSecs;
 	*nFileNum	= 0;
 	
+	BOOL usingUserPath = FALSE;
+	CString userPath = GetUserPath();
+	if (szDriveLetter == _T('c') || szDriveLetter == _T('C')) {
+		usingUserPath = TRUE;
+	}
 	if ( 0!= dwFreeSecs)
 	{		
 		nHiFileSize  = (__int64)dwFreeSecs;
@@ -1243,9 +1248,16 @@ BOOL  CreateTmpFileInSou( TCHAR szDriveLetter,int *nFileNum,BOOL *bHaveFile,__in
 		dwFreeSecs = 0;
 		for(i=0;i<nNumTempFile;i++)
 		{
-			TempFileName[0] = szDriveLetter ;
-			TempFileName[1] = TempFileName[2]= STRING_END_CHAR ;
-			_tcscat( TempFileName,_T(":\\"));
+			if (!usingUserPath) {
+				TempFileName[0] = szDriveLetter ;
+				TempFileName[1] = TempFileName[2]= STRING_END_CHAR ;
+				_tcscat( TempFileName,_T(":\\"));
+			}
+			else {
+				memset(TempFileName, 0, sizeof(TempFileName));
+				_tcscat(TempFileName, userPath);
+				_tcscat(TempFileName, _T("\\"));
+			}
 			_tcscat( TempFileName,TEMP_DATA_FILE_NAME ) ;
 			if (i)
 			{
@@ -1318,12 +1330,23 @@ void	DeleteTempFile(TCHAR szDriveLetter,int nFileNum)
 {
 	int			nFiles;
     TCHAR        TempFileName[MAX_PATH] ;
-
+	BOOL usingUserPath = FALSE;
+	CString userPath = GetUserPath();
+	if (szDriveLetter == _T('c') || szDriveLetter == _T('C')) {
+		usingUserPath = TRUE;
+	}
 	for(nFiles=0;nFiles < nFileNum;nFiles++)
 	{
-		TempFileName[0] = szDriveLetter ;
-		TempFileName[1] = TempFileName[2]= STRING_END_CHAR ;
-		_tcscat( TempFileName,_T(":\\"));
+		if (!usingUserPath) {
+			TempFileName[0] = szDriveLetter ;
+			TempFileName[1] = TempFileName[2]= STRING_END_CHAR ;
+			_tcscat( TempFileName,_T(":\\"));
+		}
+		else {
+			memset(TempFileName, 0, sizeof(TempFileName));
+			_tcscat(TempFileName, userPath);
+			_tcscat(TempFileName, _T("\\"));
+		}
 		_tcscat( TempFileName,TEMP_DATA_FILE_NAME ) ;
 		if (nFiles)
 		{
@@ -1581,4 +1604,13 @@ TCHAR * strrchrpro(TCHAR* szSource,TCHAR chChar)
 	}
 	// return a pointer
 	return (szSource+nIndex);
+}
+
+CString GetUserPath()
+{
+	TCHAR path[MAX_PATH];
+	memset(path,0,sizeof(path));
+	SHGetSpecialFolderPath(NULL,path,CSIDL_PERSONAL,FALSE);
+	GetLongPathName(path, path, MAX_PATH);
+	return path;
 }

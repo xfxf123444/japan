@@ -195,7 +195,7 @@ BOOL WriteLog(WCHAR *szFile,CTime StartTime,CTime EndTime,BOOL bSucc)
 					StartTime.GetHour(),StartTime.GetMinute(),StartTime.GetSecond(),
 					EndTime.GetYear(),EndTime.GetMonth(),EndTime.GetDay(),
 					EndTime.GetHour(),EndTime.GetMinute(),EndTime.GetSecond(),
-					strResult);
+					g_nDelMethod, strResult);
 
 	////GetSystemDirectory(szLogFile,MAX_PATH);
 	//ZeroMemory(szLogFile, MAX_PATH * sizeof(WCHAR));
