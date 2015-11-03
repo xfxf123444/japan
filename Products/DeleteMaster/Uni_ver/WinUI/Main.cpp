@@ -6,7 +6,6 @@
 #include "Main.h"
 #include "Fun.h"
 
-
 HWND				g_hMain;
 extern YG_PARTITION_INFO*	g_pFixDiskInfo;
 //extern CFont				g_Font;
@@ -22,11 +21,17 @@ CMain::CMain()
 
 	rExit=CRect(MAIN_CLIENT_WIDTH-SB_WIDTH-10,MAIN_CLIENT_HEIGHT-SB_HEIGHT-10,MAIN_CLIENT_WIDTH-10,MAIN_CLIENT_HEIGHT-10);
 	rExe=rExit+CRect(0,SB_HEIGHT+5,0,- SB_HEIGHT - 5);
-	
-	rWindow.left   = (GetSystemMetrics(SM_CXSCREEN) - MAIN_CLIENT_WIDTH)/2-GetSystemMetrics(SM_CXFRAME)-GetSystemMetrics(SM_CXBORDER);
-	rWindow.top    = (GetSystemMetrics(SM_CYSCREEN)- MAIN_CLIENT_HEIGHT)/2-GetSystemMetrics(SM_CYFRAME)-GetSystemMetrics(SM_CYSIZE)-GetSystemMetrics(SM_CYBORDER) ;
-	rWindow.right  = rWindow.left+MAIN_CLIENT_WIDTH+GetSystemMetrics(SM_CXFRAME)+GetSystemMetrics(SM_CXBORDER);
-	rWindow.bottom = rWindow.top+MAIN_CLIENT_HEIGHT+GetSystemMetrics(SM_CYFRAME)+GetSystemMetrics(SM_CYSIZE)+GetSystemMetrics(SM_CYBORDER);
+
+	//rWindow.left   = (GetSystemMetrics(SM_CXSCREEN) - MAIN_CLIENT_WIDTH)/2-GetSystemMetrics(SM_CXFRAME)-GetSystemMetrics(SM_CXBORDER);
+	//rWindow.top    = (GetSystemMetrics(SM_CYSCREEN)- MAIN_CLIENT_HEIGHT)/2-GetSystemMetrics(SM_CYFRAME)-GetSystemMetrics(SM_CYSIZE)-GetSystemMetrics(SM_CYBORDER) ;
+	//rWindow.right  = rWindow.left+MAIN_CLIENT_WIDTH+GetSystemMetrics(SM_CXFRAME)+GetSystemMetrics(SM_CXBORDER);
+	//rWindow.bottom = rWindow.top+MAIN_CLIENT_HEIGHT+GetSystemMetrics(SM_CYFRAME)+GetSystemMetrics(SM_CYSIZE)+GetSystemMetrics(SM_CYBORDER);
+
+	rWindow.left   = GetSystemMetrics(SM_CXSCREEN) / 4;
+	rWindow.top    = GetSystemMetrics(SM_CYSCREEN) / 4;
+	rWindow.right  = rWindow.left+GetSystemMetrics(SM_CXSCREEN) / 2;
+	rWindow.bottom = rWindow.top+GetSystemMetrics(SM_CYSCREEN) / 2;
+
 	CreateEx(WS_EX_STATICEDGE ,DMMainWinClass,csCaption,WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_THICKFRAME,
 			 rWindow.left,rWindow.top,rWindow.Width(),rWindow.Height(),
 			 NULL,NULL);
