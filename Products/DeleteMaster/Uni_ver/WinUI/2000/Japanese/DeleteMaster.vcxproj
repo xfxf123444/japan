@@ -126,8 +126,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>.\Debug\DeleteMaster.exe</OutputFile>
-      <AdditionalDependencies>..\..\..\..\..\..\Tech\Parinfo\Cur_ver\export\2000\ParInfo.lib;..\..\..\..\..\..\Tech\Parman\Cur_Ver\export\2000\parman.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>Debug\DeleteMaster.exe</OutputFile>
+      <AdditionalDependencies>..\..\..\..\..\..\Tech\ParMan\CUR_VER\DLL\2000\Debug\ParMan.lib;..\..\..\..\..\..\Tech\ParInfo\CUR_VER\DLL\2000\Debug\ParInfo.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
