@@ -44,6 +44,9 @@
     <ClInclude Include="Volume.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\EXPORT\2000\Parinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

@@ -234,8 +234,8 @@ typedef struct	tagSimulateDriveMapInfo
 extern	"C"
 {
 BOOL DLL_PARINFO_API CheckYGDiskRW(BYTE btDisk);
-BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPTSTR szDriverName);
-BOOL DLL_PARINFO_API RemoveYGDiskRWFilter(LPTSTR szDriverName);
+BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPSTR szDriverName);
+BOOL DLL_PARINFO_API RemoveYGDiskRWFilter(LPSTR szDriverName);
 
 BOOL DLL_PARINFO_API WriteSector(DWORD					dwStartSec,
 								 WORD					wSectors,
@@ -305,6 +305,7 @@ BOOL DLL_PARINFO_API MountVolume(BYTE		btHardDiskNum,
 								 DWORD		dwStartSector,
 								 TCHAR		tchDriveLetter);
 
+void DLL_PARINFO_API InitOperationSystemType();
 /*
 BYTE DLL_PARINFO_API GetStartupDrive();
 BOOL DLL_PARINFO_API OSExist(BYTE btHardDisk,

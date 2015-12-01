@@ -46,7 +46,8 @@ BOOL IsWindowsVista()
            return FALSE;
     }
 
-	return (osvi.dwMajorVersion == 6) && (osvi.dwPlatformId == 2);
+	//return (osvi.dwMajorVersion == 6) && (osvi.dwPlatformId == 2);
+	return osvi.dwMajorVersion >= 6;
 }
 
 BOOL APIENTRY DllMain( HANDLE hModule, 
@@ -69,6 +70,12 @@ BOOL APIENTRY DllMain( HANDLE hModule,
     return TRUE;
 }
 
+void DLL_PARINFO_API InitOperationSystemType()
+{
+	if (!g_bVista) {
+		g_bVista = IsWindowsVista();
+	}
+}
 /*------------------------------------------------------------------------
 Init_PartitionInfo()
 Purpose:
@@ -206,7 +213,7 @@ BOOL GetSetRegValue(
 	return bSucc;	
 }
 
-BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPTSTR szDriverName)
+BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPSTR szDriverName)
 {
     LPTSTR filterToAdd    = szDriverName;
 	BOOL	bSuccess	= FALSE;
@@ -225,7 +232,7 @@ BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPTSTR szDriverName)
 	strcat(tstr,"\\Drivers\\");
 	strcat(tstr,szDriverName);
 	strcat(tstr,".sys");
-	if (GetFileAttributes(tstr) == -1) return FALSE;
+	//if (GetFileAttributes(tstr) == -1) return FALSE;
 
 	dwType = REG_DWORD;
 	dwSize = sizeof(DWORD);
@@ -291,7 +298,7 @@ BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPTSTR szDriverName)
 }
 
 //remove filter driver under win2000
-BOOL DLL_PARINFO_API RemoveYGDiskRWFilter(LPTSTR szDriverName)
+BOOL DLL_PARINFO_API RemoveYGDiskRWFilter(LPSTR szDriverName)
 {
     LPTSTR filterToRemove = szDriverName;
 	BOOL	bSuccess	= TRUE;
@@ -452,13 +459,23 @@ BOOL DLL_PARINFO_API WriteSector(DWORD					dwStartSec,
 											 &Buffer,sizeof(YGDISKRWPARAM),
 											 &Buffer,sizeof(YGDISKRWPARAM),
 											 &dwBytesWriten,0);
+					DWORD temp = GetLastError();
+					int i = 0;
 				}
 			}
 
 			if (!bResult)
 			{
-				SetFilePointer(hDrv,lnStartBytes.LowPart,&lnStartBytes.HighPart,FILE_BEGIN);
+				DWORD dwtemp = SetFilePointer(hDrv,lnStartBytes.LowPart,&lnStartBytes.HighPart,FILE_BEGIN);
+				if (dwtemp == INVALID_SET_FILE_POINTER) {
+					dwtemp = GetLastError();
+					int i = 0;
+				}
 				bResult = WriteFile(hDrv,pBuf,dwBytesToWrite,&dwBytesWriten,NULL);
+				if (bResult == 0) {
+					dwtemp = GetLastError();
+					int i = 0;
+				}
 				bResult = bResult ? dwBytesToWrite == dwBytesWriten : FALSE;
 			}
 			//close handle

@@ -29,3 +29,7 @@ Products/DeleteMaster/Uni_ver/WinUI/2000/Japanese/_UpgradeReport_Files/
 Tech/ParMan/CUR_VER/DLL/2000/Debug/
 Products/DeleteMaster/Uni_ver/WinUI/2000/Japanese/UpgradeLog.XML
 Products/DeleteMaster/Uni_ver/WinUI/2000/Japanese/UpgradeLog2.XML
+Products/davinci/Davinci_Advanced/Uni_ver/Encrypt/SelfEntractionConvertingTool/SelfEntractionConvertingTool/Release/
+*.ipch
+*.sdf
+*.tlog
