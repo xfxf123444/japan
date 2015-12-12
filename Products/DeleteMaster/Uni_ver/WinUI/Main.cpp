@@ -58,7 +58,7 @@ END_MESSAGE_MAP()
 int CMain::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
 	InitOperationSystemType();
-	InstallYGDiskRWFilter("YGDiskRW");
+
 	CRect			rWork,rClient;
 	int				nBottom;
 	WINDOWPLACEMENT wp;

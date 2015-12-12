@@ -84,7 +84,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\DeleteMaster.exe</OutputFile>
-      <AdditionalDependencies>..\..\..\..\..\..\Tech\Parinfo\Cur_ver\export\2000\ParInfo.lib;..\..\..\..\..\..\Tech\Parman\Cur_Ver\export\2000\parman.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\..\..\..\..\Tech\Parinfo\Cur_ver\DLL\2000\release\ParInfo.lib;..\..\..\..\..\..\Tech\Parman\Cur_Ver\DLL\2000\release\parman.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>

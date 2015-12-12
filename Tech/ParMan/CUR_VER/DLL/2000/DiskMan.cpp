@@ -130,6 +130,7 @@ LRESULT  SetDriveLayout(int					nHardDiskNum,
 							sizeof(DRIVE_LAYOUT),
 							NULL,
 							0,
+
 							&dwBytesReturned,NULL))
 		{
 			CloseHandle(hDrive);

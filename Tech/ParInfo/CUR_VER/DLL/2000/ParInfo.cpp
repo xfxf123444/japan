@@ -232,7 +232,7 @@ BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPSTR szDriverName)
 	strcat(tstr,"\\Drivers\\");
 	strcat(tstr,szDriverName);
 	strcat(tstr,".sys");
-	//if (GetFileAttributes(tstr) == -1) return FALSE;
+	if (GetFileAttributes(tstr) == -1) return FALSE;
 
 	dwType = REG_DWORD;
 	dwSize = sizeof(DWORD);
@@ -437,32 +437,32 @@ BOOL DLL_PARINFO_API WriteSector(DWORD					dwStartSec,
 		ASSERT( hDrv != INVALID_HANDLE_VALUE);
 		if(hDrv != INVALID_HANDLE_VALUE)
 		{
-			if (g_bVista)
-			{
-				BlkMoverWrite.dwStartSec = dwStartSec;
-				BlkMoverWrite.dwLength = wSectors;
-				BlkMoverWrite.bSys = FALSE;
-				BlkMoverWrite.dwMovedRecNum = YGBLK_READ_WRITE;
-				BlkMoverWrite.pBuffer = pBuf;
+			//if (g_bVista)
+			//{
+			//	BlkMoverWrite.dwStartSec = dwStartSec;
+			//	BlkMoverWrite.dwLength = wSectors;
+			//	BlkMoverWrite.bSys = FALSE;
+			//	BlkMoverWrite.dwMovedRecNum = YGBLK_READ_WRITE;
+			//	BlkMoverWrite.pBuffer = pBuf;
 
-				bResult = DeviceIoControl(hDrv,IOCTL_YG_WRITE,
-										 &BlkMoverWrite,sizeof(READ_WRITE_BUFFER),
-										 &BlkMoverWrite,sizeof(READ_WRITE_BUFFER),
-										 &dwBytesWriten,0);
-				if (!bResult)
-				{
-					Buffer.ulDisk	= btUnit;
-					Buffer.dwStartSec	 = dwStartSec;
-					Buffer.dwLength		 = wSectors;
-					Buffer.pBuffer		 = pBuf;
-					bResult = DeviceIoControl(hDrv,IOCTL_YGDISKRW_WRITE_DISK,
-											 &Buffer,sizeof(YGDISKRWPARAM),
-											 &Buffer,sizeof(YGDISKRWPARAM),
-											 &dwBytesWriten,0);
-					DWORD temp = GetLastError();
-					int i = 0;
-				}
-			}
+			//	bResult = DeviceIoControl(hDrv,IOCTL_YG_WRITE,
+			//		&BlkMoverWrite,sizeof(READ_WRITE_BUFFER),
+			//		&BlkMoverWrite,sizeof(READ_WRITE_BUFFER),
+			//		&dwBytesWriten,0);
+			//	if (!bResult)
+			//	{
+			//		Buffer.ulDisk	= btUnit;
+			//		Buffer.dwStartSec	 = dwStartSec;
+			//		Buffer.dwLength		 = wSectors;
+			//		Buffer.pBuffer		 = pBuf;
+			//		bResult = DeviceIoControl(hDrv,IOCTL_YGDISKRW_WRITE_DISK,
+			//			&Buffer,sizeof(YGDISKRWPARAM),
+			//			&Buffer,sizeof(YGDISKRWPARAM),
+			//			&dwBytesWriten,0);
+			//		DWORD temp = GetLastError();
+			//		int i = 0;
+			//	}
+			//}
 
 			if (!bResult)
 			{
@@ -525,30 +525,30 @@ BOOL DLL_PARINFO_API ReadSector(DWORD					dwStartSec,
 		
 		if(hDrv != INVALID_HANDLE_VALUE)
 		{
-			if (g_bVista)
-			{
-				BlkMoverRead.dwStartSec = dwStartSec;
-				BlkMoverRead.dwLength = wSectors;
-				BlkMoverRead.bSys = FALSE;
-				BlkMoverRead.dwMovedRecNum = 0;
-				BlkMoverRead.pBuffer = pBuf;
+			//if (g_bVista)
+			//{
+			//	BlkMoverRead.dwStartSec = dwStartSec;
+			//	BlkMoverRead.dwLength = wSectors;
+			//	BlkMoverRead.bSys = FALSE;
+			//	BlkMoverRead.dwMovedRecNum = 0;
+			//	BlkMoverRead.pBuffer = pBuf;
 
-				bResult = DeviceIoControl(hDrv,IOCTL_YG_READ,
-										 &BlkMoverRead,sizeof(READ_WRITE_BUFFER),
-										 &BlkMoverRead,sizeof(READ_WRITE_BUFFER),
-										 &dwBytesRead,0);
-				if (!bResult)
-				{
-					Buffer.ulDisk	= btUnit;
-					Buffer.dwStartSec	 = dwStartSec;
-					Buffer.dwLength		 = wSectors;
-					Buffer.pBuffer		 = pBuf;
-					bResult = DeviceIoControl(hDrv,IOCTL_YGDISKRW_READ_DISK,
-											 &Buffer,sizeof(YGDISKRWPARAM),
-											 &Buffer,sizeof(YGDISKRWPARAM),
-											 &dwBytesRead,0);
-				}
-			}
+			//	bResult = DeviceIoControl(hDrv,IOCTL_YG_READ,
+			//							 &BlkMoverRead,sizeof(READ_WRITE_BUFFER),
+			//							 &BlkMoverRead,sizeof(READ_WRITE_BUFFER),
+			//							 &dwBytesRead,0);
+			//	if (!bResult)
+			//	{
+			//		Buffer.ulDisk	= btUnit;
+			//		Buffer.dwStartSec	 = dwStartSec;
+			//		Buffer.dwLength		 = wSectors;
+			//		Buffer.pBuffer		 = pBuf;
+			//		bResult = DeviceIoControl(hDrv,IOCTL_YGDISKRW_READ_DISK,
+			//								 &Buffer,sizeof(YGDISKRWPARAM),
+			//								 &Buffer,sizeof(YGDISKRWPARAM),
+			//								 &dwBytesRead,0);
+			//	}
+			//}
 			if (!bResult)
 			{
 				SetFilePointer(hDrv,lnStartBytes.LowPart,&lnStartBytes.HighPart,FILE_BEGIN);

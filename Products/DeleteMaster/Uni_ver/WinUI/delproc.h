@@ -2,6 +2,9 @@
 #define AFX_DELPROC_H__96B2E89E_EF04_4879_9339_C557059F95C5__INCLUDED_
 
 #include "StdAfx.h"
+#include <vector>
+
+using namespace std;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDelProc dialog
@@ -40,6 +43,8 @@ public:
 	BOOL		m_bShowVerifyMsg;
 	TCHAR        m_szLogFile[MAX_PATH];
 	HANDLE		m_Thread;
+	vector<HANDLE> m_volumeHandleSet;
+	vector<TCHAR> m_driveLetterSet;
 
 	BOOL DeleteSectors();
 	BOOL DeleteContent();
@@ -48,6 +53,9 @@ public:
 	BOOL SaveVerifyInfo(LPCTSTR lpFileName,DWORD dwStartSec,DWORD dwSectors,BOOL bWriteFail);
 	static	DWORD WINAPI ThreadProc(CDelProc* dlg);
 	virtual DWORD ProgressProc();
+	BOOL LockDiskOrVolume();
+	BOOL LockVolume(TCHAR driveLetter);
+	void UnlockDiskOrVolume();
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CDelProc)
@@ -65,6 +73,7 @@ protected:
 	afx_msg void OnNoSave();
 	afx_msg void OnSave();
 	afx_msg void OnTimer(UINT nIDEvent);
+
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

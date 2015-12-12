@@ -2,6 +2,9 @@
 #define AFX_DELPAR_H__E480A03E_427C_4BBD_B2EF_7462A4E6DC48__INCLUDED_
 
 #include "StdAfx.h"
+#include <vector>
+
+using namespace std;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDelPar dialog
@@ -27,6 +30,7 @@ public:
 	CListCtrl	m_DelParList;
 	CButton	m_CheckEntirDisk;
 	CComboBoxEx	m_DelDiskList;
+	vector<TCHAR> m_driveLetterSetOfCurrentDisk;
 	//}}AFX_DATA
 
 

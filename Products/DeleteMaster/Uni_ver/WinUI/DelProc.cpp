@@ -135,6 +135,7 @@ BOOL CDelProc::OnInitDialog()
 	UpdateData(FALSE);
 
 	SetTimer(IDT_TIMER1,1000,NULL);
+
 	m_Thread = CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)CDelProc::ThreadProc ,
 							(LPVOID)this,0,&threadID);
 	
@@ -173,55 +174,54 @@ BOOL CDelProc::DeleteContent()
 	memcpy(&m_StartTime,newtime,sizeof(tm));
 	
 	memset(&PartitionInfo,0,sizeof(PARTITION_ENTRY));
-//	SetTimer(IDT_TIMER1,1000,NULL);
-	if(!m_bDisk)
-	{
-		cfg.Extended = 1;
-		cfg.Active	 = m_bActive;
-		cstr.LoadString (IDS_DELETE_DELETE_PAR_FAIL);
+//	if(!m_bDisk)
+//	{
+//		cfg.Extended = 1;
+//		cfg.Active	 = m_bActive;
+//		cstr.LoadString (IDS_DELETE_DELETE_PAR_FAIL);
+//
+//		bResult = DeleteSectors();
+//		if(bResult)
+//		{
+//
+//#ifdef WIN_9X
+//			if(m_bLogc) m_dwMinSec -= DISK_MIN_SECTOR;
+//			if(!DoDeletePartition(m_dwMinSec,	m_nDisk+DISK_BASE,cfg,&nErr))
+//			{
+//				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
+//			}
+//			if(m_bLogc) m_dwMinSec += DISK_MIN_SECTOR;
+//#else
+//			if(!DeletePartition(m_dwMinSec,m_nDisk+DISK_BASE,cfg,&nErr))
+//			{
+//				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
+//			}
+//#endif
+//			PartitionInfo.StartSector = m_dwMinSec - DISK_MIN_SECTOR;
+//			PartitionInfo.SectorsInPartition = g_pTargetParInfo->dwPartSize + DISK_MIN_SECTOR ;
+//			PartitionInfo.SystemFlag = (BYTE)g_pTargetParInfo->dwSystemFlag ;
+//			if(PartitionInfo.SystemFlag > 0x20)
+//			{
+//				PartitionInfo.SystemFlag = 0x0b;
+//			}
+//			dwFlag = g_pTargetParInfo->bLogic ?LOGICAL : PRIMARY;
+//			memcpy(&btLabel,g_pTargetParInfo->szLabel ,0x0b);
+//			if(g_bFormat)
+//			{
+//#ifdef WIN_9X
+//				DoCreatePartition(&PartitionInfo,m_nDisk+DISK_BASE,dwFlag,
+//					TRUE,btLabel,m_hWnd,&nErr);
+//#else
+//				CreatePartition(&PartitionInfo,m_nDisk+DISK_BASE,dwFlag,
+//					TRUE,btLabel,m_hWnd,&nErr);
+//#endif
+//			}
+//		}
+//	}
+//	else
+//	{
 		bResult = DeleteSectors();
-
-		if(bResult)
-		{
-			
-#ifdef WIN_9X
-			if(m_bLogc) m_dwMinSec -= DISK_MIN_SECTOR;
-			if(!DoDeletePartition(m_dwMinSec,	m_nDisk+DISK_BASE,cfg,&nErr))
-			{
-				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
-			}
-			if(m_bLogc) m_dwMinSec += DISK_MIN_SECTOR;
-#else
-			if(!DeletePartition(m_dwMinSec,m_nDisk+DISK_BASE,cfg,&nErr))
-			{
-				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
-			}
-#endif
-			PartitionInfo.StartSector = m_dwMinSec - DISK_MIN_SECTOR;
-			PartitionInfo.SectorsInPartition = g_pTargetParInfo->dwPartSize + DISK_MIN_SECTOR ;
-			PartitionInfo.SystemFlag = (BYTE)g_pTargetParInfo->dwSystemFlag ;
-			if(PartitionInfo.SystemFlag > 0x20)
-			{
-				PartitionInfo.SystemFlag = 0x0b;
-			}
-			dwFlag = g_pTargetParInfo->bLogic ?LOGICAL : PRIMARY;
-			memcpy(&btLabel,g_pTargetParInfo->szLabel ,0x0b);
-			if(g_bFormat)
-			{
-#ifdef WIN_9X
-				DoCreatePartition(&PartitionInfo,m_nDisk+DISK_BASE,dwFlag,
-								TRUE,btLabel,m_hWnd,&nErr);
-#else
-				CreatePartition(&PartitionInfo,m_nDisk+DISK_BASE,dwFlag,
-								TRUE,btLabel,m_hWnd,&nErr);
-#endif
-			}
-		}
-	}
-	else
-	{
-		bResult = DeleteSectors();
-    }
+    //}
 	
 	if(bResult)
 	{
@@ -1085,4 +1085,58 @@ BOOL CDelProc::SaveVerifyInfo(LPCTSTR lpFileName,DWORD dwStartSec,DWORD dwSector
 	WriteFile(hFile,&wData,sizeof(wData),&dwWrite,NULL);
 	CloseHandle(hFile);
 	return TRUE;
+}
+
+BOOL CDelProc::LockDiskOrVolume()
+{
+	m_volumeHandleSet.clear();
+	BOOL bRes = FALSE;
+	if (m_bDisk) {
+		for (vector<TCHAR>::iterator it = m_driveLetterSet.begin(); it != m_driveLetterSet.end(); ++it){
+			TCHAR driveLetter = *it;
+			bRes = LockVolume(driveLetter);
+			if (!bRes) {
+				break;
+			}
+		}
+	}
+	else {
+		bRes = LockVolume(m_DriveLetter);
+	}
+
+	if (!bRes) {
+		UnlockDiskOrVolume();
+	}
+	return bRes;
+}
+
+void CDelProc::UnlockDiskOrVolume()
+{
+	for (vector<HANDLE>::iterator it = m_volumeHandleSet.begin();
+		it != m_volumeHandleSet.end();
+		++it){
+			CloseHandle(*it);
+	}
+	m_volumeHandleSet.clear();
+}
+
+BOOL CDelProc::LockVolume(TCHAR driveLetter)
+{
+	CString path;
+	BOOL bRes;
+	path.Format(_T("\\\\.\\%c:"),  driveLetter);
+	HANDLE hVolume = CreateFile( path, GENERIC_READ | GENERIC_WRITE, 
+		FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0 );
+	if (hVolume != INVALID_HANDLE_VALUE) {
+		DWORD dwReturned;
+		bRes = DeviceIoControl( hVolume, FSCTL_LOCK_VOLUME, 0, 0, 0, 0, &dwReturned, 0 );
+		if (bRes) {
+			bRes = DeviceIoControl( hVolume, FSCTL_DISMOUNT_VOLUME, 0, 0, 0, 0, &dwReturned, 0 );
+		}
+		if (bRes) {
+			m_volumeHandleSet.push_back(hVolume);
+		}
+	}
+
+	return bRes;
 }

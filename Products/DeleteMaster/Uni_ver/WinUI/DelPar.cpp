@@ -174,18 +174,27 @@ void CDelPar::OnSelchangeDeleteDiskCombo()
 	nSel = m_DelDiskList.GetCurSel ();
 	nSel = m_DelDiskList.GetItemData (nSel);
 	m_DelParList.DeleteAllItems();
+	m_driveLetterSetOfCurrentDisk.clear();
 	if(nSel >= _T('A'))
 	{
 		m_CheckEntirDisk.SetCheck(1);
 		m_CheckEntirDisk.EnableWindow(TRUE);
 		m_DelParList.EnableWindow(FALSE);
 		m_ButtonDiskInfo.EnableWindow(FALSE);
+		m_driveLetterSetOfCurrentDisk.push_back(nSel);
 	}
 	else
 	{
 		m_DelParList.EnableWindow(TRUE);
 		m_ButtonDiskInfo.EnableWindow(TRUE);
 		AddList(&m_DelParList, nSel+DISK_BASE);
+		for(int i = 0; i < m_DelParList.GetItemCount (); i++) 
+		{
+			YG_PARTITION_INFO*	pTargetParInfo		= (YG_PARTITION_INFO*)m_DelParList.GetItemData (i);
+			if (pTargetParInfo->DriveLetter != _T('*')) {
+				m_driveLetterSetOfCurrentDisk.push_back(pTargetParInfo->DriveLetter);
+			}
+		}
 		m_CheckEntirDisk.SetCheck(0);
 		if(IsSystemDisk())
 			m_CheckEntirDisk.EnableWindow(FALSE);
@@ -221,8 +230,8 @@ void CDelPar::OnClickDmDeleteParList(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		GetSystemDirectory(szSysDir,MAX_PATH);
 		pTargetParInfo = (YG_PARTITION_INFO*)m_DelParList.GetItemData (pItem->iItem);
-		if(pTargetParInfo->DriveLetter == szSysDir[0] || 
-			pTargetParInfo->BootFlag == 0x80)
+		//if(pTargetParInfo->DriveLetter == szSysDir[0] || pTargetParInfo->BootFlag == 0x80)
+		if(pTargetParInfo->DriveLetter == szSysDir[0])
 		{
 			cstr.LoadString (IDS_NOT_DELETE_SYSTEM_PAR);
 			csCaption.LoadString (IDS_DM_ERROR);
@@ -351,6 +360,9 @@ void CDelPar::OnDmDelete()
 			DelProcDlg.m_bActive	= FALSE;
 			DelProcDlg.m_bLogc		= FALSE;
 			DelProcDlg.m_bDisk = ConfirmDlg.m_bDisk ;
+			if (DelProcDlg.m_bDisk) {
+				DelProcDlg.m_driveLetterSet = m_driveLetterSetOfCurrentDisk;
+			}
 			DelProcDlg.m_nDisk = ConfirmDlg.m_nDisk ;
 			DelProcDlg.m_dwMinSec = ConfirmDlg.m_dwMinSec ;
 			DelProcDlg.m_dwMaxSec = ConfirmDlg.m_dwMaxSec ;
@@ -367,8 +379,25 @@ void CDelPar::OnDmDelete()
 					DelProcDlg.m_bActive	= TRUE;
 				}
 			}
-			DelProcDlg.DoModal ();
-			OnSelchangeDeleteDiskCombo();
+			if (!DelProcDlg.LockDiskOrVolume()) {
+				CString msg;
+				if (DelProcDlg.m_bDisk){
+					msg.LoadString(IDS_CANNOT_LOCK_DISK);
+					msg.Format(msg, DelProcDlg.m_nDisk-DISK_BASE, DelProcDlg.m_nDisk-DISK_BASE);
+				} 
+				else{
+					msg.LoadString(IDS_CANNOT_LOCK_PARTITION);
+					msg.Format(msg, DelProcDlg.m_DriveLetter, DelProcDlg.m_DriveLetter);
+				}
+				CString title;
+				title.LoadString(IDS_DM_ERROR);
+				MessageBox(msg, title, MB_OK);
+			}
+			else {
+				DelProcDlg.DoModal ();
+				DelProcDlg.UnlockDiskOrVolume();
+				OnSelchangeDeleteDiskCombo();
+			}
 		}
 	}
 }

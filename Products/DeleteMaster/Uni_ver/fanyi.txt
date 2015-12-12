@@ -1,0 +1,3 @@
+DeleteMaster can not lock partition %c: and deletion task cannot continue.\nSome files on partition %c: may be opened by other processes.\nPlease close the processes or reboot windows, and then try again.
+
+DeleteMaster can not lock disk %d: and deletion task cannot continue.\nSome files on disk %d: may be opened by other processes.\nPlease close the processes or reboot windows, and then try again.
