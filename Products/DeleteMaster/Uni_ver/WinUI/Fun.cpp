@@ -47,12 +47,6 @@ void AddFixDisk(CComboBoxEx* pBox,BOOL bAddFloppy)
 	DEVICEPARAMS		dp;
 	int					nType;
 	DWORD				dwResult;
-#ifdef WIN_9X
-	TCHAR				szDrv;
-	DWORD				dwSetValue;
-#endif
-
-	
 
 	cbItem.mask			  = CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_TEXT;
 	cbItem.iItem		  = 0;
@@ -79,21 +73,6 @@ void AddFixDisk(CComboBoxEx* pBox,BOOL bAddFloppy)
 					pBox->SetItemData(cbItem.iItem,szFloppy[0]);
 					btAddItem++;
 				}
-#ifdef WIN_9X
-				if(dwResult == 1)
-				{
-/*				if((i+1,&DriveParam))
-					{
-						csText.Format(IDS_REMOVE_DISK_LIST,szFloppy[0],DriveParam.dwSectors/2048);
-						cbItem.pszText	= csText.GetBuffer (0);
-						cbItem.iItem	= btAddItem;
-						dwSetValue		= MAKELONG((WORD)(szFloppy[0]),(WORD)(i+1));
-						pBox->InsertItem(&cbItem);
-						pBox->SetItemData(cbItem.iItem,dwSetValue);
-						btAddItem++;
-					}*/
-				}
-#endif
 			}
 			szFloppy[0]++;
 		}
@@ -102,31 +81,16 @@ void AddFixDisk(CComboBoxEx* pBox,BOOL bAddFloppy)
 	dwDiskNum = GetHardDiskNum();
 	for(i = 1; i <= dwDiskNum ; i ++)
 	{
-		if(!GetDriveParam(DISK_BASE+(i-1),&DriveParam)) continue;
-#ifdef WIN_9X
-		if(DriveParam.wFlags & REMOVEABLE_DISK)
-		{
-			GetRemovableDiskSize(DISK_BASE+(i-1),&szDrv,&DriveParam);
-			dwTotolDisk = DriveParam.dwSectors;
-			btAddItem ++ ;
-			csText.Format(IDS_REMOVE_DISK_LIST,szDrv,dwTotolDisk/2048);
-			cbItem.pszText	= csText.GetBuffer (0);
-			cbItem.iItem	= btAddItem-1;
-			dwSetValue		= MAKELONG((WORD)(szDrv),(WORD)(i-1));
-			pBox->InsertItem(&cbItem);
-			pBox->SetItemData(cbItem.iItem,dwSetValue);
+		if(!GetDriveParam(DISK_BASE+(i-1),&DriveParam)) {
+			continue;
 		}
-		else
-#endif
-		{
-			btAddItem ++ ;
-			dwTotolDisk = DWORD(DriveParam.dwSectors/2048);
-			csText.Format(IDS_DISK_LIST_FORMAT,i,dwTotolDisk);
-			cbItem.pszText	= csText.GetBuffer (0);
-			cbItem.iItem	= btAddItem-1;
-			pBox->InsertItem(&cbItem);
-			pBox->SetItemData(cbItem.iItem,i-1);
-		}
+		btAddItem ++ ;
+		dwTotolDisk = DWORD(DriveParam.dwSectors/2048);
+		csText.Format(IDS_DISK_LIST_FORMAT,i,dwTotolDisk);
+		cbItem.pszText	= csText.GetBuffer (0);
+		cbItem.iItem	= btAddItem-1;
+		pBox->InsertItem(&cbItem);
+		pBox->SetItemData(cbItem.iItem,i-1);
 	}
 }
 
@@ -281,14 +245,14 @@ void SortParInfo(PARINFOONHARDDISKEX *ParInfo)
 	PARINFOONHARDDISKEX DiskIfTemp;
 
 	//sort Primary item
-	for(m=0;m<MBR_ITEM;m++)
+	for(m=0;m<ParInfo->wNumOfPri;m++)
 	{
-		if(ParInfo->pePriParInfo[m].SystemFlag == 0)
-			break;
-		for(n=m;n<MBR_ITEM;n++)
+		//if(ParInfo->pePriParInfo[m].SystemFlag == 0)
+		//	break;
+		for(n=m;n<ParInfo->wNumOfPri;n++)
 		{
-			if(ParInfo->pePriParInfo[n].SystemFlag == 0)
-				break;
+			//if(ParInfo->pePriParInfo[n].SystemFlag == 0)
+			//	break;
 			if(ParInfo->pePriParInfo[m].StartSector
 				> ParInfo->pePriParInfo[n].StartSector)
 			{
@@ -301,12 +265,12 @@ void SortParInfo(PARINFOONHARDDISKEX *ParInfo)
 	//sort logical partition
 	for(m=0;m<ParInfo->wNumOfLogic;m++)
 	{
-		if(ParInfo->peLogParInfo[m].peCurParInfo.SystemFlag == 0)
-			break;
+		//if(ParInfo->peLogParInfo[m].peCurParInfo.SystemFlag == 0)
+		//	break;
 		for(n=m;n<ParInfo->wNumOfLogic;n++)
 		{
-			if(ParInfo->peLogParInfo[n].peCurParInfo.SystemFlag == 0)
-				break;
+			//if(ParInfo->peLogParInfo[n].peCurParInfo.SystemFlag == 0)
+			//	break;
 			if(ParInfo->peLogParInfo[m].peCurParInfo.StartSector
 				> ParInfo->peLogParInfo[n].peCurParInfo.StartSector)
 			{
@@ -329,15 +293,18 @@ BOOL GetFixDiskInfo(int nDisk)
 	DWORD				dwLogPartitionTop;
 	PARTITION_INFO		pInfo;
 
-	if(!GetDriveParam(nDisk,&DriveParam)) return FALSE;
-	if(!GetPartitionInfoEx(nDisk, &info)) return FALSE;
-	//g_PriLogNum[i].wLogNum	 = info.wNumOfLogic;
-	//g_PriLogNum[i].wPriNum   = info.wNumOfPri;
+	if(!GetDriveParam(nDisk,&DriveParam)) {
+		return FALSE;
+	}
+	if(!GetPartitionInfoEx(nDisk, &info)) {
+		return FALSE;
+	}
 	SortParInfo(&info);
 	//Get all partition items
 	j = 0;
 	dwPartitionTop = DISK_MIN_SECTOR;
-	while(info.pePriParInfo[j].SystemFlag != 0x00 && j < MBR_ITEM)
+	//while(info.pePriParInfo[j].SystemFlag != 0x00 && j < info.wNumOfPri)
+	while(j < info.wNumOfPri)
 	{
 		if(info.pePriParInfo[j].StartSector > dwPartitionTop)
 		{
@@ -345,6 +312,7 @@ BOOL GetFixDiskInfo(int nDisk)
 			{
 				pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 				memset(pNew,0,sizeof(YG_PARTITION_INFO));
+				pNew->PartitionStyle = PARTITION_STYLE_MBR;
 				pNew->BootFlag		 = 0;
 				pNew->bLogic		 = FALSE;
 				pNew->btDiskNum		 = (BYTE)nDisk-DISK_BASE;
@@ -369,7 +337,8 @@ BOOL GetFixDiskInfo(int nDisk)
 		{
 			n = 0;
 			dwLogPartitionTop = info.pePriParInfo[j].StartSector;
-			while(info.peLogParInfo[n].peCurParInfo.SystemFlag != 0x00 && n< info.wNumOfLogic)
+			//while(info.peLogParInfo[n].peCurParInfo.SystemFlag != 0x00 && n< info.wNumOfLogic)
+			while (n < info.wNumOfLogic)
 			{
 				if(info.peLogParInfo[n].peCurParInfo.StartSector > dwLogPartitionTop)
 				{
@@ -412,10 +381,12 @@ BOOL GetFixDiskInfo(int nDisk)
 						pNew->DriveLetter += _T('A') - 1;
 					if(pNew->DriveLetter != _T('*'))
 					{
-						if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize))
+						if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize)) {
 							//pNew->dwUsedSize = pNew->dwPartSize - pNew->dwUsedSize;
-						if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo))
+						}
+						if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo)) {
 							memset(&pInfo,0,sizeof(PARTITION_INFO));
+						}
 						memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
 						memcpy(pNew->szOsLabel,pInfo.szOsLabel,MAX_LABELNAME);
 					}
@@ -452,10 +423,12 @@ BOOL GetFixDiskInfo(int nDisk)
 
 					if(pNew->DriveLetter != _T('*'))
 					{
-						if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize))
-//							pNew->dwUsedSize = pNew->dwPartSize - pNew->dwUsedSize;
-						if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo))
+						if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize)) {
+							//							pNew->dwUsedSize = pNew->dwPartSize - pNew->dwUsedSize;
+						}
+						if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo)) {
 							memset(&pInfo,0,sizeof(PARTITION_INFO));
+						}
 						memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
 						memcpy(pNew->szOsLabel,pInfo.szOsLabel,MAX_LABELNAME);
 					}
@@ -517,10 +490,12 @@ BOOL GetFixDiskInfo(int nDisk)
 				pNew->DriveLetter += _T('A') - 1;
 			if(pNew->DriveLetter != _T('*'))
 			{
-				if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize))
-//					pNew->dwUsedSize = pNew->dwPartSize - pNew->dwUsedSize;
-				if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo))
+				if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize)) {
+					//					pNew->dwUsedSize = pNew->dwPartSize - pNew->dwUsedSize;
+				}
+				if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo)) {
 					memset(&pInfo,0,sizeof(PARTITION_INFO));
+				}
 				memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
 				memcpy(pNew->szOsLabel,pInfo.szOsLabel,MAX_LABELNAME);
 			}
@@ -676,7 +651,7 @@ void AddList(CListCtrl* pList, int nSelDisk)
 			break;
 		}
 
-		if(pEnd->BootFlag)
+		if(pEnd->BootFlag || pEnd->GUIDType == PARTITION_SYSTEM_GUID)
 		{
 			cstr.LoadString (IDS_LIST_ACTIVE);
 			_tcscpy(szStatus, cstr);
@@ -913,7 +888,6 @@ DWORD GetFloppyFormFactor(int iDrive)
 	return dwResult;
 }
 
-#ifndef WIN_9X
 BOOL GetFDParam(BYTE btFDLetter,BIOS_DRIVE_PARAM *pParam)
 {
 	HANDLE				hDevice;
@@ -1036,171 +1010,6 @@ BOOL	GetRemovableDiskSize(int nDisk, LPTSTR pszDrv,DWORD *pdwSize)
 	}
 	return TRUE;
 }
-#else
-BOOL GetRemovableDiskSize(int iDrive ,char *pszDrv ,BIOS_DRIVE_PARAM *pDriveParam)
-{
-    HANDLE	hDevice;
-    TCHAR	tsz[32];
-    BOOL	bResult = FALSE;
-	DWORD   cb;
-	DOSDPB  dpb;
-    DIOC_REGISTERS reg;
-
-
-	PARINFOONHARDDISKEX info;
-	if(!GetPartitionInfoEx(iDrive, &info)) return FALSE;
-	if(pszDrv)
-	{
-		*pszDrv = RetrieveDriveLttr(iDrive,PRIMARY,info.pePriParInfo[0].StartSector);
-		*pszDrv += 0x40;
-	}
-
-    hDevice = CreateFileA("\\\\.\\VWIN32", 0, 0, 0, 0,
-                     FILE_FLAG_DELETE_ON_CLOSE, 0);
-    if (hDevice != INVALID_HANDLE_VALUE)
-    {
-		dpb.specialFunc = 0;  // return default type; do not hit disk
-
-		reg.reg_EBX   = *pszDrv - 'A' + 1;       // BL = drive number (1-based)
-		reg.reg_EDX   = (DWORD)&dpb;  // DS:EDX -> DPB
-		reg.reg_ECX   = 0x0860;       // CX = Get DPB
-		reg.reg_EAX   = 0x440D;       // AX = Ioctl
-		reg.reg_Flags = 0x01;   // assume failure
-
-             // Make sure both DeviceIoControl and Int 21h succeeded.
-		if (DeviceIoControl (hDevice, VWIN32_DIOC_DOS_IOCTL, &reg,
-                            sizeof(reg), &reg, sizeof(reg),
-                             &cb, 0)
-			&& !(reg.reg_Flags & 0x01))
-		{
-			switch (dpb.devType)
-            {
-			case 5: // hard drive
-				pDriveParam->dwCylinders = dpb.cCyl ;
-				pDriveParam->dwHeads	 = dpb.cHead;
-				pDriveParam->dwSecPerTrack = dpb.secPerTrack;
-				pDriveParam->SectorsSize = dpb.cbSec ;
-				pDriveParam->dwSectors   = dpb.cTotalSectors ;
-				if(dpb.cTotalSectors) bResult = TRUE;
-				break;
-            default: // other
-               break;
-            }
-         }
-         CloseHandle(hDevice);
-	}
-	return bResult;
-}
-
-BOOL ReadFDSector( DWORD					dwStartSec,
-					WORD					wSectors,
-					PBYTE					pBuf,
-					BYTE					btUnit,
-					PBIOS_DRIVE_PARAM		pDriveParam)
-
-{
-	HANDLE			hDrv;
-     BOOL           fResult;
-     DWORD          cb;
-     DIOC_REGISTERS reg = {0};
-     DISKIO         dio;
-
-     dio.dwStartSector = dwStartSec;
-     dio.wSectors      = wSectors;
-     dio.dwBuffer      = (DWORD)pBuf;
-
-     reg.reg_EAX = 0x7305;   // Ext_ABSDiskReadWrite
-     reg.reg_EBX = (DWORD)&dio;
-     reg.reg_ECX = -1;
-     reg.reg_EDX = btUnit - 'A' +1;   // Int 21h, fn 7305h drive numbers are 1-based
-
-	hDrv = CreateFile("\\\\.\\vwin32",0,0,NULL,0,FILE_FLAG_DELETE_ON_CLOSE,NULL);
-	ASSERT( hDrv != INVALID_HANDLE_VALUE);
-	if(hDrv != INVALID_HANDLE_VALUE)
-	{
-		fResult = DeviceIoControl(hDrv, VWIN32_DIOC_DOS_DRIVEINFO,
-                              &reg, sizeof(reg),
-                              &reg, sizeof(reg), &cb, 0);
-
-		// Determine if the DeviceIoControl call and the read succeeded.
-		fResult = fResult && !(reg.reg_Flags & CARRY_FLAG);
-	}
-
-     return fResult;
-}
-
-BOOL WriteFDSector( DWORD					dwStartSec,
-					WORD					wSectors,
-					PBYTE					pBuf,
-					BYTE					btUnit,
-					PBIOS_DRIVE_PARAM		pDriveParam)
-{
-	BOOL					bResult = FALSE;
-	HANDLE					hDrv;
-	DWORD					cb;
-	DIOC_REGISTERS			reg = {0};
-	DISKIO					dio = {0};
-
-	dio.dwStartSector = dwStartSec;
-	dio.wSectors      = wSectors;
-	dio.dwBuffer      = (DWORD)pBuf;
-
-	reg.reg_EAX	 = btUnit-'A';
-	reg.reg_EBX  = (DWORD)&dio;
-	reg.reg_ECX  = 0xFFFF;
-
-
-	hDrv = CreateFile("\\\\.\\vwin32",0,0,NULL,0,FILE_FLAG_DELETE_ON_CLOSE,NULL);
-	ASSERT( hDrv != INVALID_HANDLE_VALUE);
-	if(hDrv != INVALID_HANDLE_VALUE)
-	{
-		bResult = DeviceIoControl(hDrv,VWIN32_DIOC_DOS_INT26,
-								&reg,sizeof(reg),
-								&reg,sizeof(reg),
-								&cb,0);
-		bResult = bResult && !(reg.reg_Flags & CARRY_FLAG);
-		CloseHandle(hDrv);
-	}
-	return bResult;
-}
-/*
-BOOL ReadFDSector( DWORD					dwStartSec,
-					WORD					wSectors,
-					PBYTE					pBuf,
-					BYTE					btUnit,
-					PBIOS_DRIVE_PARAM		pDriveParam)
-{
-	BOOL					bResult = FALSE;
-	HANDLE					hDrv;
-	DWORD					cb;
-	DIOC_REGISTERS			reg;
-	DISKIO					dio = {0};
-
-	dio.dwStartSector = dwStartSec;
-	dio.wSectors      = wSectors;
-	dio.dwBuffer      = (DWORD)pBuf;
-
-	reg.reg_EAX	 = btUnit-'A';
-	reg.reg_EBX  = (DWORD)&dio;
-	reg.reg_ECX  = 0xFFFF;
-
-
-	hDrv = CreateFile("\\\\.\\vwin32",0,0,NULL,0,FILE_FLAG_DELETE_ON_CLOSE,NULL);
-	ASSERT( hDrv != INVALID_HANDLE_VALUE);
-	if(hDrv != INVALID_HANDLE_VALUE)
-	{
-		bResult = DeviceIoControl(hDrv,VWIN32_DIOC_DOS_INT25,
-								&reg,sizeof(reg),
-								&reg,sizeof(reg),
-								&cb,0);
-		bResult = bResult && !(reg.reg_Flags & CARRY_FLAG);
-		//close handle
-		CloseHandle(hDrv);
-	}
-	return bResult;
-}
-*/
-#endif
 
 BOOL HasMedia(TCHAR szDrive)
 {

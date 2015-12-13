@@ -10,9 +10,7 @@
 
 //#define WIPE_ONLY
 
-#ifndef WIN_9X
 BOOL IsUserAdmin(VOID) ;
-#endif
 /////////////////////////////////////////////////////////////////////////////
 // CDeleteMasterApp:
 // See DeleteMaster.cpp for the implementation of this class

@@ -52,7 +52,7 @@
 
 #define IMG_LIST_SELECT			1
 
-#define MBR_ITEM				4
+//#define MBR_ITEM				4
 #define DISK_MIN_SECTOR			0x3f
 #define DISK_BASE				0x80
 #define REMOVEABLE_DISK			0x0004

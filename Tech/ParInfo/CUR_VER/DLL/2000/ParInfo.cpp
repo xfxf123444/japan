@@ -17,15 +17,13 @@ WQ
 #endif
 
 #include "..\..\export\2000\ParInfo.h"
-#include    "..\..\..\..\YGDiskRW\Cur_ver\Export\YGDiskRW.h"
-#include    "..\..\..\..\BlkMover\Cur_ver\Export\BlkMover.h"
 #include "ParInfoPrivate.h"
 #include "SymbolicLink.h"
 #include "Volume.h"
 
 BOOL g_bVista = FALSE;
+DWORD SECTOR_SIZE = 512;
 
-#define YGDISKRW_DISKCLASS_KEY "SYSTEM\\CurrentControlSet\\Control\\Class\\{4D36E967-E325-11CE-BFC1-08002BE10318}"
 #define SYSTEM_CURRENT_CONTROL_SET "SYSTEM\\CurrentControlSet\\Services"
 
 
@@ -103,301 +101,8 @@ BOOL DLL_PARINFO_API Free_PartitionInfo()
 	return TRUE;
 }
 
-#ifndef _VMM_
-
 extern	"C"
 {
-BOOL DeleteRegKey(
-	HKEY ReRootKey,
-	LPCSTR ReSubKey,
-	TCHAR *ReKeyName)
-{
-	BOOL	bSucc=1;
-	HKEY hKey;
-	if(RegOpenKeyEx(ReRootKey,ReSubKey,0,KEY_WRITE,&hKey)==ERROR_SUCCESS)
-	{
-		if((RegDeleteKey(hKey,ReKeyName))!=ERROR_SUCCESS)
-		{
-			bSucc=0;
-		}
-		RegCloseKey(hKey);
-		
-	}else
-		bSucc=FALSE;
-	return bSucc;
-}
-BOOL DeleteRegValue(
-	HKEY ReRootKey,
-	LPCSTR ReSubKey,
-	TCHAR *ReValueName)
-{
-	BOOL bSucc=1; 
-	HKEY hKey;
-	if(RegOpenKeyEx(ReRootKey,ReSubKey,0,KEY_WRITE,&hKey)==ERROR_SUCCESS)
-	{
-		if(RegDeleteValue(hKey,ReValueName)!=ERROR_SUCCESS)
-		{
-			bSucc=0;
-		}
-		RegCloseKey(hKey);
-	}
-	else
-	{
-		bSucc=0;
-	}
-	return bSucc;
-}
-
-BOOL GetSetRegValueEx(
-		BOOL	bGet,
-		HKEY	hKey,
-		LPCSTR	szKey, 
-		LPCSTR	szValue,
-		DWORD	&dwType,
-		LPBYTE	lpBuf,
-		DWORD	&dwBufSize)
-{
-	HKEY		hAppKey = NULL;
-	BOOL		bSucc = TRUE;
-	
-	if (RegCreateKey(hKey, szKey, &hAppKey))
-		return FALSE;
-	if (hAppKey == NULL)
-		return FALSE;
-	if (bGet)
-	{
-		if (RegQueryValueEx(
-				hAppKey,
-				szValue,
-				NULL,
-				&dwType,
-				lpBuf,
-				&dwBufSize))
-			bSucc = FALSE;
-	}
-	else
-	{
-		if (RegSetValueEx(
-				hAppKey,
-				szValue,
-				0,
-				dwType,
-				lpBuf,
-				dwBufSize))
-			bSucc = FALSE;
-	}
-	// close key	
-	RegCloseKey(hAppKey);
-
-	return bSucc;
-}
-
-BOOL GetSetRegValue(
-		BOOL	bGet,
-		HKEY	hKey,
-		LPCSTR	szKey, 
-		LPCSTR	szValue,
-		LPCSTR  szData)
-{
-	DWORD	dwType = REG_SZ;
-	DWORD	dwBufSize;
-	BOOL	bSucc;
-	
-	if (bGet)
-		dwBufSize = MAX_PATH;
-	else
-		dwBufSize = strlen(szData) + 1;
-	bSucc = GetSetRegValueEx(
-		bGet, hKey, szKey, szValue, dwType, 
-		(LPBYTE)szData, dwBufSize);
-	return bSucc;	
-}
-
-BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPSTR szDriverName)
-{
-    LPTSTR filterToAdd    = szDriverName;
-	BOOL	bSuccess	= FALSE;
-	HKEY	hClassKey;
-	TCHAR	tstr[MAX_PATH],tstrKey[MAX_PATH];
-	DWORD	dwType,dwSize,dwValue;
-
-	unsigned int nLength;
-
-    if(filterToAdd == NULL )
-	{
-		return FALSE;
-	}
-
-	GetSystemDirectory(tstr,MAX_PATH);
-	strcat(tstr,"\\Drivers\\");
-	strcat(tstr,szDriverName);
-	strcat(tstr,".sys");
-	if (GetFileAttributes(tstr) == -1) return FALSE;
-
-	dwType = REG_DWORD;
-	dwSize = sizeof(DWORD);
-
-	strcpy(tstrKey,SYSTEM_CURRENT_CONTROL_SET);
-	strcat(tstrKey,"\\");
-	strcat(tstrKey,szDriverName);
-	dwValue = 0;
-	GetSetRegValueEx(FALSE,HKEY_LOCAL_MACHINE,tstrKey,"Start",dwType,(LPBYTE)&dwValue,dwSize);
-	dwValue = 1;
-	GetSetRegValueEx(FALSE,HKEY_LOCAL_MACHINE,tstrKey,"ErrorControl",dwType,(LPBYTE)&dwValue,dwSize);
-	GetSetRegValueEx(FALSE,HKEY_LOCAL_MACHINE,tstrKey,"Type",dwType,(LPBYTE)&dwValue,dwSize);
-	dwValue=7;
-	GetSetRegValueEx(FALSE,HKEY_LOCAL_MACHINE,tstrKey,"Tag",dwType,(LPBYTE)&dwValue,dwSize);
-
-	GetSetRegValue(FALSE, HKEY_LOCAL_MACHINE, tstrKey, "Group","Filter");
-	GetSetRegValue(FALSE, HKEY_LOCAL_MACHINE, tstrKey, "DisplayName",szDriverName);
-
-	sprintf(tstr,"System32\\Drivers\\%s.sys",szDriverName);
-	GetSetRegValue(FALSE, HKEY_LOCAL_MACHINE, tstrKey, "ImagePath",tstr);
-
-	memset(tstr, 0, sizeof(TCHAR) * MAX_PATH);
-	RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-				YGDISKRW_DISKCLASS_KEY,
-				0,KEY_ALL_ACCESS,
-				&hClassKey);
-	if( hClassKey != INVALID_HANDLE_VALUE )
-	{
-		dwSize = sizeof(TCHAR) * MAX_PATH;
-		if( RegQueryValueEx(hClassKey,
-							"UpperFilters",
-							NULL,
-							&dwType,
-							(LPBYTE)tstr,
-							&dwSize) == ERROR_SUCCESS )
-		{
-			// check if the drive has add to the device
-			if( MultiSzLength( tstr ) > 1 )
-			{
-				MultiSzSearchAndDeleteCaseInsensitive( filterToAdd, tstr, &nLength );
-			}
-			// add the driver to the driver list
-			PrependSzToMultiSz(filterToAdd,tstr);
-		}else
-		{
-			// copy the string into the new buffer
-			_tcscpy(tstr, filterToAdd);
-		}
-		//write registry
-		dwSize = MultiSzLength(tstr);
-		if( RegSetValueEx(hClassKey,
-							"UpperFilters",
-							NULL,
-							REG_MULTI_SZ,
-							(LPBYTE)tstr,
-							dwSize) == ERROR_SUCCESS )
-		{
-			bSuccess = TRUE;
-		}
-		RegCloseKey(hClassKey);
-    }
-	return bSuccess;
-}
-
-//remove filter driver under win2000
-BOOL DLL_PARINFO_API RemoveYGDiskRWFilter(LPSTR szDriverName)
-{
-    LPTSTR filterToRemove = szDriverName;
-	BOOL	bSuccess	= TRUE;
-	HKEY	hClassKey;
-	TCHAR	tstr[MAX_PATH],tstrKey[MAX_PATH];
-	DWORD	dwType,dwSize;
-
-	unsigned int nLength;
-
-
-    if(filterToRemove == NULL )
-	{
-		return FALSE;
-	}
-
-	strcpy(tstrKey,SYSTEM_CURRENT_CONTROL_SET);
-	strcat(tstrKey,"\\");
-	strcat(tstrKey,szDriverName);
-
-	DeleteRegValue(HKEY_LOCAL_MACHINE,tstrKey,"ErrorControl");
-	DeleteRegValue(HKEY_LOCAL_MACHINE,tstrKey,"Start");
-	DeleteRegValue(HKEY_LOCAL_MACHINE,tstrKey,"Type");
-	DeleteRegValue(HKEY_LOCAL_MACHINE,tstrKey,"Tag");
-	DeleteRegValue(HKEY_LOCAL_MACHINE,tstrKey,"Group");
-	DeleteRegValue(HKEY_LOCAL_MACHINE,tstrKey,"DisplayName");
-	DeleteRegValue(HKEY_LOCAL_MACHINE,tstrKey,"ImagePath");
-	DeleteRegKey(HKEY_LOCAL_MACHINE,SYSTEM_CURRENT_CONTROL_SET,szDriverName);
-
-	memset(tstr, 0, sizeof(TCHAR) * MAX_PATH);
-	RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-				YGDISKRW_DISKCLASS_KEY,
-				0,KEY_ALL_ACCESS,
-				&hClassKey);
-
-	if( hClassKey != INVALID_HANDLE_VALUE )
-	{
-		dwSize = sizeof(TCHAR) * MAX_PATH;
-		if( RegQueryValueEx(hClassKey,
-							"UpperFilters",
-							NULL,
-							&dwType,
-							(LPBYTE)tstr,
-							&dwSize) == ERROR_SUCCESS )
-		{
-			if( MultiSzLength( tstr ) > 1 )
-			{
-				MultiSzSearchAndDeleteCaseInsensitive( filterToRemove, tstr, &nLength );
-			}
-			//write registry
-			dwSize = MultiSzLength(tstr);
-			if( dwSize < 1 )
-			{
-				//empty multiple string
-				if( RegDeleteValue(hClassKey,"UpperFilters") != ERROR_SUCCESS )
-				{
-					bSuccess = FALSE;
-				}
-			}else
-			{
-				if( RegSetValueEx(hClassKey,
-								"UpperFilters",
-								NULL,
-								dwType,
-								(LPBYTE)tstr,
-								dwSize) != ERROR_SUCCESS )
-				{
-					bSuccess = FALSE;
-				}
-			}
-		}
-		//close handle
-		RegCloseKey(hClassKey);
-    }
-	return bSuccess;
-}
-
-BOOL DLL_PARINFO_API CheckYGDiskRW(BYTE btDisk)
-{
-	DWORD			cb,dwVersion;
-	BOOL			bResult = FALSE;
-	HANDLE			Handle;
-	char			szDrive[30];
-
-	sprintf(szDrive,"\\\\.\\PhysicalDrive%d",btDisk);
-	Handle =  CreateFile(szDrive,GENERIC_READ | GENERIC_WRITE,FILE_SHARE_READ | FILE_SHARE_WRITE,
-						NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
-
-	if(Handle == INVALID_HANDLE_VALUE)
-		return	FALSE;
-
-	bResult = DeviceIoControl(Handle,IOCTL_YGDISKRW_GET_VERSION,
-							 &dwVersion,sizeof(DWORD),
-							 &dwVersion,sizeof(DWORD),
-							 &cb,0);
-	CloseHandle(Handle);
-
-	return bResult;
-}
-
 /*--------------------------------------------------------------------------
 WriteSector()
 Purpose:
@@ -425,8 +130,6 @@ BOOL DLL_PARINFO_API WriteSector(DWORD					dwStartSec,
 	DWORD					dwBytesToWrite;
 	HANDLE					hDrv;
 	LARGE_INTEGER			lnStartBytes;
-	YGDISKRWPARAM			Buffer;
-	READ_WRITE_BUFFER		BlkMoverWrite;
 
 	dwBytesToWrite = wSectors * pDriveParam->SectorsSize;
 	lnStartBytes.QuadPart = (__int64)dwStartSec * pDriveParam->SectorsSize;
@@ -437,33 +140,6 @@ BOOL DLL_PARINFO_API WriteSector(DWORD					dwStartSec,
 		ASSERT( hDrv != INVALID_HANDLE_VALUE);
 		if(hDrv != INVALID_HANDLE_VALUE)
 		{
-			//if (g_bVista)
-			//{
-			//	BlkMoverWrite.dwStartSec = dwStartSec;
-			//	BlkMoverWrite.dwLength = wSectors;
-			//	BlkMoverWrite.bSys = FALSE;
-			//	BlkMoverWrite.dwMovedRecNum = YGBLK_READ_WRITE;
-			//	BlkMoverWrite.pBuffer = pBuf;
-
-			//	bResult = DeviceIoControl(hDrv,IOCTL_YG_WRITE,
-			//		&BlkMoverWrite,sizeof(READ_WRITE_BUFFER),
-			//		&BlkMoverWrite,sizeof(READ_WRITE_BUFFER),
-			//		&dwBytesWriten,0);
-			//	if (!bResult)
-			//	{
-			//		Buffer.ulDisk	= btUnit;
-			//		Buffer.dwStartSec	 = dwStartSec;
-			//		Buffer.dwLength		 = wSectors;
-			//		Buffer.pBuffer		 = pBuf;
-			//		bResult = DeviceIoControl(hDrv,IOCTL_YGDISKRW_WRITE_DISK,
-			//			&Buffer,sizeof(YGDISKRWPARAM),
-			//			&Buffer,sizeof(YGDISKRWPARAM),
-			//			&dwBytesWriten,0);
-			//		DWORD temp = GetLastError();
-			//		int i = 0;
-			//	}
-			//}
-
 			if (!bResult)
 			{
 				DWORD dwtemp = SetFilePointer(hDrv,lnStartBytes.LowPart,&lnStartBytes.HighPart,FILE_BEGIN);
@@ -512,8 +188,6 @@ BOOL DLL_PARINFO_API ReadSector(DWORD					dwStartSec,
 	DWORD					dwBytesToRead;
 	HANDLE					hDrv;
 	LARGE_INTEGER			lnStartBytes;
-	YGDISKRWPARAM			Buffer;
-	READ_WRITE_BUFFER		BlkMoverRead;
 
 	dwBytesToRead = wSectors * pDriveParam->SectorsSize;
 	lnStartBytes.QuadPart = (__int64)dwStartSec * pDriveParam->SectorsSize;
@@ -525,30 +199,6 @@ BOOL DLL_PARINFO_API ReadSector(DWORD					dwStartSec,
 		
 		if(hDrv != INVALID_HANDLE_VALUE)
 		{
-			//if (g_bVista)
-			//{
-			//	BlkMoverRead.dwStartSec = dwStartSec;
-			//	BlkMoverRead.dwLength = wSectors;
-			//	BlkMoverRead.bSys = FALSE;
-			//	BlkMoverRead.dwMovedRecNum = 0;
-			//	BlkMoverRead.pBuffer = pBuf;
-
-			//	bResult = DeviceIoControl(hDrv,IOCTL_YG_READ,
-			//							 &BlkMoverRead,sizeof(READ_WRITE_BUFFER),
-			//							 &BlkMoverRead,sizeof(READ_WRITE_BUFFER),
-			//							 &dwBytesRead,0);
-			//	if (!bResult)
-			//	{
-			//		Buffer.ulDisk	= btUnit;
-			//		Buffer.dwStartSec	 = dwStartSec;
-			//		Buffer.dwLength		 = wSectors;
-			//		Buffer.pBuffer		 = pBuf;
-			//		bResult = DeviceIoControl(hDrv,IOCTL_YGDISKRW_READ_DISK,
-			//								 &Buffer,sizeof(YGDISKRWPARAM),
-			//								 &Buffer,sizeof(YGDISKRWPARAM),
-			//								 &dwBytesRead,0);
-			//	}
-			//}
 			if (!bResult)
 			{
 				SetFilePointer(hDrv,lnStartBytes.LowPart,&lnStartBytes.HighPart,FILE_BEGIN);
@@ -561,90 +211,6 @@ BOOL DLL_PARINFO_API ReadSector(DWORD					dwStartSec,
 		}
 	}
 	return bResult;
-}
-
-/*---------------------------------------------------------------------------
-GetBootupDrive()
-Purpose:
-	Retrieve the drive letter accord the hard disk num and the partition start
-	setctor;
-ReturnValues:
-	return 0xff indicate failure, otherwise return the right drive letter;
----------------------------------------------------------------------------*/
-BYTE DLL_PARINFO_API GetBootupDrive(BYTE *nDisk)
-{
-	char							chDriveLetter = (char)0xff;
-	char							szAnsi[MAX_PATH],szArcName[MAX_PATH];
-	UNICODE_STRING					usLinkName;
-	WCHAR							LinkName[MAX_PATH];
-	UNICODE_STRING					usLinkContent;
-	WCHAR							LinkContent[MAX_PATH];
-	NTSTATUS						status;
-	BIOS_DRIVE_PARAM		DriveParam;
-	PARTITION_SEC           MBRInfo;
-	HKEY				hKey;
-	DWORD				dwType,dwSize;
-	int                 i;
-	char                *p;
-
-	//Get boot drive parameter
-	if( RegOpenKeyEx(	HKEY_LOCAL_MACHINE,
-						"SYSTEM\\CurrentControlSet\\Control",
-						NULL,
-						KEY_ALL_ACCESS,
-						&hKey) == ERROR_SUCCESS )
-	{	
-		dwType = REG_SZ;
-		dwSize = MAX_PATH;
-		if( RegQueryValueEx(hKey,
-							"SystemBootDevice",
-							NULL,
-							&dwType,
-							(BYTE*)szAnsi,
-							&dwSize) != ERROR_SUCCESS )
-		{
-			strcpy(szAnsi,"multi(0)disk(0)rdisk(0)partition(1)");
-		}
-		p = strrchr(szAnsi,'p');
-		if (p) *p = '\0';
-		RegCloseKey(hKey);
-	}
-	else return 0xff;
-	strcpy(szArcName,"\\ArcName\\");
-	strcat(szArcName,szAnsi);
-	//init unicode strings
-	usLinkName.MaximumLength = sizeof(LinkName);
-	usLinkName.Buffer = LinkName;
-	usLinkContent.MaximumLength = sizeof(LinkContent);
-	usLinkContent.Buffer = LinkContent;
-	//query by hard disk
-	AnsiToUnicode(&usLinkName,szArcName);
-	status = QuerySymbolicLink(&usLinkName,&usLinkContent);
-	if(!NT_SUCCESS( status ))
-	{
-		return 0xff;
-	}
-	UnicodeToAnsi(&usLinkContent,szAnsi);
-	p = strrchr(szAnsi,'\\');
-	if (*p)
-	{
-		p--;
-		*nDisk = *p-'0';
-		if( !GetDriveParam(*nDisk,&DriveParam))
-			return 0xff;
-		ReadSector(0,1,(BYTE *)&MBRInfo,*nDisk,&DriveParam);
-		for (i = 0;i < 4;i++)
-		{
-			if (MBRInfo.Partition[i].BootFlag)
-			{
-				chDriveLetter = RetrieveDriveLttr(*nDisk,PRIMARY,MBRInfo.Partition[i].StartSector);
-				chDriveLetter += 'A';
-				chDriveLetter -= 1;
-				break;
-			}
-		}
-	}
-	return chDriveLetter;
 }
 
 /*---------------------------------------------------------------------------
@@ -696,7 +262,10 @@ BYTE DLL_PARINFO_API RetrieveDriveLttr(BYTE		DriveNum,
 	{
 		return 0xff;
 	}
-	if(	!dliDrive.dliDrive.PartitionEntry[nCount].RecognizedPartition )
+
+	// tbd
+	//if (!dliDrive.dliDrive.PartitionEntry[nCount].RecognizedPartition)
+	if(dliDrive.dliDrive.PartitionStyle == PARTITION_STYLE_MBR && !dliDrive.dliDrive.PartitionEntry[nCount].Mbr.RecognizedPartition )
 	{
 		return 0xff;
 	}
@@ -778,8 +347,6 @@ BOOL DLL_PARINFO_API GetDriveMapInfo(BYTE							btDriveLetter,
 	}else
 		return FALSE;
 }
-
-#endif // _VMM_
 
 BOOL DLL_PARINFO_API GetPartitionInfo(BYTE						btHardDrive,
 									  PPARINFOONHARDDISK		pParHard)
@@ -863,19 +430,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 			pParInfo->dwSectorsInPartition = ParHard.pePriParInfo[i].SectorsInPartition;
 			pParInfo->btSystemFlag=ParHard.pePriParInfo[i].SystemFlag;  
 			pParInfo->dwStartLogicalSector = ParHard.pePriParInfo[i].StartSector;
-			pParInfo->wStartSector = ParHard.pePriParInfo[i].StartOfPartition[1] & 0x3f;
-			pParInfo->wStartHead = ParHard.pePriParInfo[i].StartOfPartition[0];
-			WORD	wCylinder;
-			wCylinder = (WORD)(ParHard.pePriParInfo[i].StartOfPartition[1] & 0xc0) & 0xFF;
-			wCylinder = wCylinder << 2;
-			wCylinder = wCylinder | ((WORD)(ParHard.pePriParInfo[i].StartOfPartition[2]) & 0xFF);
-			pParInfo->wStartCylinder = wCylinder;
-			pParInfo->wEndSector = ParHard.pePriParInfo[i].EndOfPartition[1] &0x3f;
-			pParInfo->wEndHead = ParHard.pePriParInfo[i].EndOfPartition[0];
-			wCylinder = (WORD)(ParHard.pePriParInfo[i].EndOfPartition[1] & 0xc0) & 0xFF;
-			wCylinder = wCylinder << 2;
-			wCylinder = wCylinder | ((WORD)(ParHard.pePriParInfo[i].EndOfPartition[2]) & 0xFF);
-			pParInfo->wEndCylinder = wCylinder;
+
 			char	szStr[6]=" :\\\0";
 			char	lpVolumeNameBuffer[MAX_LABELNAME];
 			memset(lpVolumeNameBuffer,0x20,MAX_LABELNAME);
@@ -928,19 +483,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 			pParInfo->dwSectorsInPartition = ParHard.peLogParInfo[i].peCurParInfo.SectorsInPartition;
 			pParInfo->btSystemFlag= ParHard.peLogParInfo[i].peCurParInfo.SystemFlag ; 
 			pParInfo->dwStartLogicalSector = ParHard.peLogParInfo[i].peCurParInfo.StartSector; //it's really !!
-			pParInfo->wStartSector = ParHard.peLogParInfo[i].peCurParInfo.StartOfPartition[1] & 0x3f;
-			pParInfo->wStartHead = ParHard.peLogParInfo[i].peCurParInfo.StartOfPartition[0];
-			WORD	wCylinder;
-			wCylinder = (WORD)(ParHard.peLogParInfo[i].peCurParInfo.StartOfPartition[1] & 0xc0) & 0xFF;
-			wCylinder = wCylinder << 2;
-			wCylinder = wCylinder | ((WORD)(ParHard.peLogParInfo[i].peCurParInfo.StartOfPartition[2]) & 0xFF);
-			pParInfo->wStartCylinder = wCylinder;
-			pParInfo->wEndSector = ParHard.peLogParInfo[i].peCurParInfo.EndOfPartition[1] &0x3f;
-			pParInfo->wEndHead = ParHard.peLogParInfo[i].peCurParInfo.EndOfPartition[0];
-			wCylinder = (WORD)(ParHard.peLogParInfo[i].peCurParInfo.EndOfPartition[1] & 0xc0) & 0xFF;
-			wCylinder = wCylinder << 2;
-			wCylinder = wCylinder | ((WORD)(ParHard.peLogParInfo[i].peCurParInfo.EndOfPartition[2]) & 0xFF);
-			pParInfo->wEndCylinder = wCylinder;
+			
 			char	szStr[6]=" :\\\0";
 			char	lpVolumeNameBuffer[MAX_LABELNAME];
 			memset(lpVolumeNameBuffer,0x20,MAX_LABELNAME);
@@ -984,65 +527,6 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 	}
 	return blResult;
 }
-/*----------------------------------------------------------------------------
-AlignToCylinder()
-Purpose:
-	Make the sector's offset aligned to cylinder boundaries;
-Parameters:
-	dwSectorOffset:
-		Sector's offset which need to be aligned;
-	pbdpDrive:
-		Physical hard disk's geometry parameters;
-	btFlag:
-		Align drection, which can be ALIGN_FOREWARD or ALIGN_BACKWARD;
-Return Value:
-	Offset after align; Negative indicate FAILURE;
-----------------------------------------------------------------------------*/
-DWORD DLL_PARINFO_API AlignToCylinder(DWORD					dwSectorOffset,
-									  PBIOS_DRIVE_PARAM		pbdpDrive,
-									  BYTE					btFlag,
-									  BYTE					btExtend)
-{
-	DWORD		dwSectorsPerCylinder;
-	DWORD		dwSectorOffsetAligned = -1;
-
-	dwSectorsPerCylinder = pbdpDrive->dwHeads * pbdpDrive->dwSecPerTrack;
-	//if beyond disk geometry
-	if( dwSectorOffset >= pbdpDrive->dwSectors )
-	{
-		dwSectorOffset = (DWORD)(pbdpDrive->dwSectors - 1);
-	}
-	//otherwise align to cylinder head
-	dwSectorOffsetAligned = dwSectorOffset
-							- (dwSectorOffset % dwSectorsPerCylinder);
-	//align to tail
-	if(btFlag == ALIGN_BACKWARD)
-	{
-		dwSectorOffsetAligned += dwSectorsPerCylinder - 1;
-	}else
-	{
-		//check if in the first cylinder
-		if( dwSectorOffsetAligned < dwSectorsPerCylinder )
-		{
-			if( btExtend == ALIGN_PRIMARY )
-			{
-				dwSectorOffsetAligned = pbdpDrive->dwSecPerTrack;
-			}else 
-			{
-				//extend or logical
-				dwSectorOffsetAligned = dwSectorsPerCylinder;
-			}
-		}
-		//align head
-		if( btExtend == ALIGN_LOGICAL)
-		{
-			//logical start is at head1
-			dwSectorOffsetAligned += pbdpDrive->dwSecPerTrack;
-		}
-	}
-
-	return dwSectorOffsetAligned;
-}
 
 BOOL DLL_PARINFO_API GetPartitionInfoEx(BYTE					btHardDrive,
 										PPARINFOONHARDDISKEX	pParHardEx)
@@ -1064,40 +548,43 @@ BOOL DLL_PARINFO_API GetPartitionInfoEx(BYTE					btHardDrive,
 	pParHardEx->wNumOfPri = OldParHard.wNumOfPri ;
 	memcpy(	&(pParHardEx->pePriParInfo),
 			&OldParHard.pePriParInfo,
-			4*sizeof(PARTITION_ENTRY));
+			OldParHard.wNumOfPri*sizeof(PARTITION_ENTRY));
 
-	for( nCount=0 ; nCount<OldParHard.wNumOfPri ; nCount++ )
-	{
-		if( OldParHard.pePriParInfo[nCount].SystemFlag == 0x05 ||
-			OldParHard.pePriParInfo[nCount].SystemFlag == 0x0f )
-			break;
-	}
-	if( nCount < 4 && OldParHard.wNumOfLogic != 0 )
-	{	
-		//store extend partition start
-		dwStartSec = OldParHard.pePriParInfo[nCount].StartSector;
-		//traslate logical partition information
-		while( i < OldParHard.wNumOfLogic )
+	if (OldParHard.wNumOfPri > 0 && OldParHard.pePriParInfo[0].PartitionStyle == PARTITION_STYLE_MBR) {
+		for( nCount=0 ; nCount<OldParHard.wNumOfPri ; nCount++ )
 		{
-			memcpy( &pParHardEx->peLogParInfo[i].peCurParInfo,
+			if( OldParHard.pePriParInfo[nCount].SystemFlag == 0x05 ||
+				OldParHard.pePriParInfo[nCount].SystemFlag == 0x0f )
+				break;
+		}
+		if( nCount < 4 && OldParHard.wNumOfLogic != 0 )
+		{	
+			//store extend partition start
+			dwStartSec = OldParHard.pePriParInfo[nCount].StartSector;
+			//traslate logical partition information
+			while( i < OldParHard.wNumOfLogic )
+			{
+				memcpy( &pParHardEx->peLogParInfo[i].peCurParInfo,
 					&OldParHard.peLogParInfo[i].LogParInfo,
 					sizeof(PARTITION_ENTRY));
-			//if i == 0 then the extend start is his pre start
-			pParHardEx->peLogParInfo[i].dwPreStart = 
-				i ? OldParHard.peLogParInfo[i-1].dwLogicStart : dwStartSec;
-			//next start
-			pParHardEx->peLogParInfo[i].dwNextStart = 
-				OldParHard.peLogParInfo[i+1].dwLogicStart;
-			//cur start	
-			pParHardEx->peLogParInfo[i].dwCurOffset = 
-				OldParHard.peLogParInfo[i].LogParInfo.StartSector;
-			//logic start
-			pParHardEx->peLogParInfo[i].peCurParInfo.StartSector = 
-				OldParHard.peLogParInfo[i].dwLogicStart;
+				//if i == 0 then the extend start is his pre start
+				pParHardEx->peLogParInfo[i].dwPreStart = 
+					i ? OldParHard.peLogParInfo[i-1].dwLogicStart : dwStartSec;
+				//next start
+				pParHardEx->peLogParInfo[i].dwNextStart = 
+					OldParHard.peLogParInfo[i+1].dwLogicStart;
+				//cur start	
+				pParHardEx->peLogParInfo[i].dwCurOffset = 
+					OldParHard.peLogParInfo[i].LogParInfo.StartSector;
+				//logic start
+				pParHardEx->peLogParInfo[i].peCurParInfo.StartSector = 
+					OldParHard.peLogParInfo[i].dwLogicStart;
 
-			i++;
+				i++;
+			}
 		}
 	}
+
 	return TRUE;
 }
 
@@ -1121,7 +608,7 @@ BOOL DLL_PARINFO_API GetDriveParam(	BYTE					btHardDrive,
 	HANDLE				hDev;
 	DWORD				dwBytesReturned = 0;
 	WORD				wFlags = 0;
-	DISK_GEOMETRY		dgDrive;
+	DISK_GEOMETRY_EX		dgDrive;
 
 	hDev = GetDriveHandle(btHardDrive);
 	ASSERT( hDev != INVALID_HANDLE_VALUE );
@@ -1131,9 +618,9 @@ BOOL DLL_PARINFO_API GetDriveParam(	BYTE					btHardDrive,
 	if( hDev != INVALID_HANDLE_VALUE )
 	{
 		bResult = DeviceIoControl( hDev,
-									IOCTL_DISK_GET_DRIVE_GEOMETRY,
+									IOCTL_DISK_GET_DRIVE_GEOMETRY_EX,
 									NULL,0,
-									&dgDrive,sizeof(DISK_GEOMETRY),
+									&dgDrive,sizeof(DISK_GEOMETRY_EX),
 									&dwBytesReturned,
 									NULL);
 
@@ -1142,24 +629,31 @@ BOOL DLL_PARINFO_API GetDriveParam(	BYTE					btHardDrive,
 
 		if(bResult)
 		{
-			pDriveParam->wInfoSize = sizeof(BIOS_DRIVE_PARAM);
-			pDriveParam->dwHeads = dgDrive.TracksPerCylinder;
-			pDriveParam->dwCylinders = (DWORD)dgDrive.Cylinders.QuadPart;
-			pDriveParam->dwSecPerTrack = dgDrive.SectorsPerTrack;
-			pDriveParam->SectorsSize = (WORD)dgDrive.BytesPerSector;
-			pDriveParam->dwSectors = dgDrive.Cylinders.QuadPart
-										* dgDrive.TracksPerCylinder
-										* dgDrive.SectorsPerTrack;
-			switch(dgDrive.MediaType)
-			{
-			case FixedMedia:
-				break;
-			default:
-				//remove able media
-				wFlags |= 0x04;
-				break;
+// 			DISK_PARTITION_INFO* ppiDrive = DiskGeometryGetPartition(&dgDrive);
+// 			DISK_DETECTION_INFO* pdiDrive = DiskGeometryGetDetect(&dgDrive) ;
+
+			DISK_GEOMETRY& geo = dgDrive.Geometry;
+ 			pDriveParam->wInfoSize = sizeof(BIOS_DRIVE_PARAM);
+ 			pDriveParam->dwHeads = geo.TracksPerCylinder;
+ 			pDriveParam->dwCylinders = (DWORD)geo.Cylinders.QuadPart;
+ 			pDriveParam->dwSecPerTrack = geo.SectorsPerTrack;
+ 			pDriveParam->SectorsSize = (WORD)geo.BytesPerSector;
+			if (pDriveParam->SectorsSize) {
+				SECTOR_SIZE = pDriveParam->SectorsSize;
 			}
-			pDriveParam->wFlags = wFlags;
+ 			pDriveParam->dwSectors = geo.Cylinders.QuadPart
+ 										* geo.TracksPerCylinder
+ 										* geo.SectorsPerTrack;
+ 			switch(geo.MediaType)
+ 			{
+ 			case FixedMedia:
+ 				break;
+ 			default:
+ 				//remove able media
+ 				wFlags |= 0x04;
+ 				break;
+ 			}
+ 			pDriveParam->wFlags = wFlags;
 		}
 	}
 	return bResult;
@@ -1190,74 +684,6 @@ DWORD  DLL_PARINFO_API GetHardDiskNum()
 		}
 	}
 	return dwPhysicalDiskNum;
-}
-/*-----------------------------------------------------------------
-GetStartupDrive()
-Purpose:
-	Reture the first hard disk's 0x80 drive letter;
-Parameters:
-	No;
-Return value:
-	Allways 'C' drive;
------------------------------------------------------------------*/
-//DEL BYTE DLL_PARINFO_API GetStartupDrive()
-//DEL {
-//DEL 	return 0xff;
-//DEL }
-
-/*-----------------------------------------------------------------------------------
-IsValidEMBR()
-Purpose:
-	Validate a EMBR sector
-Parameters:
-	DWORD dwExtStart:
-		Unknown, not use in function;
-	PPARTITION_SEC pEMBR:
-		Buffer holding the EMBR sector data;
-	PBIOS_DRIVE_PARAM pDriveParam:
-		Hard disk's parameters;
-Return Value:
-	TRUE if it's Valid, else FALSE;
------------------------------------------------------------------------------------*/
-BOOL DLL_PARINFO_API IsValidEMBR(DWORD						dwExtStart,
-								 PPARTITION_SEC				pEMBR,
-								 PBIOS_DRIVE_PARAM			pDriveParam)
-{
-	BOOL					bResult = FALSE;
-	PARTITION_ENTRY			PartiEntry[2];
-	DWORD					dwMaxSectors = (DWORD)pDriveParam->dwSectors;
-
-	//Check signature
-	bResult = pEMBR->Signature == 0xAA55;
-	if ( !bResult )
-		return FALSE;
-	//check last two entry
-	memset( &PartiEntry,0,sizeof(PARTITION_ENTRY)*2 );
-	bResult = memcmp( &pEMBR->Partition[2],
-						&PartiEntry[0],
-						sizeof(PARTITION_ENTRY)*2 );
-	if ( bResult )
-		return FALSE;
-	//check first
-	if ( memcmp( &pEMBR->Partition[0],
-				 &PartiEntry[0],
-				 sizeof(PARTITION_ENTRY)) )
-	{
-		bResult = ( pEMBR->Partition[0].StartSector < dwMaxSectors )&&
-					(pEMBR->Partition[0].SectorsInPartition < dwMaxSectors)&&
-					(pEMBR->Partition[0].SystemFlag);
-	}else 
-		bResult = TRUE;
-	//check second
-	if ( memcmp( &pEMBR->Partition[1],
-				 &PartiEntry[0],
-				 sizeof(PARTITION_ENTRY)) && 
-				 pEMBR->Partition[1].SystemFlag )
-	{
-		bResult = !( (pEMBR->Partition[1].StartSector > dwMaxSectors)||
-						(pEMBR->Partition[1].SectorsInPartition > dwMaxSectors));
-	}
-	return bResult;
 }
 
 BOOL DLL_PARINFO_API PartitionInfoByDriveLetter(BYTE					btDriveLetter,
@@ -1325,116 +751,44 @@ BOOL DLL_PARINFO_API PartitionInfoByDriveLetter(BYTE					btDriveLetter,
 	return FALSE;
 }
 
-BOOL DLL_PARINFO_API UnmountVolume( TCHAR tchDriveLetter )
+}
+
+void GUIDToStr(const GUID& guid, char* strGUID)
 {
-	TCHAR	tszMountPoint[] = "X:\\";
-	
-	tszMountPoint[0] = tchDriveLetter;
-	return DeleteVolumeMountPoint(tszMountPoint);
+	sprintf(strGUID, "%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX", 
+		guid.Data1, guid.Data2, guid.Data3, 
+		guid.Data4[0], guid.Data4[1], guid.Data4[2], guid.Data4[3],
+		guid.Data4[4], guid.Data4[5], guid.Data4[6], guid.Data4[7]);
 }
 
-BOOL DLL_PARINFO_API MountVolume(BYTE		btHardDiskNum,
-								 DWORD		dwStartSector,
-								 TCHAR		tchDriveLetter)
+GUID_PARTITION_TYPE GetGUIDPartitionType(const GUID& id)
 {
-	TCHAR							tszMountPoint[] = "X:\\";
-	TCHAR							tszVolumeName[MAX_PATH];
-	char							szAnsi[MAX_PATH];
-	UNICODE_STRING					usLinkName;
-	WCHAR							LinkName[MAX_PATH];
-	UNICODE_STRING					usLinkContent;
-	WCHAR							LinkContent[MAX_PATH];
-	UNICODE_STRING					usLinkContentSave;
-	WCHAR							LinkContentSave[MAX_PATH];
-	NTSTATUS						status;
-	GET_DRIVE_LAYOUT				dliDrive;
-	BOOL							bResult;
-	int								nCount;
-	int								nPartitionNum;
-	HANDLE							hSearch;
-	BOOL							bFound = FALSE;
-
-
-	if( tchDriveLetter >= 'a' &&
-		tchDriveLetter <= 'z' )
-	{
-		tchDriveLetter += 'A' - 'a';
+	char strGUID[100];
+	ZeroMemory(strGUID, 100);
+	GUIDToStr(id, strGUID);
+	if (stricmp(strGUID, "ebd0a0a2-b9e5-4433-87c0-68b6b72699c7") == 0) {
+		return PARTITION_BASIC_DATA_GUID;
 	}
-	if( tchDriveLetter < 'A' ||
-		tchDriveLetter > 'Z' )
-	{
-		return FALSE;
+	else if (stricmp(strGUID, "00000000-0000-0000-0000-000000000000") == 0) {
+		return PARTITION_ENTRY_UNUSED_GUID;
 	}
-	
-	tszMountPoint[0] = tchDriveLetter;
-	btHardDiskNum &= 0x7f;
-	//search in drive layout
-	bResult = GetDriveLayout(btHardDiskNum,&dliDrive);
-	if( !bResult )
-	{
-		return FALSE;
+	else if (stricmp(strGUID, "c12a7328-f81f-11d2-ba4b-00a0c93ec93b") == 0) {
+		return PARTITION_SYSTEM_GUID;
 	}
-	//start search
-	nCount = FindInDriveLayout(dwStartSector, &dliDrive);
-	if( nCount < 0 )
-	{
-		return FALSE;
+	else if (stricmp(strGUID, "e3c9e316-0b5c-4db8-817d-f92df00215ae") == 0) {
+		return PARTITION_MSFT_RESERVED_GUID;
 	}
-	if(	!dliDrive.dliDrive.PartitionEntry[nCount].RecognizedPartition )
-	{
-//		return FALSE;
+	else if (stricmp(strGUID, "5808c8aa-7e8f-42e0-85d2-e1e90434cfb3") == 0) {
+		return PARTITION_LDM_METADATA_GUID;
 	}
-	//init unicode strings
-	usLinkName.MaximumLength = sizeof(LinkName);
-	usLinkName.Buffer = LinkName;
-	usLinkContent.MaximumLength = sizeof(LinkContent);
-	usLinkContent.Buffer = LinkContent;
-	usLinkContentSave.MaximumLength = sizeof(LinkContentSave);
-	usLinkContentSave.Buffer = LinkContentSave;
-	//query by hard disk
-	nPartitionNum = dliDrive.dliDrive.PartitionEntry[nCount].PartitionNumber;
-	sprintf(szAnsi,"\\Device\\Harddisk%d\\Partition%d",btHardDiskNum,nPartitionNum);
-	AnsiToUnicode(&usLinkName,szAnsi);
-	status = QuerySymbolicLink(&usLinkName,&usLinkContentSave);
-	if( !NT_SUCCESS( status ))
-	{
-		return FALSE;
+	else if (stricmp(strGUID, "ebaf9b60a0-1431-4f62-bc68-3311714a69ad") == 0) {
+		return PARTITION_LDM_DATA_GUID;
 	}
-	//found the volume
-	hSearch = FindFirstVolume(tszVolumeName,MAX_PATH );
-	if( hSearch == INVALID_HANDLE_VALUE )
-	{
-		return FALSE;
+	else if (stricmp(strGUID, "de94bba4-06d1-4d40-a16a-bfd50179d6ac") == 0) {
+		return PARTITION_MSFT_RECOVERY_GUID;
 	}
-	do{
-		tszVolumeName[1] = '?';
-		tszVolumeName[48] = '\0';
-		AnsiToUnicode(&usLinkName,tszVolumeName);
-		status = QuerySymbolicLink(&usLinkName,&usLinkContent);
-		if( NT_SUCCESS( status ) && 
-			( usLinkContent.Length == usLinkContentSave.Length ) )
-		{
-			if( !memcmp( LinkContentSave,LinkContent,usLinkContent.Length ))
-			{
-				bFound = TRUE;
-				break;
-			}
-		}
-	}while( FindNextVolume( hSearch, tszVolumeName, MAX_PATH ));
-	FindVolumeClose( hSearch );
-
-	if( bFound )
-	{
-		//found and set point
-		tszVolumeName[1] = '\\';
-		tszVolumeName[48] = '\\';
-		return SetVolumeMountPoint(tszMountPoint, tszVolumeName);
-	}else
-	{
-		return FALSE;
+	else {
+		return PARTITION_ENTRY_UNUSED_GUID;
 	}
 }
 
-#ifndef _VMM_
-}
-#endif // _VMM_

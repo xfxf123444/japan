@@ -262,10 +262,6 @@ void CDelPar::OnDmDelete()
 	CString				cstr,csCaption;
 	int					nSel;
 	int					nSelDisk;
-#ifdef WIN_9X
-	TCHAR				szDrv;
-	DWORD				dwSetValue;
-#endif
 
 	UpdateData(TRUE);
 	g_bBeepOff = m_BeepOff.GetCheck();
@@ -291,16 +287,6 @@ void CDelPar::OnDmDelete()
 				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
 				return;
 			}
-#ifdef WIN_9X
-			if(!nSelDisk)
-			{
-				if(!GetDriveParam(nSel-'A',&DriveParam)) return;
-			}
-			else
-			{
-				if(!GetRemovableDiskSize(DISK_BASE+nSelDisk,&szDrv,&DriveParam)) return;
-			}
-#else
 			if(nSelDisk)
 			{
 				GetRemovableDiskSize(DISK_BASE+nSelDisk, NULL,(DWORD*)(&DriveParam.dwSectors));
@@ -309,7 +295,6 @@ void CDelPar::OnDmDelete()
 			{
 				if(!GetFDParam(nSel,&DriveParam)) return ;
 			}
-#endif
 		}
 		else
 		{
@@ -374,7 +359,7 @@ void CDelPar::OnDmDelete()
 					DelProcDlg.m_bLogc		= TRUE;
 					DelProcDlg.m_dwMinSec += DISK_MIN_SECTOR ;
 				}
-				if(pTargetParInfo->BootFlag == BOOT_FLAG)
+				if(pTargetParInfo->BootFlag == BOOT_FLAG || pTargetParInfo->GUIDType == PARTITION_SYSTEM_GUID)
 				{
 					DelProcDlg.m_bActive	= TRUE;
 				}

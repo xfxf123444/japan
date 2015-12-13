@@ -33,3 +33,5 @@ Products/davinci/Davinci_Advanced/Uni_ver/Encrypt/SelfEntractionConvertingTool/S
 *.ipch
 *.sdf
 *.tlog
+Tech/ParInfo/CUR_VER/DLL/2000/Release/
+*.opensdf

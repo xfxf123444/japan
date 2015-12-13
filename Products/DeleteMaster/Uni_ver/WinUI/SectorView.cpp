@@ -54,33 +54,18 @@ END_MESSAGE_MAP()
 BOOL CSectorView::OnInitDialog() 
 {
 	CRect		rect,secrect,nextrect;
-#ifdef WIN_9X
-	TCHAR				szDrv;
-	DWORD				dwSetValue;
-#endif
 	CDialog::OnInitDialog();
 
 	GetClientRect(&rect);
 
 	if(m_SecInfo.nSelDisk >= _T('A'))
 	{
-#ifdef WIN_9X
-		if(HIWORD(m_SecInfo.nSelDisk))
-		{
-			if(!GetRemovableDiskSize(DISK_BASE+HIWORD(m_SecInfo.nSelDisk),&szDrv,&m_DriveParam)) return FALSE;
-		}
-		else
-		{
-			if(!GetDriveParam(m_SecInfo.nSelDisk-'A',&m_DriveParam)) return FALSE;
-		}
-#else
 		if(!GetFDParam(m_SecInfo.nSelDisk,&m_DriveParam)) return FALSE;
 		if(HIWORD(m_SecInfo.nSelDisk))
 		{
 			if(!GetRemovableDiskSize(DISK_BASE+HIWORD(m_SecInfo.nSelDisk), NULL,(DWORD*)(&m_DriveParam.dwSectors)))
 				return FALSE;
 		}
-#endif
 	}
 	else
 	{

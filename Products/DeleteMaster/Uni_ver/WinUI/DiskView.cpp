@@ -218,10 +218,6 @@ void CDiskView::OnDmView()
 	CSectorView			ViewSecDlg;
 	int					nSel;
 	int					nSelDisk;
-#ifdef WIN_9X
-	TCHAR				szDrv;
-	DWORD				dwSetValue;
-#endif
 	CString				cstr,csCaption;
 
 	csCaption.LoadString (IDS_DM_ERROR);
@@ -241,23 +237,12 @@ void CDiskView::OnDmView()
 				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
 				return;
 			}
-#ifdef WIN_9X
-			if(!nSelDisk)
-			{
-				if(!GetDriveParam(nSel-'A',&DriveParam)) return;
-			}
-			else
-			{
-				if(!GetRemovableDiskSize(DISK_BASE+nSelDisk,&szDrv,&DriveParam)) return;
-			}
-#else
 			if(!GetFDParam(nSel,&DriveParam)) return;
 			if(HIWORD(nSel))
 			{
 				if(!GetRemovableDiskSize(DISK_BASE+HIWORD(nSel), NULL,(DWORD*)(&DriveParam.dwSectors)))
 					return ;
 			}
-#endif
 		}
 		else
 		{

@@ -11,7 +11,6 @@
 
 #include <windows.h>
 #include <winioctl.h>
-
 #define MAX_LABELNAME			MAX_PATH      //size of the drive volume label
 #define MAX_COMMENT		        MAX_PATH		//size of comment
 #define MAX_PAR_NUM				26		//max of logical drive number
@@ -30,9 +29,18 @@
 
 #define MAX_PHYSICALDISK_NUM	128
 
-#ifndef SECTOR_SIZE
-#define SECTOR_SIZE				512
-#endif;
+extern DWORD SECTOR_SIZE;
+
+enum GUID_PARTITION_TYPE{
+	PARTITION_UNDEFINED = 0,
+	PARTITION_BASIC_DATA_GUID,
+	PARTITION_ENTRY_UNUSED_GUID,
+	PARTITION_SYSTEM_GUID,
+	PARTITION_MSFT_RESERVED_GUID,
+	PARTITION_LDM_METADATA_GUID,
+	PARTITION_LDM_DATA_GUID,
+	PARTITION_MSFT_RECOVERY_GUID
+};
 
 #pragma	pack(1)	//	align to byte 
 
@@ -121,10 +129,20 @@ typedef struct
 
 typedef struct     
 {
+	DWORD PartitionStyle;
+	// mbr
 	BYTE	BootFlag;   
-	BYTE	StartOfPartition[3];
 	BYTE	SystemFlag;
-	BYTE	EndOfPartition[3];
+	// gpt
+	GUID_PARTITION_TYPE GUIDType;
+
+	WORD PartitionStartSector;
+	WORD PartitionStartCylinder;
+	WORD PartitionStartHeader;
+	WORD PartitionEndSector;
+	WORD PartitionEndCylinder;
+	WORD PartitionEndHeader;
+
 	DWORD	StartSector;
 	DWORD	SectorsInPartition;
 } PARTITION_ENTRY,*PPARTITION_ENTRY;
@@ -163,12 +181,6 @@ typedef struct	tagPARTITION_INFO
 	int     nPartition;	//if the partition is primary,
 						//it's position of MBR;
 						//if logical,it's the number of logical
-	WORD	wStartCylinder;
-	WORD  	wStartHead;
-	WORD  	wStartSector;
-	WORD 	wEndCylinder;
-	WORD  	wEndHead;
-	WORD	wEndSector;
 	DWORD	dwStartLogicalSector;	//it's really line address
 	DWORD	dwSectorsInPartition;   //it's size of the partition
 	DWORD   dwPartitionType;		//it's partition's type /eg.priamry or entended 
@@ -196,8 +208,8 @@ typedef struct	tagParInfoOnHardDisk
 {
     WORD					wNumOfPri; //the number of the primary
     WORD					wNumOfLogic;//the number of the logical
-	PARTITION_ENTRY			pePriParInfo[4]; //MBR 
-	LOGICPARINFO			peLogParInfo[MAX_PAR_NUM]; //logical's MBR 
+	PARTITION_ENTRY			pePriParInfo[MAX_PAR_NUM]; // primary partition
+	LOGICPARINFO			peLogParInfo[MAX_PAR_NUM]; //logical partition
 } PARINFOONHARDDISK,*PPARINFOONHARDDISK;
 
 
@@ -218,10 +230,8 @@ typedef struct
 
 #pragma	pack()
 
-#define DLL_PARINFO_API __declspec(dllexport)
-
-
-#ifndef _VMM_
+//#define DLL_PARINFO_API __declspec(dllexport)
+#define DLL_PARINFO_API
 
 typedef struct	tagSimulateDriveMapInfo
 {
@@ -233,10 +243,6 @@ typedef struct	tagSimulateDriveMapInfo
 
 extern	"C"
 {
-BOOL DLL_PARINFO_API CheckYGDiskRW(BYTE btDisk);
-BOOL DLL_PARINFO_API InstallYGDiskRWFilter(LPSTR szDriverName);
-BOOL DLL_PARINFO_API RemoveYGDiskRWFilter(LPSTR szDriverName);
-
 BOOL DLL_PARINFO_API WriteSector(DWORD					dwStartSec,
 								 WORD					wSectors,
 								 PBYTE					pBuf,
@@ -248,11 +254,6 @@ BOOL DLL_PARINFO_API ReadSector(DWORD					dwStartSec,
 								BYTE					btUnit,
 								PBIOS_DRIVE_PARAM		pDriveParam);
 
-BYTE DLL_PARINFO_API GetBootupDrive(BYTE *nDisk);
-//	DriveNum ( 80H , 81H , ... )
-//	flags ( PRIMARY_PAR , LOICAL_PAR )	
-//	dwStart( linear sector number )	
-//	return	is drive letter ( 1 based), if 0xFF, fail
 BYTE DLL_PARINFO_API RetrieveDriveLttr(BYTE			DriveNum,
 									   DWORD		flags,
 									   DWORD		dwStart);
@@ -261,8 +262,6 @@ BYTE DLL_PARINFO_API RetrieveDriveLttr(BYTE			DriveNum,
 //	return	TRUE or FALSE
 BOOL DLL_PARINFO_API GetDriveMapInfo(BYTE						DriveLttr,
 									 PSIMULATE_DRIVEMAPINFO		pInfo);
-
-#endif // _VMM_
 
 BOOL DLL_PARINFO_API Init_PartitionInfo();
 BOOL DLL_PARINFO_API Free_PartitionInfo();
@@ -277,12 +276,6 @@ BOOL DLL_PARINFO_API
 PartitionInfoOfDriveLetter(BYTE						btLetter,
 						   PPARTITION_INFO			pParInfo);
 
-DWORD DLL_PARINFO_API
-AlignToCylinder(DWORD								dwSectorOffset,
-				PBIOS_DRIVE_PARAM					pbdpDrive,
-				BYTE								btFlag,
-				BYTE								btExtend = ALIGN_PRIMARY);
-
 BOOL DLL_PARINFO_API
 GetPartitionInfoEx(BYTE								btHardDrive,
 				   PPARINFOONHARDDISKEX				pParHard);
@@ -290,32 +283,15 @@ GetPartitionInfoEx(BYTE								btHardDrive,
 BOOL DLL_PARINFO_API GetDriveParam(BYTE						btHardDrive,
 								   PBIOS_DRIVE_PARAM		pDriveParam);
 
-BOOL DLL_PARINFO_API IsValidEMBR(DWORD					dwExtStart,
-								 PARTITION_SEC			*pPartitionMBR,
-								 BIOS_DRIVE_PARAM		*pDriveParam);
-
 BOOL DLL_PARINFO_API 
 PartitionInfoByDriveLetter(BYTE						btDriveLetter,
 						   PPARTITION_INFO_2000		pPi2000);
 
+void GUIDToStr(const GUID& guid, char* strGUID);
+GUID_PARTITION_TYPE GetGUIDPartitionType(const GUID& id);
 //for windows 2000
-BOOL DLL_PARINFO_API UnmountVolume( TCHAR	tchDriveLetter );
-
-BOOL DLL_PARINFO_API MountVolume(BYTE		btHardDiskNum,
-								 DWORD		dwStartSector,
-								 TCHAR		tchDriveLetter);
 
 void DLL_PARINFO_API InitOperationSystemType();
-/*
-BYTE DLL_PARINFO_API GetStartupDrive();
-BOOL DLL_PARINFO_API OSExist(BYTE btHardDisk,
-							 BYTE btSystemFlag,
-							 DWORD dwStartSec,
-							 PBIOS_DRIVE_PARAM DriveParam);
-*/
-
-#ifndef _VMM_
 }
-#endif	//  _VMM_
 
 #endif // ParInfo_H

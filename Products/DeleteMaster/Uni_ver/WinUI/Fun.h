@@ -4,13 +4,8 @@
 #include "StdAfx.h"
 //#include <WinIoCtl.h>
 
-#ifdef WIN_9X
-#include "..\..\..\..\Tech\ParInfo\Cur_Ver\export\9x\Parinfo.h"
-#include "..\..\..\..\Tech\Parman\Cur_Ver\export\9x\Parman.h"
-#else
 #include "..\..\..\..\Tech\ParInfo\Cur_Ver\export\2000\Parinfo.h"
-#include "..\..\..\..\Tech\Parman\Cur_Ver\export\2000\Parman.h"
-#endif
+//#include "..\..\..\..\Tech\Parman\Cur_Ver\export\2000\Parman.h"
 
 #define MAX_FILE_SIZE				0x80000000
 #define MIN_FILE_SECTORS			0x2000
@@ -65,6 +60,9 @@ typedef BOOL (WINAPI *P_GDFSE)(LPCTSTR,
 							   PULARGE_INTEGER);
 
 struct YG_PARTITION_INFO  {
+	DWORD PartitionStyle;
+
+	// for mbr
     BYTE     btDiskNum     ; // 0 mean first hard disk	
     TCHAR     DriveLetter   ; // 0 mean HAVE_NO_DRIVE_LETTER
 	BOOL     bLogic        ; // Primary or logic?  
@@ -77,6 +75,10 @@ struct YG_PARTITION_INFO  {
 	char	 szLabel[MAX_PATH] ; // Partition Label;
 	DWORD    nLevel        ; // Compressed level 
 	BYTE     BootFlag      ; // 80 mean bootable
+
+	// for gpt
+	GUID_PARTITION_TYPE GUIDType;
+
     struct YG_PARTITION_INFO *pNext;
 };
 typedef  YG_PARTITION_INFO  *PYG_PARTITION_INFO  ;
@@ -88,24 +90,7 @@ typedef struct tagDISKVIEWINFO{
 	DWORD			dwSelSec;
 }DiskViewInfo;
 
-#ifdef WIN_9X
-typedef enum _MEDIA_TYPE { 
-  Unknown, 
-  F5_1Pt2_512, 
-  F3_1Pt44_512, 
-  F3_2Pt88_512, 
-  F3_20Pt8_512, 
-  F3_720_512, 
-  F5_360_512, 
-  F5_320_512, 
-  F5_320_1024, 
-  F5_180_512, 
-  F5_160_512, 
-  RemovableMedia, 
-  FixedMedia 
-} MEDIA_TYPE; 
-#endif
-	typedef struct tagDEVICEPARAMS
+typedef struct tagDEVICEPARAMS
    {
    BYTE  bSpecFunc;        // Special functions
    BYTE  bDevType;         // Device type
@@ -166,16 +151,6 @@ typedef enum _MEDIA_TYPE {
    BYTE    reserved[6];    // 
 } DOSDPB, *PDOSDPB;
  #pragma pack()
-
-#ifdef WIN_9X
-typedef struct _DISK_GEOMETRY { 
-  LARGE_INTEGER  Cylinders; 
-  MEDIA_TYPE  MediaType; 
-  DWORD  TracksPerCylinder; 
-  DWORD  SectorsPerTrack; 
-  DWORD  BytesPerSector; 
-} DISK_GEOMETRY ; 
-#endif
 
 //typedef struct _DISK_GEOMETRY_EX {
 //        DISK_GEOMETRY Geometry;
@@ -288,11 +263,7 @@ BOOL	HasMedia(TCHAR szDrive);
 TCHAR * strrchrpro(TCHAR* szSource,TCHAR chChar);
 CString GetUserPath();
 
-#ifndef	WIN_9X
 BOOL	GetRemovableDiskSize(int nDisk, LPTSTR pszDrv,DWORD *pdwSize);
-#else
-BOOL	GetRemovableDiskSize(int iDrive ,char *pszDrv ,BIOS_DRIVE_PARAM *pDriveParam);
-#endif
 VOID	ChangeByteOrder(LPTSTR szString, USHORT uscStrSize) ;
 VOID	HDInfont(BYTE btDisk,HWND hHandle);
 VOID	HDInfo9x(BYTE btDisk,HWND hHandle);

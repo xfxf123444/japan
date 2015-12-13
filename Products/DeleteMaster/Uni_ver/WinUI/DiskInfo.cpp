@@ -51,11 +51,7 @@ BOOL CDiskInfo::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-#ifndef WIN_9X
 	HDInfont(m_btDisk,m_hWnd);
-#else
-	HDInfo9x(m_btDisk,m_hWnd);
-#endif
 	m_ModuleNumber = g_ModuleNumber;
 	m_FirmWare  = g_FirmWare;
 	m_SerNumber = g_SerNumber;

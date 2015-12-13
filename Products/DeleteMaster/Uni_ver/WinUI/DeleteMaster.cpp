@@ -75,14 +75,12 @@ BOOL CDeleteMasterApp::InitInstance()
 
 	if(!bPrevInstance)
 	{
-#ifndef WIN_9X
 		if(!IsUserAdmin())
 		{
 			csError.LoadString(IDS_NOT_ADMIN);
 			::MessageBox(NULL,csError,csCaption,MB_OK|MB_ICONSTOP);
     		return FALSE;
 		}
-#endif
 		if(!RegClass())	return FALSE;
 
 		g_imgList_BOX.Create(IDB_BOX,16,0,RGB(255,255,255));
@@ -134,8 +132,6 @@ BOOL CDeleteMasterApp::RegClass()
     	return FALSE;
 	return TRUE;
 }
-#ifndef WIN_9X
-
 
 typedef
 BOOL (WINAPI * PCheckTokenMembership)(
@@ -172,8 +168,6 @@ BOOL IsUserAdmin(VOID)
 
 	return(b);
 }
-#endif
-
 
 int CDeleteMasterApp::ExitInstance() 
 {

@@ -19,7 +19,8 @@ Purpose:
 
 typedef struct tagGET_DRIVE_LAYOUT
 {
-	DRIVE_LAYOUT_INFORMATION		dliDrive;
+	//DRIVE_LAYOUT_INFORMATION 	dliDrive;
+	DRIVE_LAYOUT_INFORMATION_EX	dliDrive;
 	PARTITION_INFORMATION			piDrive[MAX_PARTITION_NUM - 1];
 } GET_DRIVE_LAYOUT,*PGET_DRIVE_LAYOUT;
 
@@ -96,27 +97,10 @@ Parameters:
 Return value:
 	TRUE;
 --------------------------------------------------------------------------------*/
-BOOL MakePartitionPhysicalEntry(PARTITION_INFORMATION		*ppi,
+BOOL MakePartitionPhysicalEntry(PARTITION_INFORMATION_EX		*ppi,
 								PARTITION_ENTRY				*ppe,
 								PBIOS_DRIVE_PARAM			pbdp);
 
-/*------------------------------------------------------------------------------
-FromRelativeToCHS()
-Purpose:
-	Convert the sector relative offset to CHS format;
-Parameter:
-	pbdp:
-		pointer to the physical hard disk parameters struct;
-	dwRelativeSector:
-		sector relative offset;
-	btCHS[3]:
-		sector offset in Cylinder-Head-Sector format;
-Return value:
-	No;
--------------------------------------------------------------------------------*/
-void FromRelativeToCHS(PBIOS_DRIVE_PARAM		pbdp,
-					   DWORD					dwRelativeSector,
-					   BYTE						btCHS[3]);
 /*-------------------------------------------------------------------------------
 DriveLetterOnWhichDisk();
 Parameters:
@@ -140,29 +124,4 @@ BOOL GetDriveLayout(int						nHardDisk,
 
 int FindInDriveLayout(DWORD					dwStart,
 					  PGET_DRIVE_LAYOUT		pdli);
-
-BOOLEAN
-PrependSzToMultiSz(
-    IN		LPTSTR  SzToPrepend,
-    IN		LPTSTR  MultiSz
-    );
-
-size_t
-MultiSzLength(
-    IN LPTSTR MultiSz
-    );
-
-LPTSTR
-MultiSzSearch(
-	IN  LPTSTR FindThis,
-	IN  LPTSTR FindWithin
-	);
-
-size_t
-MultiSzSearchAndDeleteCaseInsensitive(
-    IN  LPTSTR  FindThis,
-    IN  LPTSTR  FindWithin,
-    OUT size_t  *NewStringLength
-    );
-
 #endif //PARINFO_PRIVATE_H

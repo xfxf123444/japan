@@ -158,10 +158,10 @@ DWORD CDelProc::ProgressProc()
 BOOL CDelProc::DeleteContent()
 {
 	PARTITION_ENTRY				PartitionInfo;
-	CREATE_PAR_FLAG				cfg;
-	DWORD						dwFlag;
-	BYTE						btLabel[0x0b];
-	int							nErr;
+	//CREATE_PAR_FLAG				cfg;
+	//DWORD						dwFlag;
+	//BYTE						btLabel[0x0b];
+	//int							nErr;
 	BOOL						bResult = TRUE;
 	struct tm					*newtime;
 	time_t						ltime; 
@@ -183,20 +183,10 @@ BOOL CDelProc::DeleteContent()
 //		bResult = DeleteSectors();
 //		if(bResult)
 //		{
-//
-//#ifdef WIN_9X
-//			if(m_bLogc) m_dwMinSec -= DISK_MIN_SECTOR;
-//			if(!DoDeletePartition(m_dwMinSec,	m_nDisk+DISK_BASE,cfg,&nErr))
-//			{
-//				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
-//			}
-//			if(m_bLogc) m_dwMinSec += DISK_MIN_SECTOR;
-//#else
 //			if(!DeletePartition(m_dwMinSec,m_nDisk+DISK_BASE,cfg,&nErr))
 //			{
 //				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
 //			}
-//#endif
 //			PartitionInfo.StartSector = m_dwMinSec - DISK_MIN_SECTOR;
 //			PartitionInfo.SectorsInPartition = g_pTargetParInfo->dwPartSize + DISK_MIN_SECTOR ;
 //			PartitionInfo.SystemFlag = (BYTE)g_pTargetParInfo->dwSystemFlag ;
@@ -208,13 +198,8 @@ BOOL CDelProc::DeleteContent()
 //			memcpy(&btLabel,g_pTargetParInfo->szLabel ,0x0b);
 //			if(g_bFormat)
 //			{
-//#ifdef WIN_9X
-//				DoCreatePartition(&PartitionInfo,m_nDisk+DISK_BASE,dwFlag,
-//					TRUE,btLabel,m_hWnd,&nErr);
-//#else
 //				CreatePartition(&PartitionInfo,m_nDisk+DISK_BASE,dwFlag,
 //					TRUE,btLabel,m_hWnd,&nErr);
-//#endif
 //			}
 //		}
 //	}
@@ -472,11 +457,6 @@ BOOL CDelProc::WriteSecsWithBuf(DWORD dwStartSec,DWORD dwSize,BYTE *pBuf,BOOL bV
 	BOOL				bResult;
 	CString				cstr,csCaption;
 	BYTE				*pCompBuf;
-#ifdef WIN_9X
-	TCHAR				szDrv;
-	DWORD				dwSetValue;
-	int					nDisk;
-#endif
 
 	pCompBuf = NULL;
 	csCaption.LoadString (IDS_DM_ERROR);
@@ -485,25 +465,12 @@ BOOL CDelProc::WriteSecsWithBuf(DWORD dwStartSec,DWORD dwSize,BYTE *pBuf,BOOL bV
 
 	if(m_nDisk >= _T('A'))
 	{
-#ifdef WIN_9X
-		nDisk = HIWORD(m_nDisk); 
-		if(nDisk)
-		{
-			if(!GetRemovableDiskSize(DISK_BASE+nDisk,&szDrv,&DriveParam))
-				return FALSE;
-		}
-		else
-		{
-			if(!GetDriveParam(m_nDisk-_('A'),&DriveParam)) return FALSE;
-		}
-#else
 		if(!GetFDParam(m_nDisk,&DriveParam)) return FALSE;
 		if(HIWORD(m_nDisk))
 		{
 			if(!GetRemovableDiskSize(DISK_BASE+HIWORD(m_nDisk), NULL,(DWORD*)(&DriveParam.dwSectors)))
 				return FALSE;
 		}
-#endif
 	}
 	else
 	{
@@ -530,44 +497,6 @@ TRY_LABEL_1:
 		}
 		if(m_nDisk >= _T('A'))
 		{
-#ifdef WIN_9X
-			if(nDisk)
-			{
-				bResult = WriteSector(dwStartSec+k*DATA_BUFFER_SECTOR,DATA_BUFFER_SECTOR,pBuf,nDisk+DISK_BASE,&DriveParam);
-				if(bVerify && bResult)
-				{
-					ReadSector(dwStartSec+k*DATA_BUFFER_SECTOR,DATA_BUFFER_SECTOR,pCompBuf,nDisk+DISK_BASE,&DriveParam);
-					if(memcmp(pBuf,pCompBuf,DATA_BUFFER_SIZE))
-					{
-						if(m_bShowVerifyMsg)
-						{
-							cstr.Format(IDS_VERIFY_FAIL_WRAN_MSG,m_szLogFile);
-							MessageBox (cstr,csCaption,MB_OK);
-							m_bShowVerifyMsg = FALSE;
-						}
-						SaveVerifyInfo(m_szLogFile,dwStartSec+k*DATA_BUFFER_SECTOR,DATA_BUFFER_SECTOR,FALSE);
-					}
-				}
-			}
-			else
-			{
-				bResult = WriteFDSector(dwStartSec+k*DATA_BUFFER_SECTOR,DATA_BUFFER_SECTOR,pBuf,m_nDisk,&DriveParam);
-				if(bVerify && bResult)
-				{
-					ReadFDSector(dwStartSec+k*DATA_BUFFER_SECTOR,DATA_BUFFER_SECTOR,pCompBuf,m_nDisk,&DriveParam);
-					if(memcmp(pBuf,pCompBuf,DATA_BUFFER_SIZE))
-					{
-						if(m_bShowVerifyMsg)
-						{
-							cstr.Format(IDS_VERIFY_FAIL_WRAN_MSG,m_szLogFile);
-							MessageBox (cstr,csCaption,MB_OK);
-							m_bShowVerifyMsg = FALSE;
-						}
-						SaveVerifyInfo(m_szLogFile,dwStartSec+k*DATA_BUFFER_SECTOR,DATA_BUFFER_SECTOR,FALSE);
-					}
-				}
-			}
-#else
 			bResult = WriteFDSector(dwStartSec+k*DATA_BUFFER_SECTOR,DATA_BUFFER_SECTOR,pBuf,m_nDisk,&DriveParam);
 			if(bVerify && bResult)
 			{
@@ -583,7 +512,6 @@ TRY_LABEL_1:
 					SaveVerifyInfo(m_szLogFile,dwStartSec+k*DATA_BUFFER_SECTOR,DATA_BUFFER_SECTOR,FALSE);
 				}
 			}
-#endif
 		}
 		else
 		{
@@ -632,44 +560,6 @@ TRY_LABEL_2:
 
 		if(m_nDisk >= 'A')
 		{
-#ifdef WIN_9X
-			if(nDisk)
-			{
-				bResult = WriteSector(dwStartSec+i*DATA_BUFFER_SECTOR,(WORD)j,pBuf,nDisk+DISK_BASE,&DriveParam);
-				if(bVerify && bResult)
-				{
-					ReadSector(dwStartSec+i*DATA_BUFFER_SECTOR,(WORD)j,pCompBuf,nDisk+DISK_BASE,&DriveParam);
-					if(memcmp(pBuf,pCompBuf,j*SECTORSIZE))
-					{
-						if(m_bShowVerifyMsg)
-						{
-							cstr.Format(IDS_VERIFY_FAIL_WRAN_MSG,m_szLogFile);
-							MessageBox (cstr,csCaption,MB_OK);
-							m_bShowVerifyMsg = FALSE;
-						}
-						SaveVerifyInfo(m_szLogFile,dwStartSec+i*DATA_BUFFER_SECTOR,j,FALSE);
-					}
-				}
-			}
-			else
-			{
-				bResult = WriteFDSector(dwStartSec+i*DATA_BUFFER_SECTOR,(WORD)j,pBuf,m_nDisk,&DriveParam);
-				if(bVerify && bResult)
-				{
-					ReadFDSector(dwStartSec+i*DATA_BUFFER_SECTOR,(WORD)j,pCompBuf,m_nDisk,&DriveParam);
-					if(memcmp(pBuf,pCompBuf,j*SECTORSIZE))
-					{
-						if(m_bShowVerifyMsg)
-						{
-							cstr.Format(IDS_VERIFY_FAIL_WRAN_MSG,m_szLogFile);
-							MessageBox (cstr,csCaption,MB_OK);
-							m_bShowVerifyMsg = FALSE;
-						}
-						SaveVerifyInfo(m_szLogFile,dwStartSec+i*DATA_BUFFER_SECTOR,j,FALSE);
-					}
-				}
-			}
-#else
 			bResult = WriteFDSector(dwStartSec+i*DATA_BUFFER_SECTOR,(WORD)j,pBuf,m_nDisk,&DriveParam);
 			if(bVerify && bResult)
 			{
@@ -685,7 +575,6 @@ TRY_LABEL_2:
 					SaveVerifyInfo(m_szLogFile,dwStartSec+i*DATA_BUFFER_SECTOR,j,FALSE);
 				}
 			}
-#endif
 		}
 		else
 		{
@@ -795,11 +684,7 @@ BOOL CDelProc::SaveReport(LPCTSTR lpFileName)
 		//GetDriveParam(DISK_BASE+g_pFixDiskInfo->btDiskNum,&DriveParam);
 		if(cDrive >= 'A')
 		{
-#ifdef WIN_9X
-			GetDriveParam(cDrive-'A',&DriveParam);
-#else
 			GetFDParam(cDrive,&DriveParam);
-#endif
 			csInfo.Format (IDS_DELETE_FD_REPORT,cDrive,
 							DriveParam.dwCylinders,DriveParam.dwHeads,DriveParam.dwSecPerTrack);
 		}
@@ -823,11 +708,7 @@ BOOL CDelProc::SaveReport(LPCTSTR lpFileName)
 	WriteFile(hFile,&wData,sizeof(wData),&dwWrite,NULL);
 	if(bShowDiskInfo)
 	{
-	#ifndef WIN_9X
 		HDInfont(btDisk,m_hWnd);
-	#else
-		HDInfo9x(btDisk,m_hWnd);
-	#endif
 		csInfo = "----------Disk Information----------";
 		WriteFile(hFile,csInfo.GetBuffer (0),csInfo.GetLength (),&dwWrite,NULL);
 		WriteFile(hFile,&wData,sizeof(wData),&dwWrite,NULL);
@@ -993,11 +874,7 @@ BOOL CDelProc::SaveVerifyInfo(LPCTSTR lpFileName,DWORD dwStartSec,DWORD dwSector
 		//GetDriveParam(DISK_BASE+g_pFixDiskInfo->btDiskNum,&DriveParam);
 		if(cDrive >= 'A')
 		{
-#ifdef WIN_9X
-			GetDriveParam(m_nDisk-'A',&DriveParam);
-#else
 			GetFDParam(cDrive,&DriveParam);
-#endif
 			csInfo.Format (IDS_DELETE_FD_REPORT,cDrive,
 							DriveParam.dwCylinders,DriveParam.dwHeads,DriveParam.dwSecPerTrack);
 		}
@@ -1021,11 +898,7 @@ BOOL CDelProc::SaveVerifyInfo(LPCTSTR lpFileName,DWORD dwStartSec,DWORD dwSector
 	WriteFile(hFile,&wData,sizeof(wData),&dwWrite,NULL);
 	if(bShowDiskInfo)
 	{
-	#ifndef WIN_9X
 		HDInfont(btDisk,m_hWnd);
-	#else
-		HDInfo9x(btDisk,m_hWnd);
-	#endif
 		csInfo = "----------Disk Information----------";
 		WriteFile(hFile,csInfo.GetBuffer (0),csInfo.GetLength (),&dwWrite,NULL);
 		WriteFile(hFile,&wData,sizeof(wData),&dwWrite,NULL);
