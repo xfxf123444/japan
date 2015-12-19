@@ -74,32 +74,6 @@ void DLL_PARINFO_API InitOperationSystemType()
 		g_bVista = IsWindowsVista();
 	}
 }
-/*------------------------------------------------------------------------
-Init_PartitionInfo()
-Purpose:
-	Initialize the global viables;
-	g_DriveLetters to Zero;
-	Special g_DriveLetters['A'-'A'] is a indicator to initialize;
-Return value:
-	True;
-
--------------------------------------------------------------------------*/
-BOOL DLL_PARINFO_API Init_PartitionInfo()
-{
-	return TRUE;
-}
-
-/*-------------------------------------------
-Free_PartitionInfo()
-Purpose:
-	Close all open handles;
-Return Value:
-	True;
--------------------------------------------*/
-BOOL DLL_PARINFO_API Free_PartitionInfo()
-{
-	return TRUE;
-}
 
 extern	"C"
 {
@@ -338,9 +312,18 @@ BOOL DLL_PARINFO_API GetDriveMapInfo(BYTE							btDriveLetter,
 	PARTITION_INFO_2000			pi2000;
 	if( PartitionInfoByDriveLetter( btDriveLetter + 'A' -1,&pi2000) )
 	{
+		pInfo->PartitionStyle = pi2000.pi.PartitionStyle;
 		pInfo->DriveNum = pi2000.nHardDiskNum;
 		pInfo->DriveNum |= 0x80;	//	80H , 81H
-		pInfo->ParType = pi2000.pi.PartitionType;	//	04H , 06H 
+		if (pi2000.pi.PartitionStyle == PARTITION_STYLE_MBR) {
+			pInfo->ParType = pi2000.pi.Mbr.PartitionType;	//	04H , 06H 
+		}
+		else if (pi2000.pi.PartitionStyle == PARTITION_STYLE_GPT) {
+			pInfo->ParType = 0x07;
+		}
+		else {
+			pInfo->ParType = 0;
+		}
 		pInfo->wReserve = 0;	
 		pInfo->dwStart = (DWORD)(pi2000.pi.StartingOffset.QuadPart / SECTOR_SIZE);	//	linear sector number
 		return TRUE;
@@ -397,7 +380,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 												PPARTITION_INFO		pParInfo)
 {
 	BIOS_DRIVE_PARAM		DriveParam;
-	DWORD					cb;
+	DWORD					startAddress;
 	int						i;
 	BOOL					blResult = FALSE;
 	BOOL					blSuc=FALSE;
@@ -417,25 +400,26 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 	if( !GetPartitionInfoEx(sdDriveMapInfo.DriveNum,&ParHard))
 		return FALSE;
 	
-	cb=sdDriveMapInfo.dwStart;
+	startAddress=sdDriveMapInfo.dwStart;
 	//It's primary partition
-	for(i=0;i<4;i++)
+	for(i=0;i<ParHard.wNumOfPri;i++)
 	{
-		if(ParHard.pePriParInfo[i].StartSector==cb)
+		if(ParHard.pePriParInfo[i].StartSector==startAddress)
 		{
+			pParInfo->PartitionStyle = ParHard.pePriParInfo[i].PartitionStyle;
+			pParInfo->GUIDType = ParHard.pePriParInfo[i].GUIDType;
 			pParInfo->btDrive = btLetter+'A'-1;
 			pParInfo->btHardDisk = sdDriveMapInfo.DriveNum;
 			pParInfo->nPartition = i;
 			pParInfo->dwPartitionType = PRIMARY;
 			pParInfo->dwSectorsInPartition = ParHard.pePriParInfo[i].SectorsInPartition;
 			pParInfo->btSystemFlag=ParHard.pePriParInfo[i].SystemFlag;  
-			pParInfo->dwStartLogicalSector = ParHard.pePriParInfo[i].StartSector;
+			pParInfo->dwStartSector = ParHard.pePriParInfo[i].StartSector;
 
 			char	szStr[6]=" :\\\0";
 			char	lpVolumeNameBuffer[MAX_LABELNAME];
 			memset(lpVolumeNameBuffer,0x20,MAX_LABELNAME);
 			szStr[0]=(char)(btLetter+'A'-1);
-			memcpy(pParInfo->szOsLabel,"NO SYSTEM",10);
 			memset(pParInfo->szLabelName,0x20,11);
 			if(GetVolumeInformation(szStr,lpVolumeNameBuffer,MAX_LABELNAME,NULL,NULL,NULL,NULL,0))
 			{
@@ -454,7 +438,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 				if(pParInfo->btSystemFlag==0x0b || pParInfo->btSystemFlag==0x0c)
 				{
 					BOOT_SEC32 bsBoot32;
-					if(ReadSector(pParInfo->dwStartLogicalSector,0x01,(PBYTE)&bsBoot32,sdDriveMapInfo.DriveNum,&DriveParam))
+					if(ReadSector(pParInfo->dwStartSector,0x01,(PBYTE)&bsBoot32,sdDriveMapInfo.DriveNum,&DriveParam))
 					{
 						memcpy(pParInfo->szLabelName,bsBoot32.VolumeLabel,0x0b);	
 					}
@@ -462,7 +446,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 				if(pParInfo->btSystemFlag==0x06 || pParInfo->btSystemFlag==0x0e)
 				{
 					BOOT_SEC16 bsBoot16;
-					if(ReadSector(pParInfo->dwStartLogicalSector,0x01,(PBYTE)&bsBoot16,sdDriveMapInfo.DriveNum,&DriveParam))
+					if(ReadSector(pParInfo->dwStartSector,0x01,(PBYTE)&bsBoot16,sdDriveMapInfo.DriveNum,&DriveParam))
 					{
 						memcpy(pParInfo->szLabelName,bsBoot16.VolumeLabel,0x0b);	
 					}
@@ -471,24 +455,24 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 		return TRUE;
 		}
 	}
-	cb=cb-0x3f;
+	startAddress=startAddress-0x3f;
 	for(i=0;i<ParHard.wNumOfLogic;i++)
 	{
-		if(ParHard.peLogParInfo[i].peCurParInfo.StartSector==cb)
+		if(ParHard.peLogParInfo[i].peCurParInfo.StartSector==startAddress)
 		{
+			pParInfo->PartitionStyle = PARTITION_STYLE_MBR;
 			pParInfo->btDrive = btLetter+'A'-1;
 			pParInfo->btHardDisk = sdDriveMapInfo.DriveNum;
 			pParInfo->nPartition = i;
 			pParInfo->dwPartitionType = LOGICAL;
 			pParInfo->dwSectorsInPartition = ParHard.peLogParInfo[i].peCurParInfo.SectorsInPartition;
 			pParInfo->btSystemFlag= ParHard.peLogParInfo[i].peCurParInfo.SystemFlag ; 
-			pParInfo->dwStartLogicalSector = ParHard.peLogParInfo[i].peCurParInfo.StartSector; //it's really !!
+			pParInfo->dwStartSector = ParHard.peLogParInfo[i].peCurParInfo.StartSector; //it's really !!
 			
 			char	szStr[6]=" :\\\0";
 			char	lpVolumeNameBuffer[MAX_LABELNAME];
 			memset(lpVolumeNameBuffer,0x20,MAX_LABELNAME);
 			szStr[0]=(char)(btLetter+'A'-1);
-			memcpy(pParInfo->szOsLabel,"NO SYSTEM",10);
 			memset(pParInfo->szLabelName,0x20,11);
 			if(GetVolumeInformation(szStr,lpVolumeNameBuffer,MAX_LABELNAME,NULL,NULL,NULL,NULL,0))
 			{
@@ -508,7 +492,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 				if(pParInfo->btSystemFlag==0x0b || pParInfo->btSystemFlag==0x0c)
 				{
 					BOOT_SEC32 bsBoot32;
-					if(ReadSector(pParInfo->dwStartLogicalSector+0x3f,0x01,(PBYTE)&bsBoot32,sdDriveMapInfo.DriveNum,&DriveParam))
+					if(ReadSector(pParInfo->dwStartSector+0x3f,0x01,(PBYTE)&bsBoot32,sdDriveMapInfo.DriveNum,&DriveParam))
 					{
 						memcpy(pParInfo->szLabelName,bsBoot32.VolumeLabel,0x0b);	
 					}
@@ -516,7 +500,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 				if(pParInfo->btSystemFlag==0x06 || pParInfo->btSystemFlag==0x0e)
 				{
 					BOOT_SEC16 bsBoot16;
-					if(ReadSector(pParInfo->dwStartLogicalSector+0x3f,0x01,(PBYTE)&bsBoot16,sdDriveMapInfo.DriveNum,&DriveParam))
+					if(ReadSector(pParInfo->dwStartSector+0x3f,0x01,(PBYTE)&bsBoot16,sdDriveMapInfo.DriveNum,&DriveParam))
 					{
 						memcpy(pParInfo->szLabelName,bsBoot16.VolumeLabel,0x0b);	
 					}
@@ -711,9 +695,9 @@ BOOL DLL_PARINFO_API PartitionInfoByDriveLetter(BYTE					btDriveLetter,
 	if(hDriveX != INVALID_HANDLE_VALUE)
 	{
 		if( DeviceIoControl(hDriveX,
-							IOCTL_DISK_GET_PARTITION_INFO,
+							IOCTL_DISK_GET_PARTITION_INFO_EX,
 							NULL,0,
-							&pPi2000->pi,sizeof(PARTITION_INFORMATION),
+							&pPi2000->pi,sizeof(PARTITION_INFORMATION_EX),
 							&dwBytesReturned,
 							NULL ))
 		{
@@ -723,29 +707,40 @@ BOOL DLL_PARINFO_API PartitionInfoByDriveLetter(BYTE					btDriveLetter,
 			pPi2000->nHardDiskNum = DriveOnWhichHardDisk( btDriveLetter,
 														  pPi2000->pi.PartitionNumber );
 			//if fail return
-			if ( pPi2000->nHardDiskNum == -1 )
+			if ( pPi2000->nHardDiskNum == -1 ) {
 				return FALSE;
+			}
 			
-			if( (pPi2000->pi.StartingOffset.QuadPart
-					- (__int64)pPi2000->pi.HiddenSectors * SECTOR_SIZE ) != 0 )
-			{
-				//logical hidden sectors is 0x3f
-				//but start offset is greater than 0x3f
-				pPi2000->nPartitionType = LOGICAL;
-			}else
-			{
-				if( (pPi2000->pi.PartitionType == PARTITION_EXTENDED )||
-					(pPi2000->pi.PartitionType == PARTITION_XINT13_EXTENDED ))
+			if (pPi2000->pi.PartitionStyle == PARTITION_STYLE_GPT) {
+				pPi2000->nPartitionType = PRIMARY;
+				return TRUE;
+			}
+			else if (pPi2000->pi.PartitionStyle == PARTITION_STYLE_MBR) {
+				if( (pPi2000->pi.StartingOffset.QuadPart
+					- (__int64)pPi2000->pi.Mbr.HiddenSectors * SECTOR_SIZE ) != 0 )
 				{
-					//extend has no drive letter
-					return FALSE;
+					//logical hidden sectors is 0x3f
+					//but start offset is greater than 0x3f
+					pPi2000->nPartitionType = LOGICAL;
 				}else
 				{
-					//primary partition
-					pPi2000->nPartitionType = PRIMARY;
+					if( (pPi2000->pi.Mbr.PartitionType == PARTITION_EXTENDED )||
+						(pPi2000->pi.Mbr.PartitionType == PARTITION_XINT13_EXTENDED ))
+					{
+						//extend has no drive letter
+						return FALSE;
+					}
+					else
+					{
+						//primary partition
+						pPi2000->nPartitionType = PRIMARY;
+					}
 				}
+				return TRUE;
 			}
-			return TRUE;
+			else {
+				return FALSE;
+			}
 		}
 	}
 	return FALSE;

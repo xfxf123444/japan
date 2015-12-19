@@ -80,9 +80,6 @@ VOID SearchPartitions(GET_DRIVE_LAYOUT			*pdliDrive,
 				continue;
 			// logical partition		
 			ppeLog->dwLogicStart = BytesOffsetToSectorsOffset(pbdp,ppi->StartingOffset);
-			//use his embr start sector
-			// tbd
-			//ppeLog->dwLogicStart -= ppi->Mbr.HiddenSectors;
 			MakePartitionPhysicalEntry( ppi, &ppeLog->LogParInfo, pbdp);
 			ppihd->wNumOfLogic++;
 			ppeLog++;
@@ -125,6 +122,7 @@ BOOL MakePartitionPhysicalEntry(PARTITION_INFORMATION_EX		*ppi,
 	ppe->PartitionStyle = ppi->PartitionStyle;
 	if (ppe->PartitionStyle == PARTITION_STYLE_GPT) {
 		ppe->GUIDType = GetGUIDPartitionType(ppi->Gpt.PartitionType);
+		ppe->SystemFlag = 0x07;
 	}
 	else if (ppe->PartitionStyle == PARTITION_STYLE_MBR){
 		if(ppi->Mbr.BootIndicator) {

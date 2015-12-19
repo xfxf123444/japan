@@ -70,7 +70,6 @@ struct YG_PARTITION_INFO  {
 	DWORD    dwStartSector ; // From MBR
     DWORD    dwPartSize    ; // Unit :sector
     DWORD    dwUsedSize    ; //
-	char	 szOsLabel[MAX_PATH];// OS label
 	DWORD	 dwPhyUsedSize ; // File used + system used sectors.
 	char	 szLabel[MAX_PATH] ; // Partition Label;
 	DWORD    nLevel        ; // Compressed level 

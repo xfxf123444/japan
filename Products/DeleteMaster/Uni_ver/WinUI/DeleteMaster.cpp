@@ -92,10 +92,6 @@ BOOL CDeleteMasterApp::InitInstance()
 		g_bFormat	   = FALSE;
 		g_dwMaxTry	   = 10;
 
-		if(!Init_PartitionInfo())
-		{
-			return FALSE;
-		}
 		m_pMainWnd = new CMain();
 		m_pMainWnd->ShowWindow(SW_SHOW);
 	}
@@ -172,6 +168,5 @@ BOOL IsUserAdmin(VOID)
 int CDeleteMasterApp::ExitInstance() 
 {
 	// TODO: Add your specialized code here and/or call the base class
-	Free_PartitionInfo();
 	return CWinApp::ExitInstance();
 }

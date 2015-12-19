@@ -203,39 +203,19 @@ void ResizeListColumn(HWND hWnd)
 BOOL GetVolumeSpace( TCHAR chDrive,DWORD *pdwCount,DWORD *pdwUsed )
 {
 	BOOL	bResult;
-    DWORD	dwSectPerClust,dwBytesPerSect,dwFreeClusters,dwTotalClusters;
-    P_GDFSE pGetDiskFreeSpaceEx = NULL;
-    unsigned __int64 i64Count,i64Free;
+    ULARGE_INTEGER i64Count,i64Free;
 	TCHAR szDrive[]= _T("*:\\");
     
 	szDrive[0] = chDrive;
-    pGetDiskFreeSpaceEx = (P_GDFSE)GetProcAddress (GetModuleHandle (_T("kernel32.dll")),
-                                                   "GetDiskFreeSpaceEx");
-    if (pGetDiskFreeSpaceEx)
-    {
-        bResult = pGetDiskFreeSpaceEx (szDrive, NULL,
-                                      (PULARGE_INTEGER)&i64Count,
-                                      (PULARGE_INTEGER)&i64Free);
+	bResult = GetDiskFreeSpaceEx (szDrive, NULL,
+			&i64Count,
+			&i64Free);
+	if (bResult) {
 		if(pdwCount != NULL)
-			*pdwCount = (DWORD)(i64Count / BYTEINSEC);
+			*pdwCount = (DWORD)(i64Count.QuadPart / BYTEINSEC);
 		if(pdwUsed != NULL)
-			*pdwUsed = (DWORD)(i64Count / BYTEINSEC) - (DWORD)(i64Free / BYTEINSEC);
-    }
-    else
-    {
-         bResult = GetDiskFreeSpace (szDrive, 
-                                     &dwSectPerClust,
-                                     &dwBytesPerSect, 
-                                     &dwFreeClusters,
-                                     &dwTotalClusters);
-         if (bResult)
-         {
-			if(pdwCount != NULL)
-				*pdwCount = dwTotalClusters * dwSectPerClust;
-			if(pdwUsed != NULL)
-				*pdwUsed = dwTotalClusters * dwSectPerClust - (dwFreeClusters)* dwSectPerClust;
-		 }
-     }
+			*pdwUsed = (DWORD)(i64Count.QuadPart / BYTEINSEC) - (DWORD)(i64Free.QuadPart / BYTEINSEC);
+	}
      return bResult;
 }
 
@@ -344,6 +324,7 @@ BOOL GetFixDiskInfo(int nDisk)
 				{
 					pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 					memset(pNew,0,sizeof(YG_PARTITION_INFO));
+					pNew->PartitionStyle = PARTITION_STYLE_MBR;
 					pNew->BootFlag		= 0;
 					pNew->bLogic		= TRUE;
 					pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
@@ -388,7 +369,6 @@ BOOL GetFixDiskInfo(int nDisk)
 							memset(&pInfo,0,sizeof(PARTITION_INFO));
 						}
 						memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
-						memcpy(pNew->szOsLabel,pInfo.szOsLabel,MAX_LABELNAME);
 					}
 					if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
 					else
@@ -430,7 +410,6 @@ BOOL GetFixDiskInfo(int nDisk)
 							memset(&pInfo,0,sizeof(PARTITION_INFO));
 						}
 						memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
-						memcpy(pNew->szOsLabel,pInfo.szOsLabel,MAX_LABELNAME);
 					}
 					if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
 					else
@@ -497,7 +476,6 @@ BOOL GetFixDiskInfo(int nDisk)
 					memset(&pInfo,0,sizeof(PARTITION_INFO));
 				}
 				memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
-				memcpy(pNew->szOsLabel,pInfo.szOsLabel,MAX_LABELNAME);
 			}
 			if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
 			else

@@ -20,12 +20,6 @@
 #define EXTEND					2       //the Partition is extended
 #define LOGICAL					3       //the Partition is logical
 #define ERRDRIVEPARAM			0xffffffff
-//align flags
-#define	ALIGN_FOREWARD			0
-#define	ALIGN_BACKWARD			1
-#define	ALIGN_PRIMARY			PRIMARY
-#define	ALIGN_EXTEND			EXTEND
-#define	ALIGN_LOGICAL			LOGICAL
 
 #define MAX_PHYSICALDISK_NUM	128
 
@@ -42,35 +36,17 @@ enum GUID_PARTITION_TYPE{
 	PARTITION_MSFT_RECOVERY_GUID
 };
 
-#pragma	pack(1)	//	align to byte 
-
-typedef struct
-{
-	BYTE	Jump[3];
-	char	szOEMName[8];
-	WORD	BytesPerSector;
-	BYTE	SectorsPerCluster;
-	WORD	BootSectors;
-	BYTE	Reserved[5];
-	BYTE	MDB;
-	WORD	Reserved1;
-	WORD	SectorsPerTrack;
-	WORD	NumOfHeads;
-	DWORD	DriveStart;
-	DWORD	Reserved2;
-	DWORD	Reserved3;//always be 0x800080
-	DWORD	dwTotalSectorsLow;
-	DWORD	dwTotalSectorsHigh;
-	DWORD	dwStartMFTLow;
-	DWORD	dwStartMFTHigh;
-	DWORD	dwStartMFTMirrLow;
-	DWORD	dwStartMFTMirrHigh;
-	DWORD   ClustPerMFT;
-	DWORD   ClustPerIndex;
-	DWORD	dwSerialNum;
-	BYTE	StartCode[0x200-0x04C];
-} BOOT_SEC_NTFS, *PBOOT_SEC_NTFS;
-
+enum MBR_PARTITION_TYPE {
+	MBR_PT_PARTITION_ENTRY_UNUSED = 0x00,
+	MBR_PT_PARTITION_EXTENDED = 0x05,
+	MBR_PT_PARTITION_FAT_12 = 0x01,
+	MBR_PT_PARTITION_FAT_16 = 0x04,
+	MBR_PT_PARTITION_FAT32 = 0x0B,
+	MBR_PT_PARTITION_IFS = 0x07,
+	MBR_PT_PARTITION_LDM = 0x42,
+	MBR_PT_PARTITION_NTFT = 0x80,
+	MBR_PT_PARTITION_VALID_NTFT = 0xC0,
+};
 typedef struct
 {
 	BYTE	Jump[3];
@@ -136,13 +112,6 @@ typedef struct
 	// gpt
 	GUID_PARTITION_TYPE GUIDType;
 
-	WORD PartitionStartSector;
-	WORD PartitionStartCylinder;
-	WORD PartitionStartHeader;
-	WORD PartitionEndSector;
-	WORD PartitionEndCylinder;
-	WORD PartitionEndHeader;
-
 	DWORD	StartSector;
 	DWORD	SectorsInPartition;
 } PARTITION_ENTRY,*PPARTITION_ENTRY;
@@ -181,13 +150,14 @@ typedef struct	tagPARTITION_INFO
 	int     nPartition;	//if the partition is primary,
 						//it's position of MBR;
 						//if logical,it's the number of logical
-	DWORD	dwStartLogicalSector;	//it's really line address
+	DWORD	dwStartSector;	//it's really line address
 	DWORD	dwSectorsInPartition;   //it's size of the partition
 	DWORD   dwPartitionType;		//it's partition's type /eg.priamry or entended 
 	BYTE	szLabelName[MAX_LABELNAME];  //drive's volume label
 	char	szComment[MAX_COMMENT];
 	BYTE	btFileSystem;		//FAT32 or FAT16
-	char	szOsLabel[MAX_OSLABEL];// Win95 or Win98
+	DWORD PartitionStyle;
+	DWORD GUIDType;
 } PARTITION_INFO,*PPARTITION_INFO;
 
 typedef struct tagLogicParInfoEx
@@ -225,7 +195,7 @@ typedef struct
 {
 	int						nHardDiskNum;
 	int						nPartitionType;
-	PARTITION_INFORMATION	pi;
+	PARTITION_INFORMATION_EX	pi;
 }PARTITION_INFO_2000,*PPARTITION_INFO_2000;
 
 #pragma	pack()
@@ -237,6 +207,7 @@ typedef struct	tagSimulateDriveMapInfo
 {
 	BYTE		DriveNum;	//	80H , 81H
 	BYTE		ParType;	//	04H , 06H 
+	DWORD PartitionStyle;
 	WORD		wReserve;	
 	DWORD		dwStart;	//	linear sector number
 } SIMULATE_DRIVEMAPINFO,*PSIMULATE_DRIVEMAPINFO;	
@@ -262,9 +233,6 @@ BYTE DLL_PARINFO_API RetrieveDriveLttr(BYTE			DriveNum,
 //	return	TRUE or FALSE
 BOOL DLL_PARINFO_API GetDriveMapInfo(BYTE						DriveLttr,
 									 PSIMULATE_DRIVEMAPINFO		pInfo);
-
-BOOL DLL_PARINFO_API Init_PartitionInfo();
-BOOL DLL_PARINFO_API Free_PartitionInfo();
 
 DWORD DLL_PARINFO_API GetHardDiskNum();
 
