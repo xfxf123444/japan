@@ -233,7 +233,7 @@ void CDelPar::OnClickDmDeleteParList(NMHDR* pNMHDR, LRESULT* pResult)
 		if(pTargetParInfo->DriveLetter == szSysDir[0] 
 		|| pTargetParInfo->BootIndicator
 		|| (pTargetParInfo->PartitionStyle == PARTITION_STYLE_GPT 
-			&& pTargetParInfo->GUIDType != PARTITION_SYSTEM_GUID))
+			&& pTargetParInfo->GUIDType == PARTITION_SYSTEM_GUID))
 		{
 			cstr.LoadString (IDS_NOT_DELETE_SYSTEM_PAR);
 			csCaption.LoadString (IDS_DM_ERROR);
@@ -273,7 +273,6 @@ void CDelPar::OnDmDelete()
 
 	csCaption.LoadString (IDS_DM_ERROR);
 
-	//m_CheckEntirDisk.SetCheck(1);
 	if(m_CheckEntirDisk.GetCheck())
 	{
 

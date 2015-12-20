@@ -283,8 +283,8 @@ BOOL GetFixDiskInfo(int nDisk)
 	//Get all partition items
 	j = 0;
 	dwPartitionTop = DISK_MIN_SECTOR;
-	//while(info.pePriParInfo[j].SystemFlag != 0x00 && j < info.wNumOfPri)
-	while(j < info.wNumOfPri)
+	DWORD partitionType = info.pePriParInfo[j].SystemFlag;
+	while(j < info.wNumOfPri && partitionType != MBR_PT_PARTITION_ENTRY_UNUSED)
 	{
 		if(info.pePriParInfo[j].StartSector > dwPartitionTop)
 		{
@@ -321,8 +321,8 @@ BOOL GetFixDiskInfo(int nDisk)
 		{
 			n = 0;
 			dwLogPartitionTop = info.pePriParInfo[j].StartSector;
-			//while(info.peLogParInfo[n].peCurParInfo.SystemFlag != 0x00 && n< info.wNumOfLogic)
-			while (n < info.wNumOfLogic)
+			DWORD partitionType = info.peLogParInfo[n].peCurParInfo.SystemFlag;
+			while (n < info.wNumOfLogic && partitionType != MBR_PT_PARTITION_ENTRY_UNUSED)
 			{
 				if(info.peLogParInfo[n].peCurParInfo.StartSector > dwLogPartitionTop)
 				{
@@ -510,13 +510,16 @@ BOOL GetFixDiskInfo(int nDisk)
 		pNew->pNext			= NULL;
 		pNew->dwUsedSize	= 0;
 		pNew->DriveLetter	= _T('*');
-		if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
+		if(g_pFixDiskInfo == NULL) {
+			g_pFixDiskInfo = pNew;
+		}
 		else
 		{
 			pEnd = g_pFixDiskInfo;
-			while(pEnd->pNext != NULL) pEnd = pEnd->pNext;
-				pEnd->pNext = pNew;
-			//pEnd = pEnd->pNext;
+			while(pEnd->pNext != NULL) {
+				pEnd = pEnd->pNext;
+			}
+			pEnd->pNext = pNew;
 		}
 	}
 	return TRUE;
