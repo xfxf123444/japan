@@ -109,7 +109,7 @@ typedef struct
 {
 	DWORD PartitionStyle;
 	// mbr
-	BYTE	BootFlag;   
+	BOOL	BootIndicator;   
 	BYTE	SystemFlag;
 	// gpt
 	GUID_PARTITION_TYPE GUIDType;

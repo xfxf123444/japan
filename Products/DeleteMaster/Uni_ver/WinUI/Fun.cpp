@@ -293,7 +293,7 @@ BOOL GetFixDiskInfo(int nDisk)
 				pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 				memset(pNew,0,sizeof(YG_PARTITION_INFO));
 				pNew->PartitionStyle = PARTITION_STYLE_MBR;
-				pNew->BootFlag		 = 0;
+				pNew->BootIndicator = FALSE;
 				pNew->bLogic		 = FALSE;
 				pNew->btDiskNum		 = (BYTE)nDisk-DISK_BASE;
 				pNew->dwPartSize	 = info.pePriParInfo[j].StartSector - dwPartitionTop;
@@ -342,7 +342,7 @@ BOOL GetFixDiskInfo(int nDisk)
 					memset(pNew,0,sizeof(YG_PARTITION_INFO));
 					pNew->PartitionStyle = info.peLogParInfo[n].peCurParInfo.PartitionStyle;
 					pNew->GUIDType = info.peLogParInfo[n].peCurParInfo.GUIDType;
-					pNew->BootFlag		= info.peLogParInfo[n].peCurParInfo.BootFlag;
+					pNew->BootIndicator		= info.peLogParInfo[n].peCurParInfo.BootIndicator;
 					pNew->bLogic		= TRUE;
 					pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
 					pNew->dwPartSize	= info.peLogParInfo[n].peCurParInfo.SectorsInPartition;
@@ -385,7 +385,7 @@ BOOL GetFixDiskInfo(int nDisk)
 					memset(pNew,0,sizeof(YG_PARTITION_INFO));
 					pNew->PartitionStyle = info.peLogParInfo[n].peCurParInfo.PartitionStyle;
 					pNew->GUIDType = info.peLogParInfo[n].peCurParInfo.GUIDType;
-					pNew->BootFlag		= info.peLogParInfo[n].peCurParInfo.BootFlag;
+					pNew->BootIndicator		= info.peLogParInfo[n].peCurParInfo.BootIndicator;
 					pNew->bLogic		= TRUE;
 					pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
 					pNew->dwPartSize	= info.peLogParInfo[n].peCurParInfo.SectorsInPartition;
@@ -431,7 +431,7 @@ BOOL GetFixDiskInfo(int nDisk)
 				pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 				memset(pNew,0,sizeof(YG_PARTITION_INFO));
 				pNew->PartitionStyle = PARTITION_STYLE_MBR;
-				pNew->BootFlag		= 0;
+				pNew->BootIndicator		= FALSE;
 				pNew->bLogic		= TRUE;
 				pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
 				pNew->dwPartSize	= info.pePriParInfo[j].SectorsInPartition+
@@ -460,7 +460,7 @@ BOOL GetFixDiskInfo(int nDisk)
 			memset(pNew,0,sizeof(YG_PARTITION_INFO));
 			pNew->PartitionStyle = info.pePriParInfo[j].PartitionStyle;
 			pNew->GUIDType = info.pePriParInfo[j].GUIDType;
-			pNew->BootFlag		= info.pePriParInfo[j].BootFlag;
+			pNew->BootIndicator		= info.pePriParInfo[j].BootIndicator;
 			pNew->bLogic		= FALSE;
 			pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
 			pNew->dwPartSize	= info.pePriParInfo[j].SectorsInPartition;
@@ -501,7 +501,7 @@ BOOL GetFixDiskInfo(int nDisk)
 	{
 		pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 		memset(pNew,0,sizeof(YG_PARTITION_INFO));
-		pNew->BootFlag		= 0;
+		pNew->BootIndicator = FALSE;
 		pNew->bLogic		= FALSE;
 		pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
 		pNew->dwPartSize	= (DWORD)DriveParam.dwSectors-dwPartitionTop;
@@ -677,7 +677,7 @@ void AddList(CListCtrl* pList, int nSelDisk)
 			break;
 		}
 
-		if(pEnd->BootFlag || pEnd->GUIDType == PARTITION_SYSTEM_GUID)
+		if(pEnd->BootIndicator || pEnd->GUIDType == PARTITION_SYSTEM_GUID)
 		{
 			cstr.LoadString (IDS_LIST_ACTIVE);
 			_tcscpy(szStatus, cstr);
@@ -1030,7 +1030,7 @@ BOOL  CreateTmpFileInSou( TCHAR szDriveLetter,int *nFileNum,BOOL *bHaveFile,__in
 	if ( 0!= dwFreeSecs)
 	{		
 		nHiFileSize  = (__int64)dwFreeSecs;
-		nHiFileSize  = nHiFileSize * SECTORSIZE;
+		nHiFileSize  = nHiFileSize * SECTOR_SIZE;
 		nNumTempFile = (int)((nHiFileSize+MAX_FILE_SIZE) / MAX_FILE_SIZE);
 		*nFileNum = nNumTempFile;
 		dwFreeSecs = 0;
@@ -1073,25 +1073,24 @@ BOOL  CreateTmpFileInSou( TCHAR szDriveLetter,int *nFileNum,BOOL *bHaveFile,__in
 			{
 				GetVolumeSpace(szDriveLetter , &dwTotalSecs,&dwUsedSecs); // Get free sector of the partition
 				dwFreeSecs = dwTotalSecs - dwUsedSecs;
-				lnFileSize.QuadPart  = dwFreeSecs * SECTORSIZE ;
+				lnFileSize.QuadPart  = dwFreeSecs * SECTOR_SIZE ;
 			}
 			else
 			{
 				lnFileSize.QuadPart = MAX_FILE_SIZE;
 			}
-			//lnFileSize.QuadPart = dwOneFileSecs* SECTORSIZE;
 			dwFileSize = ::SetFilePointer (hTempFile, lnFileSize.LowPart, &lnFileSize.HighPart, FILE_BEGIN) ; 
 				
 			if(!SetEndOfFile( hTempFile))
 			{
-				lnFileSize.QuadPart -= MIN_FILE_SECTORS * SECTORSIZE ;
+				lnFileSize.QuadPart -= MIN_FILE_SECTORS * SECTOR_SIZE ;
 				dwFileSize = SetFilePointer( hTempFile ,
 			           			lnFileSize.LowPart,
 			            		NULL ,
 								FILE_BEGIN );
 				while(!SetEndOfFile( hTempFile))
 				{
-					lnFileSize.QuadPart -= MIN_FILE_SECTORS * SECTORSIZE ;
+					lnFileSize.QuadPart -= MIN_FILE_SECTORS * SECTOR_SIZE ;
 					dwFileSize = SetFilePointer( hTempFile ,
 			           				lnFileSize.LowPart,
 			            			NULL ,

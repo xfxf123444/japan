@@ -616,15 +616,10 @@ BOOL DLL_PARINFO_API GetDriveParam(	BYTE					btHardDrive,
 									&dgDrive,sizeof(DISK_GEOMETRY_EX),
 									&dwBytesReturned,
 									NULL);
-
-		//close handle
 		CloseHandle(hDev);
 
 		if(bResult)
 		{
-// 			DISK_PARTITION_INFO* ppiDrive = DiskGeometryGetPartition(&dgDrive);
-// 			DISK_DETECTION_INFO* pdiDrive = DiskGeometryGetDetect(&dgDrive) ;
-
 			DISK_GEOMETRY& geo = dgDrive.Geometry;
  			pDriveParam->wInfoSize = sizeof(BIOS_DRIVE_PARAM);
  			pDriveParam->dwHeads = geo.TracksPerCylinder;
@@ -642,8 +637,7 @@ BOOL DLL_PARINFO_API GetDriveParam(	BYTE					btHardDrive,
  			case FixedMedia:
  				break;
  			default:
- 				//remove able media
- 				wFlags |= 0x04;
+ 				wFlags = RemovableMedia;
  				break;
  			}
  			pDriveParam->wFlags = wFlags;

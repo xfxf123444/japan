@@ -10,7 +10,7 @@
 #define MIN_FILE_SECTORS			0x2000
 #define TEMP_DATA_FILE_NAME			_T("ygtempgarbage")
 #define STRING_END_CHAR             _T('\0')
-#define SECTORSIZE                  512 
+extern DWORD SECTOR_SIZE;
 
 #define CTL_CODE( DeviceType, Function, Method, Access ) (                 \
     ((DeviceType) << 16) | ((Access) << 14) | ((Function) << 2) | (Method) \
@@ -41,10 +41,8 @@ struct YG_PARTITION_INFO  {
 	DWORD    dwStartSector ; // From MBR
     DWORD    dwPartSize    ; // Unit :sector
     DWORD    dwUsedSize    ; //
-	DWORD	 dwPhyUsedSize ; // File used + system used sectors.
 	char	 szLabel[MAX_PATH] ; // Partition Label;
-	DWORD    nLevel        ; // Compressed level 
-	BYTE     BootFlag      ; // 80 mean bootable
+	BOOL     BootIndicator;
 
 	// for gpt
 	GUID_PARTITION_TYPE GUIDType;

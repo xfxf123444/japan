@@ -564,7 +564,7 @@ TRY_LABEL_2:
 			if(bVerify && bResult)
 			{
 				ReadFDSector(dwStartSec+i*DATA_BUFFER_SECTOR,(WORD)j,pCompBuf,m_nDisk,&DriveParam);
-				if(memcmp(pBuf,pCompBuf,j*SECTORSIZE))
+				if(memcmp(pBuf,pCompBuf,j*SECTOR_SIZE))
 				{
 					if(m_bShowVerifyMsg)
 					{
@@ -582,7 +582,7 @@ TRY_LABEL_2:
 			if(bVerify && bResult)
 			{
 				ReadSector(dwStartSec+i*DATA_BUFFER_SECTOR,(WORD)j,pCompBuf,m_nDisk+DISK_BASE,&DriveParam);
-				if(memcmp(pBuf,pCompBuf,j*SECTORSIZE))
+				if(memcmp(pBuf,pCompBuf,j*SECTOR_SIZE))
 				{
 					if(m_bShowVerifyMsg)
 					{

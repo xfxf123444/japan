@@ -125,9 +125,7 @@ BOOL MakePartitionPhysicalEntry(PARTITION_INFORMATION_EX		*ppi,
 		ppe->SystemFlag = MBR_PT_PARTITION_NTFS;
 	}
 	else if (ppe->PartitionStyle == PARTITION_STYLE_MBR){
-		if(ppi->Mbr.BootIndicator) {
-			ppe->BootFlag = 0x80;
-		}
+		ppe->BootIndicator = ppi->Mbr.BootIndicator;
 		int pt = ppi->Mbr.PartitionType;
 		switch (pt) {
 		case MBR_PT_PARTITION_ENTRY_UNUSED:
@@ -174,7 +172,7 @@ BOOL MakePartitionPhysicalEntry(PARTITION_INFORMATION_EX		*ppi,
 		}
 	}
 	else {
-		ppe->BootFlag = 0;
+		ppe->BootIndicator = FALSE;
 		ppe->SystemFlag = MBR_PT_PARTITION_ENTRY_UNUSED;
 		ppe->PartitionStyle = PARTITION_STYLE_RAW;
 	}
@@ -283,7 +281,8 @@ int FindInDriveLayout(DWORD					dwStart,
 		for( nCount = pdli->dliDrive.PartitionCount - 1 ; nCount >= 0 ; nCount-- )
 		{
 			lnTemp.QuadPart = pdli->dliDrive.PartitionEntry[nCount].StartingOffset.QuadPart;
-			if( lnStart.QuadPart == lnTemp.QuadPart )
+			DWORD partitionType = pdli->dliDrive.PartitionEntry[nCount].Mbr.PartitionType;
+			if( lnStart.QuadPart == lnTemp.QuadPart &&  partitionType != MBR_PT_PARTITION_ENTRY_UNUSED)
 				break;
 		}
 		if( nCount < 0 )
