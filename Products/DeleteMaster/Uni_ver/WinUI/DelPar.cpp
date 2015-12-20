@@ -368,12 +368,14 @@ void CDelPar::OnDmDelete()
 			if (!DelProcDlg.LockDiskOrVolume()) {
 				CString msg;
 				if (DelProcDlg.m_bDisk){
-					msg.LoadString(IDS_CANNOT_LOCK_DISK);
-					msg.Format(msg, DelProcDlg.m_nDisk-DISK_BASE, DelProcDlg.m_nDisk-DISK_BASE);
+						CString temp;
+						temp.LoadString(IDS_CANNOT_LOCK_DISK);
+						msg.Format(temp, DelProcDlg.m_nDisk-DISK_BASE, DelProcDlg.m_nDisk-DISK_BASE);
 				} 
 				else{
-					msg.LoadString(IDS_CANNOT_LOCK_PARTITION);
-					msg.Format(msg, DelProcDlg.m_DriveLetter, DelProcDlg.m_DriveLetter);
+					CString temp;
+					temp.LoadString(IDS_CANNOT_LOCK_PARTITION);
+					msg.Format(temp, DelProcDlg.m_DriveLetter, DelProcDlg.m_DriveLetter);
 				}
 				CString title;
 				title.LoadString(IDS_DM_ERROR);

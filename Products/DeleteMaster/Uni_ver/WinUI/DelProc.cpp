@@ -174,39 +174,7 @@ BOOL CDelProc::DeleteContent()
 	memcpy(&m_StartTime,newtime,sizeof(tm));
 	
 	memset(&PartitionInfo,0,sizeof(PARTITION_ENTRY));
-//	if(!m_bDisk)
-//	{
-//		cfg.Extended = 1;
-//		cfg.Active	 = m_bActive;
-//		cstr.LoadString (IDS_DELETE_DELETE_PAR_FAIL);
-//
-//		bResult = DeleteSectors();
-//		if(bResult)
-//		{
-//			if(!DeletePartition(m_dwMinSec,m_nDisk+DISK_BASE,cfg,&nErr))
-//			{
-//				MessageBox(cstr,csCaption,MB_OK|MB_ICONSTOP);
-//			}
-//			PartitionInfo.StartSector = m_dwMinSec - DISK_MIN_SECTOR;
-//			PartitionInfo.SectorsInPartition = g_pTargetParInfo->dwPartSize + DISK_MIN_SECTOR ;
-//			PartitionInfo.SystemFlag = (BYTE)g_pTargetParInfo->dwSystemFlag ;
-//			if(PartitionInfo.SystemFlag > 0x20)
-//			{
-//				PartitionInfo.SystemFlag = 0x0b;
-//			}
-//			dwFlag = g_pTargetParInfo->bLogic ?LOGICAL : PRIMARY;
-//			memcpy(&btLabel,g_pTargetParInfo->szLabel ,0x0b);
-//			if(g_bFormat)
-//			{
-//				CreatePartition(&PartitionInfo,m_nDisk+DISK_BASE,dwFlag,
-//					TRUE,btLabel,m_hWnd,&nErr);
-//			}
-//		}
-//	}
-//	else
-//	{
-		bResult = DeleteSectors();
-    //}
+	bResult = DeleteSectors();
 	
 	if(bResult)
 	{
@@ -215,7 +183,6 @@ BOOL CDelProc::DeleteContent()
 		m_SaveButton.ShowWindow(SW_SHOW);
 		m_szDelMothed.LoadString (IDS_DEL_SUCCESS);
 		Sleep(100);
-		//UpdateData(FALSE);
 	}
 	time(&ltime );
 	newtime = localtime( &ltime );
@@ -1003,6 +970,7 @@ BOOL CDelProc::LockVolume(TCHAR driveLetter)
 	if (hVolume != INVALID_HANDLE_VALUE) {
 		DWORD dwReturned;
 		bRes = DeviceIoControl( hVolume, FSCTL_LOCK_VOLUME, 0, 0, 0, 0, &dwReturned, 0 );
+		DWORD ret = GetLastError();
 		if (bRes) {
 			bRes = DeviceIoControl( hVolume, FSCTL_DISMOUNT_VOLUME, 0, 0, 0, 0, &dwReturned, 0 );
 		}
