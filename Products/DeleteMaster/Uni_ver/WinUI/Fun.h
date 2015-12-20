@@ -5,7 +5,6 @@
 //#include <WinIoCtl.h>
 
 #include "..\..\..\..\Tech\ParInfo\Cur_Ver\export\2000\Parinfo.h"
-//#include "..\..\..\..\Tech\Parman\Cur_Ver\export\2000\Parman.h"
 
 #define MAX_FILE_SIZE				0x80000000
 #define MIN_FILE_SECTORS			0x2000
@@ -13,40 +12,12 @@
 #define STRING_END_CHAR             _T('\0')
 #define SECTORSIZE                  512 
 
-#define VWIN32_DIOC_DOS_INT25		2
-#define VWIN32_DIOC_DOS_INT26		3
-#define CARRY_FLAG					1
-#define VWIN32_DIOC_DOS_DRIVEINFO	6
-
-#define X_FAT32			0x0B
-#define X_FAT32_OUT		0x0c		
-
-#define X_HIDE_FAT32			0x1B
-#define X_HIDE_FAT32_OUT		0x1c		
-
-#define X_FAT16			0x06
-#define X_FAT16_1		0x01
-#define X_FAT16_4		0x04
-#define X_FAT16_E		0x0e
-
-#define X_HIDE_FAT16	0x16
-#define X_HIDE_FAT16_1	0x11
-#define X_HIDE_FAT16_4	0x14
-#define X_HIDE_FAT16_E	0x1e
-
-#define X_NTFS			0x07
-#define X_NTFS_HIDE		0x17
-
-#define X_LINX_SWAP		0x82
-#define X_LINX_EXT		0x83	
-
 #define CTL_CODE( DeviceType, Function, Method, Access ) (                 \
     ((DeviceType) << 16) | ((Access) << 14) | ((Function) << 2) | (Method) \
 )
 #define IOCTL_STORAGE_GET_MEDIA_TYPES  CTL_CODE(IOCTL_STORAGE_BASE, 0x0300, METHOD_BUFFERED, FILE_ANY_ACCESS)
 //#define IOCTL_DISK_GET_MEDIA_TYPES CTL_CODE(IOCTL_DISK_BASE, 0x0300, METHOD_BUFFERED, FILE_ANY_ACCESS)
 
-#define VWIN32_DIOC_DOS_IOCTL	1
 #define FILE_ANY_ACCESS                 0
 #define METHOD_BUFFERED                 0
 #define FILE_DEVICE_DISK                0x00000007

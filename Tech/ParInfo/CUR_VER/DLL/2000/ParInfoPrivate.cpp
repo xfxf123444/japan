@@ -122,13 +122,61 @@ BOOL MakePartitionPhysicalEntry(PARTITION_INFORMATION_EX		*ppi,
 	ppe->PartitionStyle = ppi->PartitionStyle;
 	if (ppe->PartitionStyle == PARTITION_STYLE_GPT) {
 		ppe->GUIDType = GetGUIDPartitionType(ppi->Gpt.PartitionType);
-		ppe->SystemFlag = 0x07;
+		ppe->SystemFlag = MBR_PT_PARTITION_NTFS;
 	}
 	else if (ppe->PartitionStyle == PARTITION_STYLE_MBR){
 		if(ppi->Mbr.BootIndicator) {
 			ppe->BootFlag = 0x80;
 		}
-		ppe->SystemFlag = ppi->Mbr.PartitionType;
+		int pt = ppi->Mbr.PartitionType;
+		switch (pt) {
+		case MBR_PT_PARTITION_ENTRY_UNUSED:
+			ppe->SystemFlag = MBR_PT_PARTITION_ENTRY_UNUSED;
+			break;
+		case MBR_PT_PARTITION_FAT_12:
+		case MBR_PT_PARTITION_FAT_16:
+		case 0x06:
+		case 0x0e:
+			ppe->SystemFlag = MBR_PT_PARTITION_FAT_16;
+			break;
+		case 0x16:
+		case 0x11:
+		case 0x14:
+		case 0x1e:
+			ppe->SystemFlag = MBR_PT_PARTITION_HIDE_FAT_16;
+			break;
+		case MBR_PT_PARTITION_FAT32:
+		case 0x0C:
+			ppe->SystemFlag = MBR_PT_PARTITION_FAT32;
+			break;
+		case 0x1B:
+		case 0x1C:
+			ppe->SystemFlag = MBR_PT_PARTITION_HIDE_FAT32;
+			break;
+		case MBR_PT_PARTITION_NTFS:
+			ppe->SystemFlag = MBR_PT_PARTITION_NTFS;
+			break;
+		case 0x17:
+			ppe->SystemFlag = MBR_PT_PARTITION_HIDE_NTFS;
+			break;
+		case MBR_PT_PARTITION_EXTENDED:
+		case 0x0f:
+			ppe->SystemFlag = MBR_PT_PARTITION_EXTENDED;
+			break;
+		case MBR_PT_PARTITION_LINX_EXT:
+			ppe->SystemFlag = MBR_PT_PARTITION_LINX_EXT;
+			break;
+		case MBR_PT_PARTITION_LINX_SWAP:
+			ppe->SystemFlag = MBR_PT_PARTITION_LINX_SWAP;
+			break;
+		default:
+			ppe->SystemFlag = pt;
+		}
+	}
+	else {
+		ppe->BootFlag = 0;
+		ppe->SystemFlag = MBR_PT_PARTITION_ENTRY_UNUSED;
+		ppe->PartitionStyle = PARTITION_STYLE_RAW;
 	}
 	ppe->StartSector = dwStart;
 	ppe->SectorsInPartition = dwLength;
@@ -244,7 +292,7 @@ int FindInDriveLayout(DWORD					dwStart,
 		}
 		//if is a extend entry
 		nParType = pdli->dliDrive.PartitionEntry[nCount].Mbr.PartitionType;
-		if( nParType == 0x05 || nParType == 0x0f )
+		if( nParType == MBR_PT_PARTITION_EXTENDED || nParType == 0x0f)
 		{
 			nCount = nCount - ( nCount % 4 ) + 4 ;
 			nParType = pdli->dliDrive.PartitionEntry[nCount].Mbr.PartitionType;

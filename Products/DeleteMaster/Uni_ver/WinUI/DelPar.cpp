@@ -230,8 +230,12 @@ void CDelPar::OnClickDmDeleteParList(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		GetSystemDirectory(szSysDir,MAX_PATH);
 		pTargetParInfo = (YG_PARTITION_INFO*)m_DelParList.GetItemData (pItem->iItem);
-		//if(pTargetParInfo->DriveLetter == szSysDir[0] || pTargetParInfo->BootFlag == 0x80)
-		if(pTargetParInfo->DriveLetter == szSysDir[0])
+		if(pTargetParInfo->DriveLetter == szSysDir[0] 
+		|| pTargetParInfo->BootFlag == 0x80
+		|| (pTargetParInfo->PartitionStyle == PARTITION_STYLE_GPT 
+			&& (pTargetParInfo->GUIDType != PARTITION_LDM_DATA_GUID 
+			&& pTargetParInfo->GUIDType != PARTITION_BASIC_DATA_GUID 
+			&& pTargetParInfo->GUIDType != PARTITION_ENTRY_UNUSED_GUID)))
 		{
 			cstr.LoadString (IDS_NOT_DELETE_SYSTEM_PAR);
 			csCaption.LoadString (IDS_DM_ERROR);

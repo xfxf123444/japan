@@ -237,9 +237,19 @@ BYTE DLL_PARINFO_API RetrieveDriveLttr(BYTE		DriveNum,
 		return 0xff;
 	}
 
-	// tbd
-	//if (!dliDrive.dliDrive.PartitionEntry[nCount].RecognizedPartition)
-	if(dliDrive.dliDrive.PartitionStyle == PARTITION_STYLE_MBR && !dliDrive.dliDrive.PartitionEntry[nCount].Mbr.RecognizedPartition )
+	if (dliDrive.dliDrive.PartitionStyle == PARTITION_STYLE_GPT){
+		GUID_PARTITION_TYPE guidType = GetGUIDPartitionType(dliDrive.dliDrive.PartitionEntry[nCount].Gpt.PartitionType);
+		if (guidType != PARTITION_BASIC_DATA_GUID
+			&& guidType != PARTITION_LDM_DATA_GUID){
+				return 0xff;
+		}
+	}
+	else if (dliDrive.dliDrive.PartitionStyle == PARTITION_STYLE_MBR){
+		if (!dliDrive.dliDrive.PartitionEntry[nCount].Mbr.RecognizedPartition){
+			return 0xff;
+		}
+	}
+	else
 	{
 		return 0xff;
 	}
@@ -435,7 +445,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 			}
 			if(!blSuc)
 			{
-				if(pParInfo->btSystemFlag==0x0b || pParInfo->btSystemFlag==0x0c)
+				if(pParInfo->btSystemFlag==MBR_PT_PARTITION_FAT32)
 				{
 					BOOT_SEC32 bsBoot32;
 					if(ReadSector(pParInfo->dwStartSector,0x01,(PBYTE)&bsBoot32,sdDriveMapInfo.DriveNum,&DriveParam))
@@ -443,7 +453,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 						memcpy(pParInfo->szLabelName,bsBoot32.VolumeLabel,0x0b);	
 					}
 				}
-				if(pParInfo->btSystemFlag==0x06 || pParInfo->btSystemFlag==0x0e)
+				if(pParInfo->btSystemFlag==MBR_PT_PARTITION_FAT_16)
 				{
 					BOOT_SEC16 bsBoot16;
 					if(ReadSector(pParInfo->dwStartSector,0x01,(PBYTE)&bsBoot16,sdDriveMapInfo.DriveNum,&DriveParam))
@@ -489,7 +499,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 			
 			if(!blSuc) 
 			{
-				if(pParInfo->btSystemFlag==0x0b || pParInfo->btSystemFlag==0x0c)
+				if(pParInfo->btSystemFlag==MBR_PT_PARTITION_FAT32)
 				{
 					BOOT_SEC32 bsBoot32;
 					if(ReadSector(pParInfo->dwStartSector+0x3f,0x01,(PBYTE)&bsBoot32,sdDriveMapInfo.DriveNum,&DriveParam))
@@ -497,7 +507,7 @@ BOOL DLL_PARINFO_API PartitionInfoOfDriveLetter(BYTE				btLetter,
 						memcpy(pParInfo->szLabelName,bsBoot32.VolumeLabel,0x0b);	
 					}
 				}
-				if(pParInfo->btSystemFlag==0x06 || pParInfo->btSystemFlag==0x0e)
+				if(pParInfo->btSystemFlag==MBR_PT_PARTITION_FAT_16)
 				{
 					BOOT_SEC16 bsBoot16;
 					if(ReadSector(pParInfo->dwStartSector+0x3f,0x01,(PBYTE)&bsBoot16,sdDriveMapInfo.DriveNum,&DriveParam))
@@ -537,8 +547,7 @@ BOOL DLL_PARINFO_API GetPartitionInfoEx(BYTE					btHardDrive,
 	if (OldParHard.wNumOfPri > 0 && OldParHard.pePriParInfo[0].PartitionStyle == PARTITION_STYLE_MBR) {
 		for( nCount=0 ; nCount<OldParHard.wNumOfPri ; nCount++ )
 		{
-			if( OldParHard.pePriParInfo[nCount].SystemFlag == 0x05 ||
-				OldParHard.pePriParInfo[nCount].SystemFlag == 0x0f )
+			if( OldParHard.pePriParInfo[nCount].SystemFlag == MBR_PT_PARTITION_EXTENDED)
 				break;
 		}
 		if( nCount < 4 && OldParHard.wNumOfLogic != 0 )

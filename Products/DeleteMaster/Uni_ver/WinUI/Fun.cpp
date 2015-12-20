@@ -302,18 +302,22 @@ BOOL GetFixDiskInfo(int nDisk)
 				pNew->pNext			 = NULL;
 				pNew->dwUsedSize	 = 0;
 				pNew->DriveLetter	 = _T('*');
-				if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
+				if(g_pFixDiskInfo == NULL) {
+					g_pFixDiskInfo = pNew;
+				}
 				else
 				{
 					pEnd = g_pFixDiskInfo;
-					while(pEnd->pNext != NULL) pEnd = pEnd->pNext;
+					while(pEnd->pNext != NULL) {
+						pEnd = pEnd->pNext;
+					}
 					pEnd->pNext = pNew;
 				}
 			}
 			dwPartitionTop = info.pePriParInfo[j].StartSector;
 		}
 		dwPartitionTop += info.pePriParInfo[j].SectorsInPartition; 
-		if(info.pePriParInfo[j].SystemFlag == 0x05 || info.pePriParInfo[j].SystemFlag == 0x0f)
+		if(info.pePriParInfo[j].SystemFlag == MBR_PT_PARTITION_EXTENDED)
 		{
 			n = 0;
 			dwLogPartitionTop = info.pePriParInfo[j].StartSector;
@@ -324,18 +328,9 @@ BOOL GetFixDiskInfo(int nDisk)
 				{
 					pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 					memset(pNew,0,sizeof(YG_PARTITION_INFO));
-					pNew->PartitionStyle = PARTITION_STYLE_MBR;
-					pNew->BootFlag		= 0;
-					pNew->bLogic		= TRUE;
-					pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
-					pNew->dwPartSize	= info.peLogParInfo[n].peCurParInfo.StartSector - 
-											dwLogPartitionTop;
-					pNew->dwStartSector = dwLogPartitionTop;
-					pNew->dwSystemFlag  = 0;
-					pNew->pNext			= NULL;
-					pNew->dwUsedSize	= 0;
-					pNew->DriveLetter	= _T('*');
-					if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
+					if(g_pFixDiskInfo == NULL) {
+						g_pFixDiskInfo = pNew;
+					}
 					else
 					{
 						pEnd = g_pFixDiskInfo;
@@ -345,6 +340,8 @@ BOOL GetFixDiskInfo(int nDisk)
 
 					pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 					memset(pNew,0,sizeof(YG_PARTITION_INFO));
+					pNew->PartitionStyle = info.peLogParInfo[n].peCurParInfo.PartitionStyle;
+					pNew->GUIDType = info.peLogParInfo[n].peCurParInfo.GUIDType;
 					pNew->BootFlag		= info.peLogParInfo[n].peCurParInfo.BootFlag;
 					pNew->bLogic		= TRUE;
 					pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
@@ -358,25 +355,26 @@ BOOL GetFixDiskInfo(int nDisk)
 					{
 						pNew->DriveLetter = _T('*');
 					}
-					else
+					else {
 						pNew->DriveLetter += _T('A') - 1;
+					}
 					if(pNew->DriveLetter != _T('*'))
 					{
-						if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize)) {
-							//pNew->dwUsedSize = pNew->dwPartSize - pNew->dwUsedSize;
-						}
+						GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize);
 						if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo)) {
 							memset(&pInfo,0,sizeof(PARTITION_INFO));
 						}
 						memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
 					}
-					if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
+	
+					if(g_pFixDiskInfo == NULL) {
+						g_pFixDiskInfo = pNew;
+					}
 					else
 					{
 						pEnd = g_pFixDiskInfo;
 						while(pEnd->pNext != NULL) pEnd = pEnd->pNext;
 						pEnd->pNext = pNew;
-						//pEnd = pEnd->pNext;
 					}
 						
 					dwLogPartitionTop = info.peLogParInfo[n].peCurParInfo.StartSector;
@@ -385,6 +383,8 @@ BOOL GetFixDiskInfo(int nDisk)
 				{
 					pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 					memset(pNew,0,sizeof(YG_PARTITION_INFO));
+					pNew->PartitionStyle = info.peLogParInfo[n].peCurParInfo.PartitionStyle;
+					pNew->GUIDType = info.peLogParInfo[n].peCurParInfo.GUIDType;
 					pNew->BootFlag		= info.peLogParInfo[n].peCurParInfo.BootFlag;
 					pNew->bLogic		= TRUE;
 					pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
@@ -398,26 +398,28 @@ BOOL GetFixDiskInfo(int nDisk)
 					{
 						pNew->DriveLetter = _T('*');
 					}
-					else
+					else {
 						pNew->DriveLetter += _T('A') - 1;
+					}
 
 					if(pNew->DriveLetter != _T('*'))
 					{
-						if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize)) {
-							//							pNew->dwUsedSize = pNew->dwPartSize - pNew->dwUsedSize;
-						}
+						GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize);
 						if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo)) {
 							memset(&pInfo,0,sizeof(PARTITION_INFO));
 						}
 						memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
 					}
-					if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
+					if(g_pFixDiskInfo == NULL) {
+						g_pFixDiskInfo = pNew;
+					}
 					else
 					{
 						pEnd = g_pFixDiskInfo;
-						while(pEnd->pNext != NULL) pEnd = pEnd->pNext;
+						while(pEnd->pNext != NULL) {
+							pEnd = pEnd->pNext;
+						}
 						pEnd->pNext = pNew;
-						//pEnd = pEnd->pNext;
 					}
 				}
 				dwLogPartitionTop += info.peLogParInfo[n].peCurParInfo.SectorsInPartition+DISK_MIN_SECTOR; 
@@ -428,6 +430,7 @@ BOOL GetFixDiskInfo(int nDisk)
 			{
 				pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 				memset(pNew,0,sizeof(YG_PARTITION_INFO));
+				pNew->PartitionStyle = PARTITION_STYLE_MBR;
 				pNew->BootFlag		= 0;
 				pNew->bLogic		= TRUE;
 				pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
@@ -438,13 +441,16 @@ BOOL GetFixDiskInfo(int nDisk)
 				pNew->pNext			= NULL;
 				pNew->dwUsedSize	= 0;
 				pNew->DriveLetter	= _T('*');
-				if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
+				if(g_pFixDiskInfo == NULL) {
+					g_pFixDiskInfo = pNew;
+				}
 				else
 				{
 					pEnd = g_pFixDiskInfo;
-					while(pEnd->pNext != NULL) pEnd = pEnd->pNext;
+					while(pEnd->pNext != NULL) {
+						pEnd = pEnd->pNext;
+					}
 					pEnd->pNext = pNew;
-					//pEnd = pEnd->pNext;
 				}
 			}
 		}
@@ -452,6 +458,8 @@ BOOL GetFixDiskInfo(int nDisk)
 		{
 			pNew = (YG_PARTITION_INFO*)malloc(sizeof(YG_PARTITION_INFO));
 			memset(pNew,0,sizeof(YG_PARTITION_INFO));
+			pNew->PartitionStyle = info.pePriParInfo[j].PartitionStyle;
+			pNew->GUIDType = info.pePriParInfo[j].GUIDType;
 			pNew->BootFlag		= info.pePriParInfo[j].BootFlag;
 			pNew->bLogic		= FALSE;
 			pNew->btDiskNum		= (BYTE)nDisk-DISK_BASE;
@@ -469,21 +477,22 @@ BOOL GetFixDiskInfo(int nDisk)
 				pNew->DriveLetter += _T('A') - 1;
 			if(pNew->DriveLetter != _T('*'))
 			{
-				if(GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize)) {
-					//					pNew->dwUsedSize = pNew->dwPartSize - pNew->dwUsedSize;
-				}
+				GetVolumeSpace(pNew->DriveLetter, NULL, &pNew->dwUsedSize);
 				if(!PartitionInfoOfDriveLetter(pNew->DriveLetter-0x40,&pInfo)) {
 					memset(&pInfo,0,sizeof(PARTITION_INFO));
 				}
 				memcpy(pNew->szLabel,pInfo.szLabelName ,MAX_LABELNAME);
+			}				
+
+			if(g_pFixDiskInfo == NULL) {
+				g_pFixDiskInfo = pNew;
 			}
-			if(g_pFixDiskInfo == NULL) g_pFixDiskInfo = pNew;
 			else
 			{
 				pEnd = g_pFixDiskInfo;
 				while(pEnd->pNext != NULL) pEnd = pEnd->pNext;
 				pEnd->pNext = pNew;
-				//pEnd = pEnd->pNext;
+
 			}
 		}
 		j++;
@@ -556,7 +565,7 @@ void AddList(CListCtrl* pList, int nSelDisk)
 		}
 		else
 		{
-			if(pEnd->dwSystemFlag == 0x05 || pEnd->dwSystemFlag == 0x0f)
+			if(pEnd->dwSystemFlag == MBR_PT_PARTITION_EXTENDED)
 			{
 				pEnd = pEnd->pNext ;
 				continue;
@@ -565,57 +574,97 @@ void AddList(CListCtrl* pList, int nSelDisk)
 
 		if(pEnd->DriveLetter == _T('*'))
 		{
-			strParLetter = _T("*");
-			strParLetter += _T(":");
+			if (pEnd->PartitionStyle == PARTITION_STYLE_GPT){
+				if (pEnd->GUIDType == PARTITION_SYSTEM_GUID){
+					pEnd->dwSystemFlag = MBR_PT_PARTITION_FAT32;
+				}
+				else {
+					pEnd->dwSystemFlag = MBR_PT_PARTITION_NTFS;
+				}
+
+				switch (pEnd->GUIDType) {
+				case PARTITION_BASIC_DATA_GUID:
+					strParLetter = _T("Basic data partition");
+					break;
+				case PARTITION_SYSTEM_GUID:
+					strParLetter = _T("EFI system partition");
+					break;
+				case PARTITION_MSFT_RESERVED_GUID:
+					strParLetter = _T("Microsoft reserved partition");
+					break;
+				case PARTITION_LDM_METADATA_GUID:
+					strParLetter = _T("(LDM metadata partition");
+					break;
+				case PARTITION_LDM_DATA_GUID:
+					strParLetter = _T("LDM data partition");
+					break;
+				case PARTITION_MSFT_RECOVERY_GUID:
+					strParLetter = _T("Microsoft recovery partition");
+					break;
+				default:
+					strParLetter = _T("*:");
+				}
+			}
+			else {
+				strParLetter = _T("*:");
+			}
 		}
 		else
 		{
 			strParLetter = pEnd->DriveLetter;
 			strParLetter += _T(":");
+
+			if (pEnd->PartitionStyle == PARTITION_STYLE_GPT){
+				CString vol = strParLetter;
+				vol += _T("\\");
+				TCHAR buf[MAX_PATH];
+				GetVolumeInformation(vol,0,0,0,0,0,buf,MAX_PATH);
+				CString fstemp = buf;
+				if (fstemp == _T("NTFS")){
+					pEnd->dwSystemFlag = MBR_PT_PARTITION_NTFS;
+				}
+				else {
+					pEnd->dwSystemFlag = MBR_PT_PARTITION_FAT32;
+				}
+			}
+
 			TCHAR temp[MAX_PATH];
 			ZeroMemory(temp, MAX_PATH * sizeof(TCHAR));
 			MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pEnd->szLabel, strlen(pEnd->szLabel), temp, MAX_PATH);
 			strParLetter += temp;
 		}
+
 		switch(pEnd->dwSystemFlag)
 		{
-		case X_HIDE_FAT32:
-		case X_HIDE_FAT32_OUT:
+		case MBR_PT_PARTITION_HIDE_FAT32:
 			cstr.LoadString(IDS_HIDE_FAT32);
 			_tcscpy(szType,cstr);
 			break;
-		case X_FAT32: 
-		case X_FAT32_OUT:
+		case MBR_PT_PARTITION_FAT32: 
 			cstr.LoadString(IDS_FAT32);
 			_tcscpy(szType,cstr);
 			break;
-		case X_FAT16:
-		case X_FAT16_1:
-		case X_FAT16_4:
-		case X_FAT16_E:
+		case MBR_PT_PARTITION_FAT_16:
 			cstr.LoadString (IDS_FAT);
 			_tcscpy(szType,cstr);
 			break;
-		case X_HIDE_FAT16:
-		case X_HIDE_FAT16_1:
-		case X_HIDE_FAT16_4:
-		case X_HIDE_FAT16_E:
+		case MBR_PT_PARTITION_HIDE_FAT_16:
 			cstr.LoadString (IDS_HIDE_FAT);
 			_tcscpy(szType,cstr);
 			break;
-		case X_NTFS:
+		case MBR_PT_PARTITION_NTFS:
 			cstr.LoadString (IDS_NTFS);
 			_tcscpy(szType,cstr);
 			break;
-		case X_NTFS_HIDE:
+		case MBR_PT_PARTITION_HIDE_NTFS:
 			cstr.LoadString (IDS_HIDE_NTFS);
 			_tcscpy(szType,cstr);
 			break;
-		case X_LINX_EXT:
+		case MBR_PT_PARTITION_LINX_EXT:
 			cstr.LoadString (IDS_LUX_EXT2);
 			_tcscpy(szType,cstr);
 			break;
-		case X_LINX_SWAP:
+		case MBR_PT_PARTITION_LINX_SWAP:
 			cstr.LoadString (IDS_LUX_SWP);
 			_tcscpy(szType,cstr);
 			break;
@@ -624,7 +673,6 @@ void AddList(CListCtrl* pList, int nSelDisk)
 			_tcscpy(szType,cstr);
 			break;
 		default:
-			//_tcscpy(szType, "Unknow");
 			_stprintf(szType,_T("Sys ID (%X)H"),pEnd->dwSystemFlag);
 			break;
 		}
@@ -789,80 +837,33 @@ DWORD GetFloppyFormFactor(int iDrive)
     TCHAR	tsz[32];
     DWORD	dwResult = 0;
 
-    //if ((int)GetVersion() < 0)
-    //{   // Windows 95
+	_stprintf(tsz, TEXT("\\\\.\\%c:"), TEXT('@') + iDrive);
+	//_tcscpy(tsz,"\\\\.\\PhysicalDrive0");
+    hDevice = CreateFile(tsz, 0, FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
+    if (hDevice != INVALID_HANDLE_VALUE)
+    {
+    DISK_GEOMETRY Geom[20];
+    DWORD cb;
 
-    //    hDevice = CreateFileA("\\\\.\\VWIN32", 0, 0, 0, 0,
-    //                    FILE_FLAG_DELETE_ON_CLOSE, 0);
-    //    if (hDevice != INVALID_HANDLE_VALUE)
-    //    {
-    //         DWORD          cb;
-    //         DIOC_REGISTERS reg;
-    //         DOSDPB         dpb;
-
-    //         dpb.specialFunc = 0;  // return default type; do not hit disk
-
-    //         reg.reg_EBX   = iDrive;       // BL = drive number (1-based)
-    //         reg.reg_EDX   = (DWORD)&dpb;  // DS:EDX -> DPB
-    //         reg.reg_ECX   = 0x0860;       // CX = Get DPB
-    //         reg.reg_EAX   = 0x440D;       // AX = Ioctl
-    //         reg.reg_Flags = 0x01;   // assume failure
-
-    //         // Make sure both DeviceIoControl and Int 21h succeeded.
-    //         if (DeviceIoControl (hDevice, VWIN32_DIOC_DOS_IOCTL, &reg,
-    //                              sizeof(reg), &reg, sizeof(reg),
-    //                              &cb, 0)
-    //             && !(reg.reg_Flags & 0x01))
-    //         {
-    //            switch (dpb.devType)
-    //            {
-    //            case 2: // 3.5  720K floppy
-    //            case 7: // 3.5  1.44MB floppy
-    //            case 9: // 3.5  2.88MB floppy
-    //               dwResult = 350; break;
-				//case 5: // hard drive
-				//	dwResult = 1;
-				//	break;
-    //            default: // other
-    //               break;
-    //            }
-    //         }
-    //         CloseHandle(hDevice);
-    //      }
-    //  }
-    //  else
-    //  {
-         //On Windows NT, use the technique described in the Knowledge
-         //Base article Q115828 and in the "FLOPPY" SDK sample.
-
-		 _stprintf(tsz, TEXT("\\\\.\\%c:"), TEXT('@') + iDrive);
-		 //_tcscpy(tsz,"\\\\.\\PhysicalDrive0");
-         hDevice = CreateFile(tsz, 0, FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
-         if (hDevice != INVALID_HANDLE_VALUE)
-         {
-            DISK_GEOMETRY Geom[20];
-            DWORD cb;
-
-            if (DeviceIoControl (hDevice, IOCTL_STORAGE_GET_MEDIA_TYPES, 0, 0,
-                                 Geom, sizeof(Geom), &cb, 0)
-                && cb > 0)
-            {
-               switch (Geom[0].MediaType)
-               {
-               case F3_1Pt44_512: // 3.5 1.44MB floppy
-               case F3_2Pt88_512: // 3.5 2.88MB floppy
-               case F3_20Pt8_512: // 3.5 20.8MB floppy
-               case F3_720_512:   // 3.5 720K   floppy
-                  dwResult = 350;
-                  break;
-               default:
-				  break;	
-               }
-            }
-			//int	nErr = GetLastError();
-            CloseHandle(hDevice);
-         }
-//    }
+    if (DeviceIoControl (hDevice, IOCTL_STORAGE_GET_MEDIA_TYPES, 0, 0,
+                            Geom, sizeof(Geom), &cb, 0)
+        && cb > 0)
+    {
+        switch (Geom[0].MediaType)
+        {
+        case F3_1Pt44_512: // 3.5 1.44MB floppy
+        case F3_2Pt88_512: // 3.5 2.88MB floppy
+        case F3_20Pt8_512: // 3.5 20.8MB floppy
+        case F3_720_512:   // 3.5 720K   floppy
+            dwResult = 350;
+            break;
+        default:
+			break;	
+        }
+    }
+	//int	nErr = GetLastError();
+    CloseHandle(hDevice);
+    }
 	return dwResult;
 }
 
